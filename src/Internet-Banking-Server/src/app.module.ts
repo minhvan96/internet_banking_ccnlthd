@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostgresqlDatabaseProviderModule } from './providers/database/postgresql/provider.module';
-import { ConfigModule } from '@nestjs/config';
-import postgresqlDatabaseConfig from './config/database/postgresql/configuration';
+import { PostgresqlConfigService } from './config/database/postgresql/config.service';
+
 @Module({
   imports: [
     // ConfigModule.forRoot({

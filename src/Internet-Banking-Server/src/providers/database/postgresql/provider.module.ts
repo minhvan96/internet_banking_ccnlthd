@@ -3,22 +3,23 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { PostgresqlConfigModule } from '../../../config/database/postgresql/config.module';
 import { PostgresqlConfigService } from '../../../config/database/postgresql/config.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [PostgresqlConfigModule],
-      useFactory: async (postgresqlConfigService: PostgresqlConfigService) => ({
-        type: 'postgres' as DatabaseType,
-        host: postgresqlConfigService.config.host,
-        port: postgresqlConfigService.config.port,
-        username: postgresqlConfigService.config.username,
-        password: postgresqlConfigService.config.password,
-        database: postgresqlConfigService.config.database,
-        entities: [
-          // ... All MySQL based schemas/entities
-        ],
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DATABASE_POSTGRESQL_HOST'),
+        port: +configService.get('DATABASE_POSTGRESQL_PORT'),
+        username: configService.get('DATABASE_POSTGRESQL_USERNAME'),
+        password: configService.get('DATABASE_POSTGRESQL_PASSWORD'),
+        database: configService.get('DATABASE_POSTGRESQL_NAME'),
+        entities: [],
+        synchronize: true,
       }),
-      inject: [PostgresqlConfigService],
+      inject: [ConfigService],
     } as TypeOrmModuleAsyncOptions),
   ],
 })
