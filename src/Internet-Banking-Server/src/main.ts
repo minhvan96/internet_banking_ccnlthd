@@ -5,15 +5,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('INTERNET BANKING API')
+    .setDescription('The internet banking APIs')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('InternetBanking')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
   await app.listen(3000);
 }
 bootstrap().then(() => {
-  console.log('Starting');
+  console.log('Started......');
 });
