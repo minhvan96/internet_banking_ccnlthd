@@ -1,20 +1,32 @@
 import { Column, Entity } from 'typeorm';
 import { EntityBase } from '../../../common/entity/entity.base';
 
-@Entity()
+@Entity({
+  name: 'Users',
+})
 export class User extends EntityBase {
-  @Column()
+  @Column({
+    name: 'UserName',
+  })
   username: string;
 
-  @Column()
+  @Column({
+    name: 'Password',
+  })
   password: string;
 
-  @Column()
+  @Column({
+    name: 'FirstName',
+  })
   firstName: string;
 
-  @Column()
+  @Column({
+    name: 'LastName',
+  })
   lastName: string;
 
-  @Column()
+  @Column({
+    name: 'RefreshToken',
+  })
   refreshToken: string;
 }

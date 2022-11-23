@@ -6,7 +6,7 @@ import postgresqlDatabaseConfig from './configuration';
   imports: [
     ConfigModule.forRoot({
       load: [postgresqlDatabaseConfig],
-      envFilePath: ['.env', '.env.development'],
+      envFilePath: ['.env', '.env'],
     }),
   ],
 })

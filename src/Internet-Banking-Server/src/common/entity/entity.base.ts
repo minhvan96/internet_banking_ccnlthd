@@ -1,9 +1,16 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export abstract class EntityBase {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn(
+    {
+      name: 'Id',
+    }
+  )
   id: number;
 
-  @Column({ default: false })
+  @Column({
+    name: 'IsDeleted',
+    default: false,
+  })
   idDeleted: boolean;
 }
