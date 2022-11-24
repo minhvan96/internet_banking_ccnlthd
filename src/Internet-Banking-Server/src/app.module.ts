@@ -20,4 +20,5 @@ import { CqrsModule } from '@nestjs/cqrs';
   controllers: [AppController, UserController, AuthController],
   providers: [AppService, UserModule, AuthModule],
 })
-export class AppModule {}
+export class AppModule {
+}

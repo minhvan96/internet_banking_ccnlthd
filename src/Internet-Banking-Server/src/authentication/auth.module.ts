@@ -17,6 +17,7 @@ import { User } from '../entities/user.entity';
     UpdateUserRefreshTokenHandler,
   ],
   controllers: [AuthController],
+  exports: [AuthService, JwtService],
 })
 export class AuthModule {
 }

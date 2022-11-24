@@ -10,7 +10,6 @@ import {
   UpdateUserRefreshTokenRequest,
 } from '../models/user/commands/update-user-refresh-token.command';
 
-
 @Injectable()
 export class AuthService {
   constructor(

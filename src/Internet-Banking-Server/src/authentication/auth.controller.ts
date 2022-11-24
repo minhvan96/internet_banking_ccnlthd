@@ -9,8 +9,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly commandBus: CommandBus,
-              private readonly authService: AuthService) {
+  constructor(private readonly authService: AuthService) {
 
   }
 
