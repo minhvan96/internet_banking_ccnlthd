@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class UpdateUserCommand {
+export class UpdateUserRefreshTokenCommand {
   id: number;
-  request: UpdateUserRequest
+  request: UpdateUserRefreshTokenRequest
 }
 
-export class UpdateUserRequest {
+export class UpdateUserRefreshTokenRequest {
   @IsString()
   @ApiProperty()
   refreshToken: string;
