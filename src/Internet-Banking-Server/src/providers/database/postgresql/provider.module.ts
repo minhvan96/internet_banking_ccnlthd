@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from '../../../models/user/entities/user.entity';
+import { User } from '../../../entities/user.entity';
 
 /**
  *  Import and provide base typeorm (postgresql) related class

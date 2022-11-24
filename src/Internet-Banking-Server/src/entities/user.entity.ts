@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm';
-import { EntityBase } from '../../../common/entity/entity.base';
+import { EntityBase } from '../common/entity/entity.base';
 
 @Entity({
   name: 'Users',
