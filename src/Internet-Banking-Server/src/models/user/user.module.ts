@@ -9,6 +9,7 @@ import { UpdateUserRefreshTokenHandler } from './commands/update-user-refresh-to
 @Module({
   imports:[TypeOrmModule.forFeature([User]), CqrsModule],
   controllers: [UserController],
-  providers: [GetUserHandler, UpdateUserRefreshTokenHandler]
+  providers: [GetUserHandler, UpdateUserRefreshTokenHandler],
+  // exports: [CqrsModule]
 })
 export class UserModule {}

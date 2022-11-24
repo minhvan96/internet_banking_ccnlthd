@@ -1,8 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetUserQuery } from './queries/get-user.query';
 import { User } from '../../entities/user.entity';
-import { UpdateUserRefreshTokenCommand } from './commands/update-user-refresh-token.command';
+import {
+  UpdateUserRefreshTokenCommand,
+  UpdateUserRefreshTokenRequest,
+} from './commands/update-user-refresh-token.command';
 
 @Controller('user')
 export class UserController {
@@ -10,12 +13,13 @@ export class UserController {
   }
 
   @Get('/get-all')
-  async getAllUsers(username: string) : Promise<User> {
+  async getAllUsers(@Query() username: string): Promise<User> {
     return await this.queryBus.execute(new GetUserQuery(username));
   }
 
-  @Post('update-refresh-token')
-  async UpdateUserRefreshToken() {
-    return await this.commandBus.execute(new UpdateUserRefreshTokenCommand());
+  @Post('update-refresh-token/:id')
+  async UpdateUserRefreshToken(@Param('id') userId: number,
+                               @Body() request: UpdateUserRefreshTokenRequest) {
+    return await this.commandBus.execute(new UpdateUserRefreshTokenCommand(userId, request));
   }
 }

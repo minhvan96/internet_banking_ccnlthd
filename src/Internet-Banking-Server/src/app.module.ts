@@ -7,10 +7,12 @@ import { ConfigModule } from '@nestjs/config';
 import { UserController } from './models/user/user.controller';
 import { AuthModule } from './authentication/auth.module';
 import { AuthController } from './authentication/auth.controller';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CqrsModule,
     PostgresqlDatabaseProviderModule,
     UserModule,
     AuthModule,
