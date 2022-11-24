@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class EntityBase {
   @PrimaryGeneratedColumn(
@@ -7,6 +7,16 @@ export abstract class EntityBase {
     }
   )
   id: number;
+
+  @CreateDateColumn({
+    name: 'CreatedDate'
+  })
+  createdDate:Date;
+
+  @UpdateDateColumn({
+    name: 'UpdatedDate'
+  })
+  updatedDate: Date;
 
   @Column({
     name: 'IsDeleted',
