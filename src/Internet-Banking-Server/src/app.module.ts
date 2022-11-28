@@ -13,6 +13,7 @@ import {
   BankInternalTransactionController,
 } from './models/bank-internal-transaction/bank-internal-transaction.controller';
 import { BankInternalTransactionModule } from './models/bank-internal-transaction/bank-internal-transaction.module';
+import { BankInternalAccount1Controller } from './models/bank-internal-account1/bank-internal-account1.controller';
 
 
 @Module({
@@ -29,7 +30,8 @@ import { BankInternalTransactionModule } from './models/bank-internal-transactio
   controllers: [AppController,
     UserController,
     AuthController,
-    BankInternalTransactionController],
+    BankInternalTransactionController,
+    BankInternalAccount1Controller],
   providers: [AppService,
     UserModule,
     AuthModule],
