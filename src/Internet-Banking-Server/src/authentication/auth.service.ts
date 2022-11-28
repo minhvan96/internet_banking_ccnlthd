@@ -3,12 +3,12 @@ import { LoginDto } from './dto/login.dto';
 import * as argon2 from 'argon2';
 import { JwtConstants } from '../common/constants/jwt-constants';
 import { CommandBus } from '@nestjs/cqrs';
-import { GetUserQuery } from '../models/user/queries/get-user.query';
+import { GetUserQuery } from '../models/identity/user/queries/get-user.query';
 import { JwtService } from '@nestjs/jwt';
 import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
-} from '../models/user/commands/update-user-refresh-token.command';
+} from '../models/identity/user/commands/update-user-refresh-token.command';
 
 @Injectable()
 export class AuthService {

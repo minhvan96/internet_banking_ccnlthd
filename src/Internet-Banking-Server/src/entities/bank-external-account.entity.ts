@@ -7,7 +7,7 @@ import { EntityBase } from '../common/entity/entity.base';
 })
 export class BankExternalAccount extends EntityBase {
   @Column({
-    name: 'AccountNumber',
+    name: 'account_number',
   })
   accountNumber: string;
 

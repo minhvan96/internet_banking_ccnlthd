@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetUserQuery } from './queries/get-user.query';
-import { User } from '../../entities/user.entity';
+import { User } from '../../../entities/identity/user.entity';
 import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,

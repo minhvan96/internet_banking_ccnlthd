@@ -5,11 +5,12 @@ import { BankTransactionPaymentType } from './enums/bank-transaction-payment-typ
 
 
 @Entity({
-  name: 'BankExternalTransactions',
+  name: 'bank_external_transactions',
 })
 export class BankExternalTransaction extends EntityBase {
 
   @Column({
+    name: "transaction_payment_type",
     type: 'enum',
     enum: BankExternalTransactionType,
   })
