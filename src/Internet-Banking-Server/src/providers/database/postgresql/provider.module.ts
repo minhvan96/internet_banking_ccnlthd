@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from '../../../entities/user.entity';
-import { BankAccount } from '../../../entities/bank-account.entity';
-import { BankTransfer } from '../../../entities/bank.transfer.entity';
+import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
+import { BankInternalTransaction } from '../../../entities/bank-internal-transaction.entity';
+import { ExternalBank } from '../../../entities/external-bank.entity';
+import { BankExternalAccount } from '../../../entities/bank-external-account.entity';
 
 /**
  *  Import and provide base typeorm (postgresql) related class
@@ -21,9 +23,14 @@ import { BankTransfer } from '../../../entities/bank.transfer.entity';
         username: configService.get('DATABASE_POSTGRESQL_USERNAME'),
         password: configService.get('DATABASE_POSTGRESQL_PASSWORD'),
         database: configService.get('DATABASE_POSTGRESQL_NAME'),
-        entities: [ User, BankAccount, BankTransfer ],
+        entities: [User,
+          BankInternalAccount,
+          BankInternalTransaction,
+          ExternalBank,
+          BankExternalAccount,
+          BankInternalTransaction],
         // entities: ['src/models/**/entities/**.entity.ts'],
-        autoLoadEntities:true,
+        autoLoadEntities: true,
         synchronize: true,
         migrations: [],
         // migrations: ['src/database/migrations/**.ts'],

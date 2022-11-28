@@ -1,12 +1,12 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
-import { BankTransfer } from './bank.transfer.entity';
+import { BankInternalTransaction } from './bank-internal-transaction.entity';
 import { User } from './user.entity';
 
 @Entity({
-  name: 'BankAccounts',
+  name: 'BankInternalAccounts',
 })
-export class BankAccount extends EntityBase {
+export class BankInternalAccount extends EntityBase {
   @ManyToOne(() => User, user => user.bankAccounts)
   user: User;
 
@@ -20,17 +20,17 @@ export class BankAccount extends EntityBase {
   })
   balance: number;
 
-  @OneToMany(() => BankTransfer,
+  @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferFrom,
     {
       cascade: true,
     })
-  transfers: BankTransfer[];
+  transfers: BankInternalTransaction[];
 
-  @OneToMany(() => BankTransfer,
+  @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferTo,
     {
       cascade: true,
     })
-  receives: BankTransfer[];
+  receives: BankInternalTransaction[];
 }

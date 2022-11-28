@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
-import { BankAccount } from './bank-account.entity';
+import { BankInternalAccount } from './bank-internal-account.entity';
 
 @Entity({
   name: 'Users',
@@ -31,9 +31,9 @@ export class User extends EntityBase {
   })
   refreshToken: string;
 
-  @OneToMany(() => BankAccount, bankAccount => bankAccount.user,
+  @OneToMany(() => BankInternalAccount, bankAccount => bankAccount.user,
     {
       cascade: true,
     })
-  bankAccounts: BankAccount[];
+  bankAccounts: BankInternalAccount[];
 }
