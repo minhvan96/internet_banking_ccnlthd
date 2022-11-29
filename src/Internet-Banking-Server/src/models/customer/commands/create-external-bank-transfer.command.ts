@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateExternalBankTransferCommand {
-  constructor(public readonly userId: string, public readonly payload: CreateExternalBankTransferRequest) {
+  constructor(public readonly userId: number, public readonly payload: CreateExternalBankTransferRequest) {
   }
 }
 
