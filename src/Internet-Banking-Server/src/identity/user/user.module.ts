@@ -13,7 +13,7 @@ import { RegisterUserHandler } from './commands/register-user.handler';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User]), CqrsModule],
+  imports: [TypeOrmModule.forFeature([User]), CqrsModule],
   controllers: [UserController],
   providers: [AuthService,
     JwtService,
@@ -25,4 +25,5 @@ import { JwtService } from '@nestjs/jwt';
     UpdateUserRefreshTokenHandler],
   // exports: [CqrsModule]
 })
-export class UserModule {}
+export class UserModule {
+}

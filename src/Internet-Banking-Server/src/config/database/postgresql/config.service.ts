@@ -4,7 +4,9 @@ import DatabaseConfig from '../database.config';
 
 @Injectable()
 export class PostgresqlConfigService {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {
+  }
+
   get config(): DatabaseConfig {
     return this.configService.get<DatabaseConfig>('postgresql');
   }

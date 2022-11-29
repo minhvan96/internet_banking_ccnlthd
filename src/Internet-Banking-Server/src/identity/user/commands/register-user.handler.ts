@@ -7,14 +7,15 @@ import { BadRequestException } from '@nestjs/common';
 import { AuthService } from '../../../authentication/auth.service';
 
 @CommandHandler(RegisterUserCommand)
-export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>{
+export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>,
               private readonly authService: AuthService) {
   }
+
   async execute(command: RegisterUserCommand): Promise<any> {
     const userExists = await this.userRepository.findOneBy({
         userName: command.payload.userName,
-      }
+      },
     );
     if (userExists) {
       throw new BadRequestException('User already exists');

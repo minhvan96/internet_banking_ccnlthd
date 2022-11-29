@@ -25,7 +25,7 @@ export class UserController {
   }
 
   @Post('add-bank-account/:id')
-  async AddBankAccount(@Param('id') userId: number){
+  async AddBankAccount(@Param('id') userId: number) {
     return await this.commandBus.execute(new AddBankInternalAccountCommand(userId));
   }
 }

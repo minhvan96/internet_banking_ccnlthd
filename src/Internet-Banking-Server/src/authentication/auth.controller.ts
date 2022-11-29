@@ -1,9 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { LoginPayload } from './dto/login.payload';
 import { Request } from 'express';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { LoginUserCommand, LoginUserRequest } from '../identity/user/commands/login-user.command';
 import { RegisterUserCommand, RegisterUserRequest } from '../identity/user/commands/register-user.command';

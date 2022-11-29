@@ -4,17 +4,17 @@ export abstract class EntityBase {
   @PrimaryGeneratedColumn(
     {
       name: 'Id',
-    }
+    },
   )
   id: number;
 
   @CreateDateColumn({
-    name: 'CreatedDate'
+    name: 'CreatedDate',
   })
-  createdDate:Date;
+  createdDate: Date;
 
   @UpdateDateColumn({
-    name: 'UpdatedDate'
+    name: 'UpdatedDate',
   })
   updatedDate: Date;
 

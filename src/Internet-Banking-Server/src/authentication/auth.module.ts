@@ -18,7 +18,7 @@ import { RegisterUserHandler } from '../identity/user/commands/register-user.han
     GetUserHandler,
     UpdateUserRefreshTokenHandler,
     LoginUserHandler,
-    RegisterUserHandler
+    RegisterUserHandler,
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtService],

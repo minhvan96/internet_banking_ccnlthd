@@ -14,9 +14,9 @@ export class AddBankInternalAccountHandler implements ICommandHandler<AddBankInt
 
   async execute(command: AddBankInternalAccountCommand): Promise<any> {
     const user = await this.userRepository.findOneBy({
-      id: command.userId
-    })
-    const bankAccount = new BankInternalAccount("test");
+      id: command.userId,
+    });
+    const bankAccount = new BankInternalAccount('test');
     user.bankAccounts.push(bankAccount);
     await this.userRepository.save(user);
   }

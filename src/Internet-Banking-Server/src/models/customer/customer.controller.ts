@@ -3,11 +3,11 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 import {
   CreateInternalBankTransferCommand,
-  CreateInternalBankTransferRequest
+  CreateInternalBankTransferRequest,
 } from './commands/create-internal-bank-transfer.command';
 import {
   CreateExternalBankTransferCommand,
-  CreateExternalBankTransferRequest
+  CreateExternalBankTransferRequest,
 } from './commands/create-external-bank-transfer.command';
 
 @Controller('customer')

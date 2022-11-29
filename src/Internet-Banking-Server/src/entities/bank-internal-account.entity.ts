@@ -7,35 +7,31 @@ import { User } from './identity/user.entity';
   name: 'bank_internal_accounts',
 })
 export class BankInternalAccount extends EntityBase {
-  constructor(accountNumber: string) {
-    super();
-    this.accountNumber = accountNumber;
-  }
-
   @ManyToOne(() => User, user => user.bankAccounts)
   user: User;
-
   @Column({
     name: 'account_number',
   })
   accountNumber: string;
-
   @Column({
     name: 'balance',
   })
   balance: number;
-
   @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferFrom,
     {
       cascade: true,
     })
   transfers: BankInternalTransaction[];
-
   @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferTo,
     {
       cascade: true,
     })
   receives: BankInternalTransaction[];
+
+  constructor(accountNumber: string) {
+    super();
+    this.accountNumber = accountNumber;
+  }
 }

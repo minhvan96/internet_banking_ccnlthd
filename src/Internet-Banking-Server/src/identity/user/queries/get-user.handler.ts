@@ -18,8 +18,8 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
       return await this.userRepository.findOne({
         where:
           {
-            userName: query.username
-          }
+            userName: query.username,
+          },
       });
     } catch (error) {
       console.log('catch');

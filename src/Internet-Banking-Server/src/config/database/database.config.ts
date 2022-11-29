@@ -5,4 +5,5 @@ interface DatabaseConfig {
   password: string;
   database: string;
 }
+
 export default DatabaseConfig;

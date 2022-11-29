@@ -21,12 +21,12 @@ export class BankInternalTransaction extends EntityBase {
   transferTo: BankInternalAccount;
 
   @Column({
-    name: "transfer_amount"
+    name: 'transfer_amount',
   })
   transferAmount: number;
 
   @Column({
-    name: "description"
+    name: 'description',
   })
   description: string;
 }

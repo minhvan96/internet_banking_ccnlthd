@@ -10,4 +10,5 @@ import postgresqlDatabaseConfig from './configuration';
     }),
   ],
 })
-export class PostgresqlConfigModule {}
+export class PostgresqlConfigModule {
+}

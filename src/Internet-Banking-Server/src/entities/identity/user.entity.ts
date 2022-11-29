@@ -3,6 +3,7 @@ import { EntityBase } from '../../common/entity/entity.base';
 import { BankInternalAccount } from '../bank-internal-account.entity';
 import { Role } from './role.entity';
 import * as argon2 from 'argon2';
+
 @Entity({
   name: 'users',
 })
@@ -10,7 +11,7 @@ export class User extends EntityBase {
   @Index({ unique: true })
   @Column({
     name: 'user_name',
-    unique: true
+    unique: true,
   })
   userName: string;
   @Column({
@@ -27,7 +28,7 @@ export class User extends EntityBase {
   lastName: string;
   @Column({
     name: 'refresh_token',
-    nullable: true
+    nullable: true,
   })
   refreshToken: string;
   @OneToMany(() => BankInternalAccount, bankAccount => bankAccount.user,
@@ -50,6 +51,7 @@ export class User extends EntityBase {
     this.firstName = firstName;
     this.lastName = lastName;
   }
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await argon2.hash(this.password);
