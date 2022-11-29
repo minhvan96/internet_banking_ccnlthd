@@ -7,6 +7,11 @@ import { User } from './identity/user.entity';
   name: 'bank_internal_accounts',
 })
 export class BankInternalAccount extends EntityBase {
+  constructor(accountNumber: string) {
+    super();
+    this.accountNumber = accountNumber;
+  }
+
   @ManyToOne(() => User, user => user.bankAccounts)
   user: User;
 

@@ -6,6 +6,7 @@ import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
 } from './commands/update-user-refresh-token.command';
+import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 
 @Controller('user')
 export class UserController {
@@ -21,5 +22,10 @@ export class UserController {
   async UpdateUserRefreshToken(@Param('id') userId: number,
                                @Body() request: UpdateUserRefreshTokenRequest) {
     return await this.commandBus.execute(new UpdateUserRefreshTokenCommand(userId, request));
+  }
+
+  @Post('add-bank-account/:id')
+  async AddBankAccount(@Param('id') userId: number){
+    return await this.commandBus.execute(new AddBankInternalAccountCommand(userId));
   }
 }
