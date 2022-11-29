@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetUserQuery } from './queries/get-user.query';
-import { User } from '../../../entities/identity/user.entity';
+import { User } from '../../entities/identity/user.entity';
 import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
 } from './commands/update-user-refresh-token.command';
-import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
+import { AddBankInternalAccountCommand } from '../../models/customer/commands/add-bank-internal-account.command';
 
 @Controller('user')
 export class UserController {

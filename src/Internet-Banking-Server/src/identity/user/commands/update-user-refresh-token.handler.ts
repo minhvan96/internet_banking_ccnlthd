@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateUserRefreshTokenCommand } from './update-user-refresh-token.command';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../../../entities/identity/user.entity';
+import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 
