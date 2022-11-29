@@ -13,12 +13,14 @@ import {
   BankInternalTransactionController,
 } from './models/bank-internal-transaction/bank-internal-transaction.controller';
 import { BankInternalTransactionModule } from './models/bank-internal-transaction/bank-internal-transaction.module';
-import { BankInternalAccount1Controller } from './models/bank-internal-account1/bank-internal-account1.controller';
 import { CustomerModule } from './models/customer/customer.module';
+import { BankInternalAccountController } from './models/bank-internal-account/bank-internal-account.controller';
+import { SeederModule } from './database/seeders/seeder.module';
 
 
 @Module({
   imports: [
+    SeederModule,
     ConfigModule.forRoot(),
     CqrsModule,
     PostgresqlDatabaseProviderModule,
@@ -27,13 +29,12 @@ import { CustomerModule } from './models/customer/customer.module';
     BankInternalAccountModule,
     BankInternalTransactionModule,
     CustomerModule,
-
   ],
   controllers: [AppController,
     UserController,
     AuthController,
-    BankInternalTransactionController,
-    BankInternalAccount1Controller],
+    BankInternalAccountController,
+    BankInternalTransactionController],
   providers: [AppService,
     UserModule,
     AuthModule],

@@ -7,6 +7,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/identity/user.entity';
+import { LoginUserHandler } from '../identity/user/commands/login-user.handler';
+import { RegisterUserHandler } from '../identity/user/commands/register-user.handler';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), CqrsModule],
@@ -15,6 +17,8 @@ import { User } from '../entities/identity/user.entity';
     JwtService,
     GetUserHandler,
     UpdateUserRefreshTokenHandler,
+    LoginUserHandler,
+    RegisterUserHandler
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtService],

@@ -1,9 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-
 export class UpdateUserRefreshTokenCommand {
-  constructor(public readonly id: number, public readonly payload: UpdateUserRefreshTokenRequest) {
+  constructor(public readonly userId: number, public readonly payload: UpdateUserRefreshTokenRequest) {
   }
 }
 

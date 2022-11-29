@@ -15,10 +15,10 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
 
   async execute(query: GetUserQuery): Promise<User> {
     try {
-      return  await this.userRepository.findOne({
+      return await this.userRepository.findOne({
         where:
           {
-            username: query.username
+            userName: query.username
           }
       });
     } catch (error) {
