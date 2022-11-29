@@ -25,7 +25,6 @@ export class AuthController {
     return await this.commandBus.execute(new LoginUserCommand(request));
   }
 
-  @UseGuards(LocalAuthGuard)
   @Post('/register')
   @ApiOperation({ summary: 'register user endpoint' })
   async register(@Body() request: RegisterUserRequest) {
