@@ -7,6 +7,10 @@ export class LoginUserCommand {
 }
 
 export class LoginUserRequest {
+  constructor(userName: string, password: string) {
+    this.username = userName;
+    this.password = password;
+  }
   @IsString()
   @IsNotEmpty()
   @ApiProperty()

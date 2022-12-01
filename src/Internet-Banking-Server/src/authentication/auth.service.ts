@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import * as argon2 from 'argon2';
+import { hash } from 'argon2';
 import { JwtConstants } from '../common/constants/jwt-constants';
 import { CommandBus } from '@nestjs/cqrs';
-import { GetUserQuery } from '../identity/user/queries/get-user.query';
 import { JwtService } from '@nestjs/jwt';
 import { JwtTokenPair } from './dto/jwt-token-pair';
+import { LoginUserCommand, LoginUserRequest } from '../identity/user/commands/login-user.command';
 
 @Injectable()
 export class AuthService {
@@ -15,16 +15,12 @@ export class AuthService {
   }
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.commandBus.execute(new GetUserQuery(username));
-    if (user && user.password === password) {
-      const { password, ...result } = user;
-      return result;
-    }
+    await this.commandBus.execute(new LoginUserCommand(new LoginUserRequest(username, password)));
     return null;
   }
 
   hashData(data: string) {
-    return argon2.hash(data);
+    return hash(data);
   }
 
   async getTokensAsync(userId: number, username: string): Promise<JwtTokenPair> {

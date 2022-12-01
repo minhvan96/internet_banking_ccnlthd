@@ -10,4 +10,8 @@ export class Role extends EntityBase {
   })
   name: string;
 
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
 }
