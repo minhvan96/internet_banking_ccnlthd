@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetUserQuery } from './get-user.query';
+import { GetUserQuery, GetUserQueryResponse } from './get-user.query';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
@@ -13,14 +13,18 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
   ) {
   }
 
-  async execute(query: GetUserQuery): Promise<User> {
+  async execute(query: GetUserQuery): Promise<GetUserQueryResponse> {
     try {
       return await this.userRepository.findOne({
-        where:
-          {
-            userName: query.username,
-          },
-      });
+        where:{
+          id: query.userId
+        },select:{
+          id: true,
+          firstName: true,
+          lastName: true
+        }
+      })
+
     } catch (error) {
       console.log('catch');
       return null;

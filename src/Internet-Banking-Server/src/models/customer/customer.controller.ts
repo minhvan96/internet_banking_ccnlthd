@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 import {
@@ -13,10 +13,17 @@ import {
   AddInternalBeneficiaryCommand,
   AddInternalBeneficiaryRequest,
 } from './commands/add-internal-beneficiary.command';
+import { GetUserQuery } from '../../identity/user/queries/get-user.query';
 
 @Controller('customer')
 export class CustomerController {
-  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {
+  constructor(private readonly queryBus: QueryBus,
+              private readonly commandBus: CommandBus) {
+  }
+
+  @Get('/:id')
+  async GetCustomer(@Param('id') userId: number){
+    return await this.queryBus.execute(new GetUserQuery(userId));
   }
 
   @Post('add-bank-internal-account/:id')
