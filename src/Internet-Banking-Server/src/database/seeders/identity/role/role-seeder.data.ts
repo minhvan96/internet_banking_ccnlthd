@@ -1,4 +1,4 @@
-import { Role } from '../../../../entities/identity/role.entity';
+import { Role } from 'src/entities/identity/role.entity';
 
 export const roles: Role[] = [
   new Role('administrator'),

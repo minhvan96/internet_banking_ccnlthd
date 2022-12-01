@@ -3,7 +3,7 @@ import { ExternalBank } from './external-bank.entity';
 import { EntityBase } from '../common/entity/entity.base';
 
 @Entity({
-  name: 'BankExternalAccounts',
+  name: 'bank_external_accounts',
 })
 export class BankExternalAccount extends EntityBase {
   @Column({

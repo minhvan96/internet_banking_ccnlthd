@@ -1,4 +1,4 @@
-import { Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
 import { BankExternalAccount } from './bank-external-account.entity';
 
@@ -6,6 +6,9 @@ import { BankExternalAccount } from './bank-external-account.entity';
   name: 'external_banks',
 })
 export class ExternalBank extends EntityBase {
+  @Column({
+    name: 'name',
+  })
   name: string;
 
   @OneToMany(() => BankExternalAccount, externalAccount => externalAccount.externalBank,
@@ -13,4 +16,9 @@ export class ExternalBank extends EntityBase {
       cascade: true,
     })
   account: BankExternalAccount;
+
+  constructor(name: string) {
+    super();
+    this.name = name;
+  }
 }
