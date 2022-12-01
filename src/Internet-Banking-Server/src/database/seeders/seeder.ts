@@ -14,16 +14,6 @@ export class Seeder {
   }
 
   async seedAsync() {
-    await this.seedUsersAsync()
-      .then(completed => {
-        this.logger.debug('Successfully completed seeding users...');
-        Promise.resolve(completed);
-      })
-      .catch(error => {
-        this.logger.error('Failed seeding users...');
-        Promise.reject(error);
-      });
-
     await this.seedRolesAsync()
       .then(completed => {
         this.logger.debug('Successfully completed seeding roles...');
@@ -31,6 +21,16 @@ export class Seeder {
       })
       .catch(error => {
         this.logger.error('Failed seeding roles...');
+        Promise.reject(error);
+      });
+
+    await this.seedUsersAsync()
+      .then(completed => {
+        this.logger.debug('Successfully completed seeding users...');
+        Promise.resolve(completed);
+      })
+      .catch(error => {
+        this.logger.error('Failed seeding users...');
         Promise.reject(error);
       });
 
@@ -76,6 +76,7 @@ export class Seeder {
       })
       .catch(error => Promise.reject(error));
   }
+
   async seedExternalBanksAsync() {
     return await Promise.all(this.externalBankSeederService.create())
       .then(createdExternalBanks => {

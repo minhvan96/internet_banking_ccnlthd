@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
 import { BankInternalTransaction } from './bank-internal-transaction.entity';
 import { User } from './identity/user.entity';
@@ -14,16 +14,19 @@ export class BankInternalAccount extends EntityBase {
     name: 'account_number',
   })
   accountNumber: string;
+
   @Column({
     name: 'balance',
   })
   balance: number;
+
   @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferFrom,
     {
       cascade: true,
     })
   transfers: BankInternalTransaction[];
+
   @OneToMany(() => BankInternalTransaction,
     (transfer) => transfer.transferTo,
     {
@@ -34,5 +37,11 @@ export class BankInternalAccount extends EntityBase {
   constructor(accountNumber: string) {
     super();
     this.accountNumber = accountNumber;
+  }
+
+  @BeforeInsert()
+  async initializeBalance() {
+    if (!this.balance)
+      this.balance = 0;
   }
 }
