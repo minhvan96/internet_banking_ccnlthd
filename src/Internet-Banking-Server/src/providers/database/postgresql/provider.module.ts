@@ -7,6 +7,8 @@ import { BankInternalTransaction } from '../../../entities/bank-internal-transac
 import { ExternalBank } from '../../../entities/external-bank.entity';
 import { BankExternalAccount } from '../../../entities/bank-external-account.entity';
 import { Role } from '../../../entities/identity/role.entity';
+import { CustomerExternalBeneficiary } from '../../../entities/customer-external-beneficiary.entity';
+import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
 
 /**
  *  Import and provide base typeorm (postgresql) related class
@@ -30,7 +32,10 @@ import { Role } from '../../../entities/identity/role.entity';
           BankInternalTransaction,
           ExternalBank,
           BankExternalAccount,
-          BankInternalTransaction],
+          BankInternalTransaction,
+          CustomerInternalBeneficiary,
+          CustomerExternalBeneficiary,
+        ],
         autoLoadEntities: true,
         synchronize: true,
       }),

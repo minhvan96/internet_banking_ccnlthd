@@ -2,7 +2,8 @@ import { BeforeInsert, Column, Entity, Index, JoinTable, ManyToMany, OneToMany }
 import { EntityBase } from '../../common/entity/entity.base';
 import { BankInternalAccount } from '../bank-internal-account.entity';
 import { Role } from './role.entity';
-import * as argon2 from 'argon2';
+import { hash } from 'argon2';
+import { CustomerInternalBeneficiary } from '../customer-internal-beneficiary.entity';
 
 @Entity({
   name: 'users',
@@ -14,31 +15,40 @@ export class User extends EntityBase {
     unique: true,
   })
   userName: string;
+
   @Column({
     name: 'password',
   })
   password: string;
+
   @Column({
     name: 'first_name',
   })
   firstName: string;
+
   @Column({
     name: 'last_name',
   })
   lastName: string;
+
   @Column({
     name: 'refresh_token',
     nullable: true,
   })
   refreshToken: string;
+
   @OneToMany(() => BankInternalAccount, bankAccount => bankAccount.user,
     {
       cascade: true,
     })
   bankAccounts: BankInternalAccount[];
+
   @ManyToMany(() => Role)
   @JoinTable()
   roles: Role[];
+
+  @OneToMany(() => CustomerInternalBeneficiary, beneficiary => beneficiary.user)
+  customerInternalBeneficiaries: CustomerInternalBeneficiary[];
 
   constructor(
     userName: string,
@@ -54,6 +64,6 @@ export class User extends EntityBase {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await argon2.hash(this.password);
+    this.password = await hash(this.password);
   }
 }
