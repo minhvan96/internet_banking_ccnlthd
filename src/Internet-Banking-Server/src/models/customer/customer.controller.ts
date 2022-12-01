@@ -9,6 +9,10 @@ import {
   CreateExternalBankTransferCommand,
   CreateExternalBankTransferRequest,
 } from './commands/create-external-bank-transfer.command';
+import {
+  AddInternalBeneficiaryCommand,
+  AddInternalBeneficiaryRequest,
+} from './commands/add-internal-beneficiary.command';
 
 @Controller('customer')
 export class CustomerController {
@@ -30,5 +34,11 @@ export class CustomerController {
   async CreateExternalBankTransfer(@Param('id') userId: number,
                                    @Body() request: CreateExternalBankTransferRequest) {
     return await this.commandBus.execute(new CreateExternalBankTransferCommand(userId, request));
+  }
+
+  @Post('add-internal-beneficiary:/id')
+  async AddInternalBeneficiary(@Param('id') userId: number,
+                               @Body() request: AddInternalBeneficiaryRequest){
+    return await this.commandBus.execute(new AddInternalBeneficiaryCommand(userId, request));
   }
 }

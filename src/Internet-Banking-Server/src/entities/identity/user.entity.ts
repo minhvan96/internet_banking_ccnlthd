@@ -4,6 +4,7 @@ import { BankInternalAccount } from '../bank-internal-account.entity';
 import { Role } from './role.entity';
 import { hash } from 'argon2';
 import { CustomerInternalBeneficiary } from '../customer-internal-beneficiary.entity';
+import { CustomerExternalBeneficiary } from '../customer-external-beneficiary.entity';
 
 @Entity({
   name: 'users',
@@ -47,8 +48,17 @@ export class User extends EntityBase {
   @JoinTable()
   roles: Role[];
 
-  @OneToMany(() => CustomerInternalBeneficiary, beneficiary => beneficiary.user)
+  @OneToMany(() => CustomerInternalBeneficiary, beneficiary => beneficiary.user,
+    {
+      cascade: true,
+    })
   customerInternalBeneficiaries: CustomerInternalBeneficiary[];
+
+  @OneToMany(() => CustomerExternalBeneficiary, beneficiary => beneficiary.user,
+    {
+      cascade: true,
+    })
+  customerExternalBeneficiaries: CustomerExternalBeneficiary[];
 
   constructor(
     userName: string,
