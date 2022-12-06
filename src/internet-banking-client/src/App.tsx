@@ -5,6 +5,7 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import "./app.scss";
 import LoginPage from "./pages/login/LoginPage";
 
 function App() {
