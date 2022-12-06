@@ -63,9 +63,29 @@
         color: #143727;
         font-size: 14px;
         padding: 7px 0px;
-        &:hover{
-            text-decoration: underline;
+        &:hover {
+          text-decoration: underline;
         }
+      }
+    }
+  }
+
+  &__footer {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #ffffffb3;
+    font-size: 14px;
+    bottom: 0;
+    .left,
+    .right {
+      padding: 0 50px;
+      .space {
+        padding: 0 10px;
       }
     }
   }

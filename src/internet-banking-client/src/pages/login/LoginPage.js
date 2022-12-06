@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Input } from "antd";
 import "./stype.scss";
 import { Link } from "react-router-dom";
+import { SpaceCompactItemContext } from "antd/es/space/Compact";
 
 function LoginPage() {
   return (
@@ -20,7 +21,9 @@ function LoginPage() {
           <div className="form-control login__form-password login__form-input">
             <Input placeholder="Mật khẩu" />
           </div>
-          <Button type="primary" className="login__form-submit">Đăng nhập</Button>
+          <Button type="primary" className="login__form-submit">
+            Đăng nhập
+          </Button>
 
           <div className="login__form-forget">
             <Link>Quên mật khẩu?</Link>
@@ -28,7 +31,24 @@ function LoginPage() {
             <Link>Đặt lịch hẹn với Vietcombank</Link>
           </div>
         </div>
-        <div className="login__footer"></div>
+        <div className="login__footer">
+          <div className="left">
+            <span>Điều khoản sử dụng dịch vụ</span>
+            <span className="space">|</span>
+            <span>Biểu phí dịch vụ</span>
+            <span className="space">|</span>
+            <span>Hướng dẫn sử dụng dịch vụ</span>
+            <span className="space">|</span>
+            <span>Hướng dẫn giao dịch an toàn</span>
+            <span className="space">|</span>
+            <span>Câu hỏi thường gặp</span>
+          </div>
+          <div className="right">
+            <span>Liên hệ</span>
+            <span className="space">|</span>
+            <span>English</span>
+          </div>
+        </div>
       </div>
     </div>
   );
