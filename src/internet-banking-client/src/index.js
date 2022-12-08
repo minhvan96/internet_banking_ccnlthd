@@ -8,7 +8,9 @@ import { AuthProvider } from "./context/AuthProvider";
 import { Provider } from "react-redux";
 import store from "./store";
 
-ReactDOM.render(
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <BrowserRouter>
     <Provider store={store}>
       <AuthProvider>
@@ -16,8 +18,8 @@ ReactDOM.render(
       </AuthProvider>
     </Provider>
   </BrowserRouter>,
-  document.getElementById("root")
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
