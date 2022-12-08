@@ -1,7 +1,9 @@
 function Login() {
     return(
         <div>
-            Login Paged
+            <h1>
+                Login Paged
+            </h1> 
         </div>
     );
 }
