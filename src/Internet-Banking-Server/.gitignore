@@ -27,8 +27,7 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 
-*.env
-/.env
+./.env
 
 # IDE - VSCode
 .vscode/*
@@ -37,6 +36,4 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/mnt/Data/thu5/internet_banking_ccnlthd/src/Internet-Banking-Server/.env
-
-package-lock.json
+./package-lock.json

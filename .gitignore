@@ -398,8 +398,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-.Internet-Banking-Server/*
-*.env
+
 
 /src/internet-banking-client/package-lock.json
-/src/
+/src/Internet-Banking-Server/*.env
