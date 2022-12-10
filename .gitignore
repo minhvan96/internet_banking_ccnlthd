@@ -402,3 +402,4 @@ FodyWeavers.xsd
 *.env
 
 /src/internet-banking-client/package-lock.json
+/src/
