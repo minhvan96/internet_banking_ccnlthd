@@ -14,6 +14,10 @@ import {
   AddInternalBeneficiaryRequest,
 } from './commands/add-internal-beneficiary.command';
 import { GetUserQuery } from '../../identity/user/queries/get-user.query';
+import {
+  AddExternalBeneficiaryCommand,
+  AddExternalBeneficiaryRequest
+} from './commands/add-external-beneficiary.command';
 
 @Controller('customer')
 export class CustomerController {
@@ -22,7 +26,7 @@ export class CustomerController {
   }
 
   @Get('/:id')
-  async GetCustomer(@Param('id') userId: number){
+  async GetCustomer(@Param('id') userId: number) {
     return await this.queryBus.execute(new GetUserQuery(userId));
   }
 
@@ -45,7 +49,13 @@ export class CustomerController {
 
   @Post('add-internal-beneficiary:/id')
   async AddInternalBeneficiary(@Param('id') userId: number,
-                               @Body() request: AddInternalBeneficiaryRequest){
+                               @Body() request: AddInternalBeneficiaryRequest) {
     return await this.commandBus.execute(new AddInternalBeneficiaryCommand(userId, request));
+  }
+
+  @Post('add-external-beneficiary:/id')
+  async AddExternalBeneficiary(@Param('id') userId: number,
+                               @Body() request: AddExternalBeneficiaryRequest) {
+    return await this.commandBus.execute(new AddExternalBeneficiaryCommand(userId, request));
   }
 }
