@@ -10,6 +10,12 @@ import { AddExternalBeneficiaryHandler } from './commands/add-external-beneficia
 import { AddInternalBeneficiaryHandler } from './commands/add-internal-beneficiary.handler';
 import { BankExternalAccount } from '../../entities/bank-external-account.entity';
 import { BankInternalAccount } from '../../entities/bank-internal-account.entity';
+import {
+  GetBankInternalAccountByIdHandler
+} from '../bank-internal-account/queries/get-bank-internal-account-by-id.handler';
+import {
+  GetBankInternalAccountByAccountNumberHandler
+} from '../bank-internal-account/queries/get-bank-internal-account-by-account-number.handler';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, BankExternalAccount, BankInternalAccount]), CqrsModule],
@@ -18,7 +24,9 @@ import { BankInternalAccount } from '../../entities/bank-internal-account.entity
     AddInternalBeneficiaryHandler,
     AddExternalBeneficiaryHandler,
     CreateExternalBankTransferHandler,
-    CreateInternalBankTransferHandler],
+    CreateInternalBankTransferHandler,
+    GetBankInternalAccountByIdHandler,
+    GetBankInternalAccountByAccountNumberHandler],
 })
 export class CustomerModule {
 }

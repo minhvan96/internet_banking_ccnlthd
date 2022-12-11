@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { GetBankInternalAccountQuery } from './queries/get-bank-internal-account.query';
+import { GetBankInternalAccountByIdQuery } from './queries/get-bank-internal-account-by-id.query';
 import { ListBankInternalAccountQuery } from './queries/list-bank-internal-account.query';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -19,6 +19,6 @@ export class BankInternalAccountController {
 
   @Get('/:id')
   async GetBankInternalAccount(@Param('id') accountId: number) {
-    return await this.queryBus.execute(new GetBankInternalAccountQuery(accountId));
+    return await this.queryBus.execute(new GetBankInternalAccountByIdQuery(accountId));
   }
 }
