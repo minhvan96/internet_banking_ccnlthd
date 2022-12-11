@@ -5,11 +5,15 @@ import { User } from '../../../entities/identity/user.entity';
 import { NotFoundException } from '@nestjs/common';
 import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
 import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @CommandHandler(AddInternalBeneficiaryCommand)
 export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInternalBeneficiaryCommand> {
-  constructor(private readonly userRepository: Repository<User>,
-              private readonly bankInternalAccountRepository: Repository<BankInternalAccount>) {
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(BankInternalAccount)
+    private readonly bankInternalAccountRepository: Repository<BankInternalAccount>) {
   }
 
   async execute(command: AddInternalBeneficiaryCommand): Promise<any> {
