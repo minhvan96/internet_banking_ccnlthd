@@ -18,4 +18,9 @@ export class CustomerExternalBeneficiary extends EntityBase {
   @OneToOne(() => BankExternalAccount)
   @JoinColumn()
   bankAccount: BankExternalAccount;
+  constructor(alias: string, bankAccount: BankExternalAccount) {
+    super();
+    this.alias = alias;
+    this.bankAccount = bankAccount;
+  }
 }
