@@ -2,7 +2,9 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetBankInternalAccountQuery } from './queries/get-bank-internal-account.query';
 import { ListBankInternalAccountQuery } from './queries/list-bank-internal-account.query';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Bank Internal Account")
 @Controller('bank-internal-account')
 export class BankInternalAccountController {
   constructor(
@@ -10,7 +12,7 @@ export class BankInternalAccountController {
     private readonly commandBus: CommandBus) {
   }
 
-  @Get('/:id')
+  @Get()
   async ListBankInternalAccount() {
     return await this.queryBus.execute(new ListBankInternalAccountQuery());
   }

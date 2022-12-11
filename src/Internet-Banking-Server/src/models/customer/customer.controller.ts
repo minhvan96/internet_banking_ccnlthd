@@ -18,7 +18,9 @@ import {
   AddExternalBeneficiaryCommand,
   AddExternalBeneficiaryRequest
 } from './commands/add-external-beneficiary.command';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Customer")
 @Controller('customer')
 export class CustomerController {
   constructor(private readonly queryBus: QueryBus,

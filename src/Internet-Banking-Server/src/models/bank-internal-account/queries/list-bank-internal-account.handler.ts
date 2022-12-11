@@ -13,7 +13,10 @@ export class ListBankInternalAccountHandler implements IQueryHandler<ListBankInt
   ) {
   }
 
-  execute(query: ListBankInternalAccountQuery): Promise<BankInternalAccountResponseModel> {
-    return Promise.resolve(undefined);
+  async execute(query: ListBankInternalAccountQuery): Promise<BankInternalAccountResponseModel[]> {
+    const bankInternalAccounts = await this.bankInternalAccountRepository.findBy({
+
+    });
+    return bankInternalAccounts;
   }
 }
