@@ -6,11 +6,17 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { AddBankInternalAccountHandler } from './commands/add-bank-internal-account.handler';
 import { CreateExternalBankTransferHandler } from './commands/create-external-bank-transfer.handler';
 import { CreateInternalBankTransferHandler } from './commands/create-internal-bank-transfer.handler';
+import { AddExternalBeneficiaryHandler } from './commands/add-external-beneficiary.handler';
+import { AddInternalBeneficiaryHandler } from './commands/add-internal-beneficiary.handler';
+import { BankExternalAccount } from '../../entities/bank-external-account.entity';
+import { BankInternalAccount } from '../../entities/bank-internal-account.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), CqrsModule],
+  imports: [TypeOrmModule.forFeature([User, BankExternalAccount, BankInternalAccount]), CqrsModule],
   controllers: [CustomerController],
   providers: [AddBankInternalAccountHandler,
+    AddInternalBeneficiaryHandler,
+    AddExternalBeneficiaryHandler,
     CreateExternalBankTransferHandler,
     CreateInternalBankTransferHandler],
 })
