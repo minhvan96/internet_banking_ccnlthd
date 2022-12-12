@@ -3,7 +3,7 @@ import "../assets/css/login.scss";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
-function Login() {
+function PasswordChange() {
     const { signIn, loading } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -28,33 +28,27 @@ function Login() {
                     <p className="login__form-wellcome">Kính chào Quý khách</p>
                     <div className="center">
                         <form onSubmit={handleSubmit}>
+                            <p>Enter new password</p>
                             <div className="txt_field">
-                                <input required
-                                    id="username"
-                                    type="text"
-                                    value={email}
-                                    style={{ textTransform: "lowercase" }}
-                                    onChange={(e) => setEmail(e.currentTarget.value.trimStart())}
-                                    onKeyDown={(e) => onHandleKeydown(e)}/>
+                                <input type="password" required 
+                                id="passwordNew"
+                                className="h-full w-full border-0 outline-none"
+                                name="passwordNew"
+                                onChange={(e) => setPassword(e.currentTarget.value)}/>
                                 <span></span>
-                                <label>Username</label>
+                                <label>Password New</label>
                             </div>
                             <div className="txt_field">
                                 <input type="password" required 
-                                id="password"
+                                id="passwordConfirm"
                                 className="h-full w-full border-0 outline-none"
-                                name="password"
+                                name="passwordConfirm"
                                 onChange={(e) => setPassword(e.currentTarget.value)}/>
                                 <span></span>
-                                <label>Password</label>
+                                <label>Confirm password</label>
                             </div>
-                            <input type="submit" value="Login" />
+                            <input type="submit" value="Submit" />
                         </form>
-                    </div>
-                    <div className="login__form-forget">
-                        <Link to="/password-reset">Quên mật khẩu?</Link>
-                        <Link>Hướng dẫn chuyển đổi sang VCB Digibank</Link>
-                        <Link>Đặt lịch hẹn với Vietcombank</Link>
                     </div>
                 </div>
                 <div className="login__footer"></div>
@@ -63,4 +57,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default PasswordChange;

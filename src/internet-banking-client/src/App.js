@@ -6,6 +6,7 @@ import Error from "./components/Error";
 import PasswordReset from "./components/PasswordReset";
 import HomePage from "./pages/Customer/Home/HomePage";
 import CustomerLayout from "./layouts/customer";
+import PasswordChange from "./components/PasswordChange";
 
 function App() {
   const { user } = useAuth();
@@ -14,7 +15,8 @@ function App() {
       <Route element={<ProtectedAuth routeProtected={false} />}>
         <Route path="/login" element={<Login />} />
       </Route>
-      <Route path="/password_reset" element={<PasswordReset />} />
+      <Route path="/password-reset" element={<PasswordReset />} />
+      <Route path="/password-change" element={<PasswordChange />} />
       <Route
         path="/"
         element={
