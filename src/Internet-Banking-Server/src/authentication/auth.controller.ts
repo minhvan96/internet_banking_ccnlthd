@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -10,21 +10,23 @@ import {
   UpdateUserRefreshTokenRequest,
 } from '../identity/user/commands/update-user-refresh-token.command';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly commandBus: CommandBus,
-              private readonly queryBus: QueryBus) {
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus) {
 
   }
 
   @Post('/login')
-  @ApiOperation({ summary: 'login user endpoint' })
+  @ApiOperation({summary: 'login user endpoint'})
   async login(@Body() request: LoginUserRequest) {
     return await this.commandBus.execute(new LoginUserCommand(request));
   }
 
   @Post('/register')
-  @ApiOperation({ summary: 'register user endpoint' })
+  @ApiOperation({summary: 'register user endpoint'})
   async register(@Body() request: RegisterUserRequest) {
     return await this.commandBus.execute(new RegisterUserCommand(request));
   }
@@ -33,9 +35,9 @@ export class AuthController {
   @Get('/refresh')
   @UseGuards(RefreshTokenGuard)
   refreshTokens(@Req() req: Request) {
-    const { user } = req;
-    const userId : number = user['sub'];
-    const refreshToken : string = req.user['refreshToken'];
+    const {user} = req;
+    const userId: number = user['sub'];
+    const refreshToken: string = req.user['refreshToken'];
     return this.commandBus.execute(new UpdateUserRefreshTokenCommand(userId, new UpdateUserRefreshTokenRequest(refreshToken)));
   }
 }

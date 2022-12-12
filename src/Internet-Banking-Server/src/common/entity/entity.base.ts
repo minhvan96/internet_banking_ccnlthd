@@ -3,23 +3,23 @@ import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } fr
 export abstract class EntityBase {
   @PrimaryGeneratedColumn(
     {
-      name: 'Id',
+      name: 'id',
     },
   )
   id: number;
 
   @CreateDateColumn({
-    name: 'CreatedDate',
+    name: 'created_data',
   })
   createdDate: Date;
 
   @UpdateDateColumn({
-    name: 'UpdatedDate',
+    name: 'updated_date',
   })
   updatedDate: Date;
 
   @Column({
-    name: 'IsDeleted',
+    name: 'is_deleted',
     default: false,
   })
   idDeleted: boolean;
