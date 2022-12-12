@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, Index, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, Index, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne } from 'typeorm';
 import { EntityBase } from '../../common/entity/entity.base';
 import { BankInternalAccount } from '../bank-internal-account.entity';
 import { Role } from './role.entity';
@@ -38,11 +38,12 @@ export class User extends EntityBase {
   })
   refreshToken: string;
 
-  @OneToMany(() => BankInternalAccount, bankAccount => bankAccount.user,
+  @OneToOne(() => BankInternalAccount,
     {
       cascade: true,
     })
-  bankAccounts: BankInternalAccount[];
+  @JoinColumn()
+  bankAccount: BankInternalAccount;
 
   @ManyToMany(() => Role)
   @JoinTable()

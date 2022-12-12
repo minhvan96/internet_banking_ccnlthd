@@ -7,9 +7,6 @@ import { User } from './identity/user.entity';
   name: 'bank_internal_accounts',
 })
 export class BankInternalAccount extends EntityBase {
-  @ManyToOne(() => User, user => user.bankAccounts)
-  user: User;
-
   @Column({
     name: 'account_number',
   })

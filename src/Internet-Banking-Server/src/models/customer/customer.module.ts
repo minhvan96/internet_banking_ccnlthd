@@ -16,11 +16,15 @@ import {
 import {
   GetBankInternalAccountByAccountNumberHandler
 } from '../bank-internal-account/queries/get-bank-internal-account-by-account-number.handler';
+import { GetCustomerQuery } from './queries/get-customer.query';
+import { GetCustomerHandler } from './queries/get-customer.handler';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, BankExternalAccount, BankInternalAccount]), CqrsModule],
   controllers: [CustomerController],
-  providers: [AddBankInternalAccountHandler,
+  providers: [
+    GetCustomerHandler,
+    AddBankInternalAccountHandler,
     AddInternalBeneficiaryHandler,
     AddExternalBeneficiaryHandler,
     CreateExternalBankTransferHandler,

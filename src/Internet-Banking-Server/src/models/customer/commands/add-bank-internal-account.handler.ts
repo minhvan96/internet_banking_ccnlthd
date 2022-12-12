@@ -17,7 +17,7 @@ export class AddBankInternalAccountHandler implements ICommandHandler<AddBankInt
       id: command.userId,
     });
     const bankAccount = new BankInternalAccount('test');
-    user.bankAccounts.push(bankAccount);
+    user.bankAccount = bankAccount;
     await this.userRepository.save(user);
   }
 }
