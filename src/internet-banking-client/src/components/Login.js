@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, Input } from "antd";
 import "../assets/css/login.scss";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -29,7 +28,7 @@ function Login() {
                     <p className="login__form-wellcome">Kính chào Quý khách</p>
                     <div className="center">
                         <form onSubmit={handleSubmit}>
-                            <div class="txt_field">
+                            <div className="txt_field">
                                 <input required
                                     id="username"
                                     type="text"
@@ -40,7 +39,7 @@ function Login() {
                                 <span></span>
                                 <label>Username</label>
                             </div>
-                            <div class="txt_field">
+                            <div className="txt_field">
                                 <input type="password" required 
                                 id="password"
                                 className="h-full w-full border-0 outline-none"
