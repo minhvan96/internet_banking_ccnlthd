@@ -47,7 +47,7 @@ function PasswordChange() {
                                 <span></span>
                                 <label>Confirm password</label>
                             </div>
-                            <input type="submit" value="Submit" />
+                            <button type="submit">Submit</button>
                         </form>
                     </div>
                 </div>

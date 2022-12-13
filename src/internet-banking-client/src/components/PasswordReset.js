@@ -38,7 +38,7 @@ function PasswordReset() {
                                 <span></span>
                                 <label>Email</label>
                             </div>
-                            <input type="submit" value="Submit" />
+                            <button type="submit">Submit</button>
                         </form>
                     </div>
                     <div className="login__form-forget">

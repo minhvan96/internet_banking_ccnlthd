@@ -62,7 +62,7 @@ function Login() {
                                 sitekey="6LdJK3kjAAAAAGxWuz0ijXy9NX4V21VIgl9v2Ptv"
                                 onChange={onChangeRecaptcha}
                             />
-                            <button disabled={!recaptcha} type="submit">Login</button>
+                            <button type="submit">Login</button>
                         </form>
                     </div>
                     <div className="login__form-forget">
