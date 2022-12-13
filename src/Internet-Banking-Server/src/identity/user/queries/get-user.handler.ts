@@ -16,9 +16,10 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
   async execute(query: GetUserQuery): Promise<GetUserQueryResponse> {
     try {
       return await this.userRepository.findOne({
-        where:{
+        where: {
           id: query.userId
-        },select:{
+        },
+        select:  {
           id: true,
           firstName: true,
           lastName: true

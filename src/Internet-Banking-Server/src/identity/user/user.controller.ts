@@ -1,24 +1,42 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
 } from './commands/update-user-refresh-token.command';
 import { AddBankInternalAccountCommand } from '../../models/customer/commands/add-bank-internal-account.command';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
+import { GetUserQuery } from './queries/get-user.query';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
-  constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {
+  constructor(
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus) {
+  }
+
+  @ApiBearerAuth()
+  @Get('/current')
+  @UseGuards(AccessTokenGuard)
+  async GetCurrentUser(@Req() req: Request) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.queryBus.execute(new GetUserQuery(userId));
   }
 
   @Post('update-refresh-token/:id')
-  async UpdateUserRefreshToken(@Param('id') userId: number,
-                               @Body() request: UpdateUserRefreshTokenRequest) {
+  async UpdateUserRefreshToken(
+    @Param('id') userId: number,
+    @Body() request: UpdateUserRefreshTokenRequest) {
     return await this.commandBus.execute(new UpdateUserRefreshTokenCommand(userId, request));
   }
 
   @Post('add-bank-account/:id')
-  async AddBankAccount(@Param('id') userId: number) {
+  async AddBankAccount(
+    @Param('id') userId: number) {
     return await this.commandBus.execute(new AddBankInternalAccountCommand(userId));
   }
 }

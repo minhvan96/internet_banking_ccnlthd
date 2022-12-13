@@ -1,7 +1,6 @@
 import { BeforeInsert, Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
 import { BankInternalTransaction } from './bank-internal-transaction.entity';
-import { User } from './identity/user.entity';
 
 @Entity({
   name: 'bank_internal_accounts',
