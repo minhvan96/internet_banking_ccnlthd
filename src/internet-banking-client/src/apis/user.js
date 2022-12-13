@@ -1,12 +1,13 @@
 import { TOKEN_KEY } from "./auth";
 import apiInstance from "./config";
 
-const signIn = async (email, password) => {
+const signIn = async (username, password) => {
   try {
-    const { data } = await apiInstance.post("auth/login", { email, password });
+    const { data } = await apiInstance.post("auth/login", { username, password });
+    console.log("🚀 ~ file: user.js:7 ~ signIn ~ data", data)
     return data;
   } catch (error) {
-    throw new Error("Invalid email or password");
+    throw new Error("Invalid username or password");
   }
 };
 
@@ -22,7 +23,7 @@ const signUp = async (userName, password, firstName, lastName) => {
 
 const getCurrentUser = async (token = localStorage.getItem(TOKEN_KEY)) => {
   try {
-    const { data } = await apiInstance.get("auth/me");
+    const { data } = await apiInstance.get("user/current");
     return data;
   } catch (error) {
     console.log(error);

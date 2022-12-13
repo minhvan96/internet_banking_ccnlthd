@@ -2,15 +2,25 @@ import React, { useState } from "react";
 import "../assets/css/login.scss";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import ReCAPTCHA from "react-google-recaptcha";
 
 function Login() {
     const { signIn, loading } = useAuth();
-    const [email, setEmail] = useState("");
+    const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
+    const [recaptcha, setRecaptcha] = useState(false);
 
-    const handleSubmit = (e) => {
+    const onChangeRecaptcha = async (e) => {
+        setRecaptcha(true);
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        signIn(email.trim(), password.trim());
+        if(recaptcha) {
+            console.log("🚀 ~ file: Login.js:21 ~ handleSubmit ~ recaptcha", recaptcha)
+            signIn(username.trim(), password.trim());
+        }
+        setRecaptcha(false);
     };
     const onHandleKeydown = (e) => {
         if (e.which === 32 && e.target.selectionStart === 0) {
@@ -32,9 +42,9 @@ function Login() {
                                 <input required
                                     id="username"
                                     type="text"
-                                    value={email}
+                                    value={username}
                                     style={{ textTransform: "lowercase" }}
-                                    onChange={(e) => setEmail(e.currentTarget.value.trimStart())}
+                                    onChange={(e) => setUserName(e.currentTarget.value.trimStart())}
                                     onKeyDown={(e) => onHandleKeydown(e)}/>
                                 <span></span>
                                 <label>Username</label>
@@ -48,7 +58,11 @@ function Login() {
                                 <span></span>
                                 <label>Password</label>
                             </div>
-                            <input type="submit" value="Login" />
+                            <ReCAPTCHA
+                                sitekey="6LdJK3kjAAAAAGxWuz0ijXy9NX4V21VIgl9v2Ptv"
+                                onChange={onChangeRecaptcha}
+                            />
+                            <button disabled={!recaptcha} type="submit">Login</button>
                         </form>
                     </div>
                     <div className="login__form-forget">

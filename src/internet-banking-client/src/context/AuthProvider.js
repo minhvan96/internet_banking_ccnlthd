@@ -23,11 +23,11 @@ export const AuthProvider = ({ children }) => {
     setLoadingInitial(false);
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (username, password) => {
     try {
       setLoading(true);
-      const data = await userApi.signIn(email, password);
-      localStorage.setItem(TOKEN_KEY, data.token);
+      const data = await userApi.signIn(username, password);
+      localStorage.setItem(TOKEN_KEY, data.accessToken);
       setSignInSuccess(true);
       setLoading(false);
     } catch (error) {
