@@ -10,6 +10,11 @@ import {
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
+import "./style.scss";
+import Avatar from "../../assets/images/carmel.jpg";
+import logo from "../../assets/images/logo.svg";
+import CardLayout from "../../components/card/LayoutCard";
+
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
   UserOutlined,
@@ -40,28 +45,59 @@ function CustomerLayout({ children }) {
           left: 0,
           top: 0,
           bottom: 0,
+          backgroundColor: "#041A1E",
+          padding: "20px",
         }}
-        width="266px"
+        width="330px"
       >
-        <div
-          style={{
-            height: 32,
-            margin: 16,
-            background: "rgba(255, 255, 255, 0.2)",
-          }}
-        />
-        <div>test</div>
-        <Menu
+        <div className="logo">
+          <img alt="logo" src={logo} />
+        </div>
+        <CardLayout>
+          <div className="acc__card">
+            <div className="avatar">
+              <img alt="avatar" src={Avatar} />
+            </div>
+            <div className="wellcome">Xin chào</div>
+            <div className="accname">
+              <h2>NGUYEN HIEU NGHIA</h2>
+            </div>
+          </div>
+        </CardLayout>
+
+        <CardLayout>
+          <div className="accinfo__card">
+            <div className="card__row">
+              <div className="left">Danh sách tài khoản/thẻ</div>
+              <div className="right">Chi tiết</div>
+            </div>
+            <div className="card__row">
+              <div className="left">
+                <div className="top">Tài khoản thanh toán</div>
+                <div className="bottom">1017332621</div>
+              </div>
+              <div className="right">Chi tiết</div>
+            </div>
+            <div className="card__row">
+              <div className="left">
+                <div className="top">Số dư</div>
+                <div className="bottom">1017332621</div>
+              </div>
+              <div className="right">Chi tiết</div>
+            </div>
+          </div>
+        </CardLayout>
+        {/* <Menu
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["4"]}
           items={items}
-        />
+        /> */}
       </Sider>
       <Layout
         className="site-layout"
         style={{
-          marginLeft: 266,
+          marginLeft: 330,
         }}
       >
         <Header

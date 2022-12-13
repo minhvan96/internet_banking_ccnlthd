@@ -7,6 +7,7 @@ import PasswordReset from "./components/PasswordReset";
 import HomePage from "./pages/Customer/Home/HomePage";
 import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
+import './app.scss';
 
 function App() {
   const { user } = useAuth();
