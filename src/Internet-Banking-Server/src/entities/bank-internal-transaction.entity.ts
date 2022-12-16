@@ -12,21 +12,30 @@ export class BankInternalTransaction extends EntityBase {
     name: 'transfer_from',
   })
   transferFrom: BankInternalAccount;
-
   @ManyToOne(() => BankInternalAccount, bankAccount => bankAccount.receives)
   @Column({
     type: 'int',
     name: 'transfer_to',
   })
   transferTo: BankInternalAccount;
-
   @Column({
     name: 'transfer_amount',
   })
   transferAmount: number;
-
   @Column({
     name: 'description',
   })
   description: string;
+
+  constructor(
+    transferFrom: BankInternalAccount,
+    transferTo: BankInternalAccount,
+    transferAmount: number,
+    description?: string) {
+    super();
+    this.transferFrom = transferFrom;
+    this.transferTo = transferTo;
+    this.transferAmount = transferAmount;
+    this.description = description;
+  }
 }
