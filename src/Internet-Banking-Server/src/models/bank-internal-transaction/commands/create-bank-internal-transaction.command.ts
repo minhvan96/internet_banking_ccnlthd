@@ -7,40 +7,50 @@ export class CreateBankInternalTransactionCommand {
 }
 
 export class CreateBankInternalTransactionFromCurrentUserRequest {
+
+
   @ApiProperty()
+  @IsString()
   @IsNotEmpty()
-  to: number;
+  toAccount: string;
 
   @IsNotEmpty()
   @ApiProperty()
-  amount: number;
+  transferAmount: number;
 
   @IsString()
   @ApiProperty()
   description: string;
 
   constructor(
-    to: number,
-    amount: number,
+    toAccount: string,
+    transferAmount: number,
     description: string) {
-    this.to = to;
-    this.amount = amount;
+    this.toAccount = toAccount;
+    this.transferAmount = transferAmount;
     this.description = description;
   }
 }
 
 export class CreateBankInternalTransactionRequest extends CreateBankInternalTransactionFromCurrentUserRequest {
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
-  from: number;
+  fromAccount: string;
+
+  @IsNotEmpty()
+  userId: number;
+
   constructor(
-    from: number,
-    to: number,
+    userId: number,
+    toAccount: string,
     amount: number,
-    description: string
+    description?: string,
+    fromAccount?: string,
   ) {
-    super(to, amount, description);
-    this.from = from;
+    super(toAccount, amount, description);
+    this.userId = userId;
+    this.fromAccount = fromAccount;
   }
 }
 

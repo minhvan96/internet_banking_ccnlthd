@@ -11,13 +11,20 @@ export class LoginUserRequest {
     this.username = userName;
     this.password = password;
   }
+
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    description: 'user name',
+    default: 'customer01'
+  })
   username: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({
+    description: 'user password',
+    default: '123456@Abc'
+  })
   password: string;
 }

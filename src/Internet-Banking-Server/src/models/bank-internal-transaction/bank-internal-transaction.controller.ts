@@ -23,7 +23,7 @@ export class BankInternalTransactionController {
     @Body() request: CreateBankInternalTransactionFromCurrentUserRequest) {
     const {user} = req;
     const userId: number = user['sub'];
-    const createTransferRequest = new CreateBankInternalTransactionRequest(userId, request.to, request.amount, request.description);
+    const createTransferRequest = new CreateBankInternalTransactionRequest(userId, request.toAccount, request.transferAmount, request.description);
     return await this.commandBus.execute(new CreateBankInternalTransactionCommand(createTransferRequest));
   }
 }

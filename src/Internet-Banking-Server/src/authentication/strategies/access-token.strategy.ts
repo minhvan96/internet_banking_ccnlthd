@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtConstants } from '../../common/constants/jwt-constants';
 
 type JwtPayload = {
-  sub: string;
+  sub: number;
   username: string;
   time: Date;
 };
@@ -19,6 +19,6 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    return { username: payload.username, time: payload.time };
+    return { username: payload.username, time: payload.time, sub: payload.sub };
   }
 }

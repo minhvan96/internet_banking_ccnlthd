@@ -14,10 +14,22 @@ export class GetCustomerHandler implements IQueryHandler<GetCustomerQuery> {
   }
 
   async execute(query: GetCustomerQuery): Promise<CustomerResponseModel> {
-    return await this.userRepository.createQueryBuilder('user')
-      .leftJoinAndSelect('user.bankAccount', 'bankAccount')
-      .where('user.id = :userId', {userId: query.id})
-      .select(['user.id', 'user.userName', 'bankAccount.accountNumber', 'bankAccount.balance'])
-      .execute()
+    const user = await this.userRepository.findOne({
+      where: {
+        id: query.id
+      },
+      relations:{
+        bankAccount: true
+      },
+      select:{
+        id: true,
+        userName: true,
+        bankAccount:{
+          accountNumber: true,
+          balance: true
+        }
+      }
+    })
+    return new CustomerResponseModel(user.id, user.userName, user.bankAccount.accountNumber, user.bankAccount.balance);
   }
 }

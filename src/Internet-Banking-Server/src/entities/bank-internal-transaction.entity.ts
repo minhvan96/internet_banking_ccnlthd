@@ -7,17 +7,11 @@ import { BankInternalAccount } from './bank-internal-account.entity';
 })
 export class BankInternalTransaction extends EntityBase {
   @ManyToOne(() => BankInternalAccount, bankAccount => bankAccount.transfers)
-  @Column({
-    type: 'int',
-    name: 'transfer_from',
-  })
   transferFrom: BankInternalAccount;
+
   @ManyToOne(() => BankInternalAccount, bankAccount => bankAccount.receives)
-  @Column({
-    type: 'int',
-    name: 'transfer_to',
-  })
   transferTo: BankInternalAccount;
+
   @Column({
     name: 'transfer_amount',
   })
