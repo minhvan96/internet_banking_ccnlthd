@@ -9,9 +9,11 @@ import {
   GetBankInternalAccountByAccountNumberQuery
 } from '../../bank-internal-account/queries/get-bank-internal-account-by-account-number.query';
 import { GetCustomerQuery } from '../../customer/queries/get-customer.query';
+import { BankTransactionPaymentType } from '../../../entities/enums/bank-transaction-payment-type.enum';
 
 @CommandHandler(CreateBankInternalTransactionCommand)
 export class CreateBankInternalTransactionHandler implements ICommandHandler<CreateBankInternalTransactionCommand> {
+  fee = 10000;
 
   constructor(
     @InjectRepository(BankInternalTransaction)
@@ -22,20 +24,20 @@ export class CreateBankInternalTransactionHandler implements ICommandHandler<Cre
   }
 
   async execute(command: CreateBankInternalTransactionCommand): Promise<any> {
-    if(command.payload.transferAmount <= 0){
-      throw new BadRequestException("Transfer amount must be greater than 0");
+    if (command.payload.transferAmount <= 0) {
+      throw new BadRequestException('Transfer amount must be greater than 0');
     }
-    if(command.payload.transferAmount % 50000 !== 0){
-      throw new BadRequestException("Transfer amount must be multiply by 50000");
+    if (command.payload.transferAmount % 50000 !== 0) {
+      throw new BadRequestException('Transfer amount must be multiply by 50000');
     }
     if (command.payload.fromAccount === command.payload.toAccount) {
       throw new BadRequestException('Source and destination account cannot be the same');
     }
 
     let fromAccountNumber = command.payload.fromAccount;
-    if(!command.payload.fromAccount){
+    if (!command.payload.fromAccount) {
       const customer = await this.queryBus.execute(new GetCustomerQuery(command.payload.userId));
-      if(!customer){
+      if (!customer) {
         throw new NotFoundException(`Customer with Id = ${command.payload.userId} is not found`);
       }
       fromAccountNumber = customer.accountNumber;
@@ -51,15 +53,28 @@ export class CreateBankInternalTransactionHandler implements ICommandHandler<Cre
       throw new NotFoundException(`Bank Account with account number = ${command.payload.toAccount} is not found`);
     }
 
-    if (transferFromAccount.balance < command.payload.transferAmount) {
+    let transferAmount = command.payload.transferAmount;
+    let receiverAmount = transferAmount;
+    if (command.payload.transactionPaymentType === BankTransactionPaymentType.RECEIVER_PAY) {
+      receiverAmount -= this.fee;
+    } else {
+      transferAmount += this.fee;
+    }
+    if (transferFromAccount.balance < transferAmount) {
       throw new BadRequestException('Source account does not have enough money to process this transfer');
     }
-    transferFromAccount.balance -= command.payload.transferAmount;
-    transferToAccount.balance += command.payload.transferAmount;
+
+    transferFromAccount.balance -= transferAmount;
+    transferToAccount.balance += receiverAmount;
     await this.bankInternalAccountRepository.save(transferFromAccount);
     await this.bankInternalAccountRepository.save(transferToAccount);
 
-    const transaction = new BankInternalTransaction(transferFromAccount, transferToAccount, command.payload.transferAmount, command.payload.description);
+    const transaction = new BankInternalTransaction(transferFromAccount,
+      transferToAccount,
+      command.payload.transferAmount,
+      this.fee,
+      command.payload.transactionPaymentType,
+      command.payload.description);
     await this.bankInternalTransactionRepository.save(transaction);
   }
 }

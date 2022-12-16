@@ -1,6 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
 import { BankInternalAccount } from './bank-internal-account.entity';
+import { BankExternalTransactionType } from './enums/bank-external-transaction-type.enum';
+import { BankTransactionPaymentType } from './enums/bank-transaction-payment-type.enum';
 
 @Entity({
   name: 'bank_internal_transactions',
@@ -21,15 +23,31 @@ export class BankInternalTransaction extends EntityBase {
   })
   description: string;
 
+  @Column({
+    name: 'fee'
+  })
+  fee: number;
+
+  @Column({
+    type: 'enum',
+    enum: BankTransactionPaymentType,
+    default: BankTransactionPaymentType.SENDER_PAY,
+  })
+  transactionPaymentType: BankTransactionPaymentType;
+
   constructor(
     transferFrom: BankInternalAccount,
     transferTo: BankInternalAccount,
     transferAmount: number,
+    fee: number,
+    transactionPaymentType: BankTransactionPaymentType,
     description?: string) {
     super();
     this.transferFrom = transferFrom;
     this.transferTo = transferTo;
     this.transferAmount = transferAmount;
+    this.fee = fee;
+    this.transactionPaymentType = transactionPaymentType;
     this.description = description;
   }
 }

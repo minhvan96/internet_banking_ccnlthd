@@ -8,6 +8,7 @@ import {
 } from './commands/create-bank-internal-transaction.command';
 import { CommandBus } from '@nestjs/cqrs';
 import { Request } from 'express';
+
 @ApiTags('Bank Internal Transaction')
 @Controller('bank-internal-transaction')
 export class BankInternalTransactionController {
@@ -23,7 +24,11 @@ export class BankInternalTransactionController {
     @Body() request: CreateBankInternalTransactionFromCurrentUserRequest) {
     const {user} = req;
     const userId: number = user['sub'];
-    const createTransferRequest = new CreateBankInternalTransactionRequest(userId, request.toAccount, request.transferAmount, request.description);
+    const createTransferRequest = new CreateBankInternalTransactionRequest(userId,
+      request.toAccount,
+      request.transferAmount,
+      request.transactionPaymentType,
+      request.description);
     return await this.commandBus.execute(new CreateBankInternalTransactionCommand(createTransferRequest));
   }
 }

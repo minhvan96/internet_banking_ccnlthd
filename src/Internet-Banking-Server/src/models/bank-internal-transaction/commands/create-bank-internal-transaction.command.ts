@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BankTransactionPaymentType } from '../../../entities/enums/bank-transaction-payment-type.enum';
 
 export class CreateBankInternalTransactionCommand {
   constructor(public readonly payload: CreateBankInternalTransactionRequest) {
@@ -7,7 +8,10 @@ export class CreateBankInternalTransactionCommand {
 }
 
 export class CreateBankInternalTransactionFromCurrentUserRequest {
-
+  @ApiProperty({
+    default: BankTransactionPaymentType.SENDER_PAY
+  })
+  transactionPaymentType: BankTransactionPaymentType;
 
   @ApiProperty()
   @IsString()
@@ -25,10 +29,12 @@ export class CreateBankInternalTransactionFromCurrentUserRequest {
   constructor(
     toAccount: string,
     transferAmount: number,
-    description: string) {
+    description: string,
+    transactionPaymentType: BankTransactionPaymentType) {
     this.toAccount = toAccount;
     this.transferAmount = transferAmount;
     this.description = description;
+    this.transactionPaymentType = transactionPaymentType;
   }
 }
 
@@ -45,10 +51,11 @@ export class CreateBankInternalTransactionRequest extends CreateBankInternalTran
     userId: number,
     toAccount: string,
     amount: number,
+    transactionPaymentType: BankTransactionPaymentType,
     description?: string,
     fromAccount?: string,
   ) {
-    super(toAccount, amount, description);
+    super(toAccount, amount, description, transactionPaymentType);
     this.userId = userId;
     this.fromAccount = fromAccount;
   }
