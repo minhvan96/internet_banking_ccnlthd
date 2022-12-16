@@ -7,17 +7,23 @@ import {
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @CommandHandler(CreateBankInternalTransactionCommand)
 export class CreateBankInternalTransactionHandler implements ICommandHandler<CreateBankInternalTransactionCommand> {
 
   constructor(
+    @InjectRepository(BankInternalTransaction)
     private readonly bankInternalTransactionRepository: Repository<BankInternalTransaction>,
+    @InjectRepository(BankInternalAccount)
     private readonly bankInternalAccountRepository: Repository<BankInternalAccount>,
     private readonly queryBus: QueryBus) {
   }
 
   async execute(command: CreateBankInternalTransactionCommand): Promise<any> {
+    if(command.payload.from === command.payload.to){
+      throw new BadRequestException("Source and destination account cannot be the same");
+    }
     const transferFromAccount = await this.queryBus.execute(new GetBankInternalAccountByIdQuery(command.payload.from));
     if (!transferFromAccount) {
       throw new NotFoundException(`Bank Account with Id = ${command.payload.from} is not found`);

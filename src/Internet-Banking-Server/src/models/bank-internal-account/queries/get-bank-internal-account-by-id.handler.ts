@@ -13,9 +13,8 @@ export class GetBankInternalAccountByIdHandler implements IQueryHandler<GetBankI
   }
 
   async execute(query: GetBankInternalAccountByIdQuery): Promise<BankInternalAccountResponseModel> {
-    const bankInternalAccount = await this.bankInternalAccountRepository.findOneBy({
+    return await this.bankInternalAccountRepository.findOneBy({
       id: query.accountId,
-    })
-    return bankInternalAccount;
+    });
   }
 }
