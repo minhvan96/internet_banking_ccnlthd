@@ -19,12 +19,19 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
         where: {
           id: query.userId
         },
-        select:  {
+        relations: {
+          roles: true
+        },
+        select: {
           id: true,
           firstName: true,
-          lastName: true
+          lastName: true,
+          roles: {
+            id: true,
+            name: true
+          }
         }
-      })
+      });
 
     } catch (error) {
       console.log('catch');

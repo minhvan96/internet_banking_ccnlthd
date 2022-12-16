@@ -1,6 +1,11 @@
 import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class EntityBase {
+  constructor(id?: number) {
+    this.id = id;
+  }
+
+
   @PrimaryGeneratedColumn(
     {
       name: 'id',
