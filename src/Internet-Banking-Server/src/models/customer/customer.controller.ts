@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 import {
   CreateInternalBankTransferCommand,
   CreateInternalBankTransferRequest,
@@ -21,6 +20,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetCustomerQuery } from './queries/get-customer.query';
 import { Request } from 'express';
 import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
+import { GetInternalBeneficiaryQuery } from './queries/get-internal-beneficiary.query';
+import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -34,6 +35,16 @@ export class CustomerController {
   async GetCustomer(
     @Param('id') userId: number) {
     return await this.queryBus.execute(new GetCustomerQuery(userId));
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Get('current/beneficiary')
+  async GetCustomerBeneficiary(
+    @Req() req: Request) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.queryBus.execute(new GetInternalBeneficiaryQuery(userId));
   }
 
   @Post('add-bank-internal-account/:id')
