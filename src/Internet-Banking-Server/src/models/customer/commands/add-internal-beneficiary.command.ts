@@ -2,21 +2,22 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AddInternalBeneficiaryCommand {
-  constructor(public readonly userId: number,
-              public readonly payload: AddInternalBeneficiaryRequest) {
+  constructor(
+    public readonly userId: number,
+    public readonly payload: AddInternalBeneficiaryRequest) {
   }
 }
 
 export class AddInternalBeneficiaryRequest {
   @ApiProperty()
-  bankAccountId: number;
+  bankAccountNumber: string;
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   alias: string;
 
-  constructor(bankAccountId: number, alias: string) {
-    this.bankAccountId = bankAccountId;
+  constructor(bankAccountId: string, alias: string) {
+    this.bankAccountNumber = bankAccountId;
     this.alias = alias;
   }
 }

@@ -8,7 +8,7 @@ import { AddExternalBeneficiaryCommand } from './add-external-beneficiary.comman
 import { BankExternalAccount } from '../../../entities/bank-external-account.entity';
 import { CustomerExternalBeneficiary } from '../../../entities/customer-external-beneficiary.entity';
 
-@CommandHandler(AddInternalBeneficiaryCommand)
+@CommandHandler(AddExternalBeneficiaryCommand)
 export class AddExternalBeneficiaryHandler implements ICommandHandler<AddExternalBeneficiaryCommand> {
   constructor(
     @InjectRepository(User)
