@@ -1,11 +1,22 @@
+import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateBankInternalTransactionCommand {
   constructor(public readonly payload: CreateBankInternalTransactionRequest) {
   }
 }
 
 export class CreateBankInternalTransactionFromCurrentUserRequest {
+  @ApiProperty()
+  @IsNotEmpty()
   to: number;
+
+  @IsNotEmpty()
+  @ApiProperty()
   amount: number;
+
+  @IsString()
+  @ApiProperty()
   description: string;
 
   constructor(
@@ -19,6 +30,8 @@ export class CreateBankInternalTransactionFromCurrentUserRequest {
 }
 
 export class CreateBankInternalTransactionRequest extends CreateBankInternalTransactionFromCurrentUserRequest {
+  @IsNotEmpty()
+  @ApiProperty()
   from: number;
   constructor(
     from: number,

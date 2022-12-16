@@ -1,15 +1,9 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetBankInternalAccountByIdQuery } from './queries/get-bank-internal-account-by-id.query';
 import { ListBankInternalAccountQuery } from './queries/list-bank-internal-account.query';
 import { ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
-import { Request } from 'express';
-import {
-  CreateBankInternalTransactionCommand,
-  CreateBankInternalTransactionFromCurrentUserRequest,
-  CreateBankInternalTransactionRequest
-} from '../bank-internal-transaction/commands/create-bank-internal-transaction.command';
 
 @ApiTags('Bank Internal Account')
 @Controller('bank-internal-account')
@@ -29,16 +23,5 @@ export class BankInternalAccountController {
   @Get('/:id')
   async GetBankInternalAccount(@Param('id') accountId: number) {
     return await this.queryBus.execute(new GetBankInternalAccountByIdQuery(accountId));
-  }
-
-  @Post('transfer')
-  @UseGuards(AccessTokenGuard)
-  async TransferToInternalAccount(
-    @Req() req: Request,
-    @Body() request: CreateBankInternalTransactionFromCurrentUserRequest) {
-    const {user} = req;
-    const userId: number = user['sub'];
-    const createTransferRequest = new CreateBankInternalTransactionRequest(userId, request.to, request.amount, request.description);
-    return await this.commandBus.execute(new CreateBankInternalTransactionCommand(createTransferRequest));
   }
 }
