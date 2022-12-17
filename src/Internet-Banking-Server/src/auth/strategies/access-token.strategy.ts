@@ -7,6 +7,7 @@ type JwtPayload = {
   sub: number;
   username: string;
   time: Date;
+  roles: string[]
 };
 
 @Injectable()
@@ -19,6 +20,6 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    return { username: payload.username, time: payload.time, sub: payload.sub };
+    return { username: payload.username, time: payload.time, sub: payload.sub, roles: payload.roles };
   }
 }

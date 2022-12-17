@@ -17,8 +17,18 @@ export class UpdateUserRefreshTokenHandler implements ICommandHandler<UpdateUser
   }
 
   async execute(command: UpdateUserRefreshTokenCommand): Promise<any> {
-    const user = await this.userRepository.findOneBy({
-      id: command.userId,
+    const user = await this.userRepository.findOne({
+      where: {
+        id: command.userId,
+      },
+      relations: {
+        roles: true
+      },
+      select: {
+        id: true,
+        userName: true,
+        password: true,
+      }
     });
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
@@ -30,7 +40,7 @@ export class UpdateUserRefreshTokenHandler implements ICommandHandler<UpdateUser
     if (!refreshTokenMatches)
       throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.authService.getTokensAsync(user.id, user.userName);
+    const tokens = await this.authService.getTokensAsync(user.id, user.userName, user.roles.map(role => role.name));
     user.refreshToken = await this.authService.hashData(tokens.refreshToken);
     await this.userRepository.save(user);
 

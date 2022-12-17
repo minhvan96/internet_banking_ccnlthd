@@ -17,8 +17,18 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
   }
 
   async execute(command: LoginUserCommand): Promise<JwtTokenPair> {
-    const user = await this.userRepository.findOneBy({
-      userName: command.payload.username,
+    const user = await this.userRepository.findOne({
+      where: {
+        userName: command.payload.username,
+      },
+      relations: {
+        roles: true
+      },
+      select: {
+        id: true,
+        userName: true,
+        password: true,
+      }
     });
 
     if (!user)
@@ -26,7 +36,7 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
     const passwordMatches = await argon2.verify(user.password, command.payload.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
-    const tokens = await this.authService.getTokensAsync(user.id, user.userName);
+    const tokens = await this.authService.getTokensAsync(user.id, user.userName, user.roles.map(role => role.name));
     user.refreshToken = await this.authService.hashData(tokens.refreshToken);
     await this.userRepository.save(user);
     return tokens;

@@ -5,6 +5,7 @@ import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { AuthService } from '../../../auth/auth.service';
+import { roles } from '../../../database/seeders/identity/role/role-seeder.data';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
@@ -13,10 +14,19 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
   }
 
   async execute(command: RegisterUserCommand): Promise<any> {
-    const userExists = await this.userRepository.findOneBy({
+    const userExists = await this.userRepository.findOne({
+      where: {
         userName: command.payload.userName,
       },
-    );
+      relations: {
+        roles: true
+      },
+      select: {
+        id: true,
+        userName: true,
+        password: true,
+      }
+    });
     if (userExists) {
       throw new BadRequestException('User already exists');
     }
@@ -27,7 +37,7 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
       command.payload.lastName);
     await this.userRepository.save(newUser);
 
-    const tokens = await this.authService.getTokensAsync(newUser.id, newUser.userName);
+    const tokens = await this.authService.getTokensAsync(newUser.id, newUser.userName, roles.map(role => role.name));
     newUser.refreshToken = await this.authService.hashData(tokens.refreshToken);
     await this.userRepository.save(newUser);
 

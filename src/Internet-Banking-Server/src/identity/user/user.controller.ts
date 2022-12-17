@@ -9,7 +9,10 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import { GetUserQuery } from './queries/get-user.query';
+import { Roles } from '../../auth/role/roles.decorator';
+import { RoleGuard } from '../../auth/role/role.guard';
 
+@UseGuards(RoleGuard)
 @ApiTags('User')
 @Controller('user')
 export class UserController {
@@ -18,6 +21,7 @@ export class UserController {
     private readonly commandBus: CommandBus) {
   }
 
+  @Roles('customer')
   @ApiBearerAuth()
   @Get('/current')
   @UseGuards(AccessTokenGuard)

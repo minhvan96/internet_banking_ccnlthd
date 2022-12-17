@@ -16,6 +16,8 @@ import { BankInternalTransactionModule } from './models/bank-internal-transactio
 import { CustomerModule } from './models/customer/customer.module';
 import { BankInternalAccountController } from './models/bank-internal-account/bank-internal-account.controller';
 import { SeederModule } from './database/seeders/seeder.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RoleGuard } from './auth/role/role.guard';
 
 
 @Module({
@@ -37,7 +39,8 @@ import { SeederModule } from './database/seeders/seeder.module';
     BankInternalTransactionController],
   providers: [AppService,
     UserModule,
-    AuthModule],
+    AuthModule,
+    ],
 })
 export class AppModule {
 }
