@@ -3,7 +3,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetBankInternalAccountByIdQuery } from './queries/get-bank-internal-account-by-id.query';
 import { ListBankInternalAccountQuery } from './queries/list-bank-internal-account.query';
 import { ApiTags } from '@nestjs/swagger';
-import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
+import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 
 @ApiTags('Bank Internal Account')
 @Controller('bank-internal-account')

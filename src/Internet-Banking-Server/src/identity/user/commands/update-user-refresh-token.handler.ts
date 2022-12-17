@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { ForbiddenException } from '@nestjs/common';
-import { AuthService } from '../../../authentication/auth.service';
+import { AuthService } from '../../../auth/auth.service';
 import * as argon2 from 'argon2';
 
 @CommandHandler(UpdateUserRefreshTokenCommand)

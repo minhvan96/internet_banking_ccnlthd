@@ -7,7 +7,7 @@ import {
 import { AddBankInternalAccountCommand } from '../../models/customer/commands/add-bank-internal-account.command';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
+import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import { GetUserQuery } from './queries/get-user.query';
 
 @ApiTags('User')

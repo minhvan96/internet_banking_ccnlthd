@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
-import { AuthService } from '../../../authentication/auth.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {

@@ -5,8 +5,8 @@ import { PostgresqlDatabaseProviderModule } from './providers/database/postgresq
 import { UserModule } from './identity/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserController } from './identity/user/user.controller';
-import { AuthModule } from './authentication/auth.module';
-import { AuthController } from './authentication/auth.controller';
+import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
 import { CqrsModule } from '@nestjs/cqrs';
 import { BankInternalAccountModule } from './models/bank-internal-account/bank-internal-account.module';
 import {

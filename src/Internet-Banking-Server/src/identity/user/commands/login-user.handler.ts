@@ -3,8 +3,8 @@ import { LoginUserCommand } from './login-user.command';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/identity/user.entity';
 import { Repository } from 'typeorm';
-import { AuthService } from 'src/authentication/auth.service';
-import { JwtTokenPair } from 'src/authentication/dto/jwt-token-pair';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtTokenPair } from 'src/auth/dto/jwt-token-pair';
 import { BadRequestException } from '@nestjs/common';
 import * as argon2 from 'argon2';
 

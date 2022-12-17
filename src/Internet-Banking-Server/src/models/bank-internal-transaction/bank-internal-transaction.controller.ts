@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AccessTokenGuard } from '../../authentication/guards/access-token.guard';
+import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import {
   CreateBankInternalTransactionCommand,
   CreateBankInternalTransactionFromCurrentUserRequest,
