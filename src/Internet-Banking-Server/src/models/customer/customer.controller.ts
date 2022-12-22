@@ -22,6 +22,7 @@ import { Request } from 'express';
 import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import { GetInternalBeneficiaryQuery } from './queries/get-internal-beneficiary.query';
 import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
+import { GetExternalBeneficiaryQuery } from './queries/get-external-beneficiary.query';
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -39,12 +40,22 @@ export class CustomerController {
 
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
-  @Get('current/beneficiary')
-  async GetCustomerBeneficiary(
+  @Get('current/internal-beneficiary')
+  async GetCustomerInternalBeneficiary(
     @Req() req: Request) {
     const {user} = req;
     const userId: number = user['sub'];
     return await this.queryBus.execute(new GetInternalBeneficiaryQuery(userId));
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Get('current/external-beneficiary')
+  async GetCustomerExternalBeneficiary(
+    @Req() req: Request) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.queryBus.execute(new GetExternalBeneficiaryQuery(userId));
   }
 
   @Post('add-bank-internal-account/:id')
