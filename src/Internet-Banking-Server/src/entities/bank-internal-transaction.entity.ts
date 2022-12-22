@@ -1,7 +1,6 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { EntityBase } from '../common/entity/entity.base';
 import { BankInternalAccount } from './bank-internal-account.entity';
-import { BankExternalTransactionType } from './enums/bank-external-transaction-type.enum';
 import { BankTransactionPaymentType } from './enums/bank-transaction-payment-type.enum';
 
 @Entity({

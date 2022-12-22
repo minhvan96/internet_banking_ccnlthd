@@ -8,11 +8,21 @@ import { BankInternalAccount } from '../../entities/bank-internal-account.entity
 import {
   GetBankInternalAccountByIdHandler
 } from '../bank-internal-account/queries/get-bank-internal-account-by-id.handler';
+import {
+  GetBankInternalAccountTransactionByAccountHandler
+} from './queries/get-bank-internal-account-transaction-by-account.handler';
+import {
+  GetBankInternalAccountTransactionByUserIdHandler
+} from './queries/get-bank-internal-account-transaction-by-user-id.handler';
+import { User } from '../../entities/identity/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BankInternalTransaction, BankInternalAccount]), CqrsModule],
+  imports: [TypeOrmModule.forFeature([BankInternalTransaction, BankInternalAccount, User]), CqrsModule],
   controllers: [BankInternalTransactionController],
-  providers: [CreateBankInternalTransactionHandler, GetBankInternalAccountByIdHandler],
+  providers: [CreateBankInternalTransactionHandler,
+    GetBankInternalAccountByIdHandler,
+    GetBankInternalAccountTransactionByAccountHandler,
+    GetBankInternalAccountTransactionByUserIdHandler],
 })
 export class BankInternalTransactionModule {
 
