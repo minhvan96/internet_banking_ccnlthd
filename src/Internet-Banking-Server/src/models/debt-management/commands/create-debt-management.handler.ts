@@ -2,7 +2,7 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import {CreateDebtManagementCommand} from "./create-debt-management.command";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {DebtManagement} from "../../../entities/Debt-Management.entity";
+import {DebtManagement} from "../../../entities/debt-management.entity";
 
 @CommandHandler(CreateDebtManagementHandler)
 export class CreateDebtManagementHandler implements ICommandHandler<CreateDebtManagementCommand> {
