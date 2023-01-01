@@ -96,6 +96,8 @@ function CustomerLayout({ children }) {
         className="site-layout"
         style={{
           marginLeft: 330,
+          position: 'relative',
+          height: '100vh'
         }}
       >
         <Header
@@ -118,7 +120,7 @@ function CustomerLayout({ children }) {
         </Header>
         <Content
           style={{
-            margin: "64px 0 0 0",
+            padding: "64px 0 0 0",
             overflow: "initial",
             background: "#0F2026",
           }}
@@ -129,7 +131,7 @@ function CustomerLayout({ children }) {
               textAlign: "center",
             }}
           >
-            <p>long content</p>
+            {/* <p>long content</p>
             {
               // indicates very long content
               Array.from(
@@ -143,15 +145,23 @@ function CustomerLayout({ children }) {
                   </React.Fragment>
                 )
               )
-            }
+            } */}
+            {children}
           </div>
         </Content>
         <Footer
           style={{
             textAlign: "center",
+            height: "23px",
+            margin: "0",
+            padding: 0,
+            position: 'absolute',
+            width: '100%',
+            bottom: 0
           }}
+          className=""
         >
-          Ant Design ©2018 Created by Ant UED
+          <div>Ant Design ©2018 Created by Ant UED</div>
         </Footer>
       </Layout>
     </Layout>
