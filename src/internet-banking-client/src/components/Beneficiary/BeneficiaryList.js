@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
-import { Col, Radio, Row, Select } from "antd";
+import { Col, Form, Input, InputNumber, Radio, Row, Select } from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
 import BeneficiaryItem from "./BeneficiaryItem";
+import ModelCustom from "../common/ModalCustom";
 
 const styleButton = { width: "100%", height: "100%" };
 
 function BeneficiaryList() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
   return (
     <div className="beneficiaryList">
       <div className="beneficiaryList__searchgroup">
@@ -21,14 +26,50 @@ function BeneficiaryList() {
               style={styleButton}
               text="Thêm mới"
               icon={<BsPlusLg />}
+              onClick={showModal}
             />
+            <ModelCustom
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              title="Thêm mới"
+            >
+              <div className="beneficiaryList__add">
+                <Form layout="vertical" autoComplete="off">
+                  <Form.Item name="name" label="Tên gợi nhớ">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="accnumber" label="Số tài khoản">
+                    <Input />
+                  </Form.Item>
+                </Form>
+
+                <div className="footer">
+                  <div className="btn__cancel">
+                    <ButtonCustom
+                      isLine={true}
+                      style={{ width: "100%", height: "45px" }}
+                      text="Hủy"
+                      icon={<BsPlusLg />}
+                      onClick={showModal}
+                    />
+                  </div>
+                  <div className="btn__submit">
+                    <ButtonCustom
+                      style={{ width: "100%", height: "45px" }}
+                      text="Thêm mới"
+                      icon={<BsPlusLg />}
+                      onClick={showModal}
+                    />
+                  </div>
+                </div>
+              </div>
+            </ModelCustom>
           </Col>
         </Row>
       </div>
       <div className="beneficiaryList__group">
-
-          <BeneficiaryItem  nonumber={1}/>
-          <BeneficiaryItem nonumber={2}/>
+        <BeneficiaryItem nonumber={1} />
+        <BeneficiaryItem nonumber={2} />
         <div className="footer">
           <div className="showCount">
             Hiển thị

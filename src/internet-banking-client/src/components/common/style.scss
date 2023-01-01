@@ -37,7 +37,6 @@
 .buttonCustom {
   height: 100%;
   width: 100%;
-  padding: 0 10px;
   border-radius: 8px;
   background: linear-gradient(120deg, #5fb621, #007c30);
   .container {
@@ -61,5 +60,42 @@
       border: none;
       box-shadow: none;
     }
+  }
+}
+.buttonCustom-line {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #007c30;
+  background: transparent;
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    color: #007c30;
+    background-color: transparent;
+    .icon {
+      margin-right: 10px;
+    }
+    &:hover {
+      color: #007c30;
+      border: none;
+    }
+    &:active {
+      color: #007c30;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+.modal-custom {
+  height: auto;
+  .ant-modal-title {
+    font-size: 26px;
+    font-weight: 400;
   }
 }

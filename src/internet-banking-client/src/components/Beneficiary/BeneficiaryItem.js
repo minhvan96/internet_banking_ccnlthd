@@ -1,9 +1,10 @@
-import { Radio } from "antd";
+import { List, Radio } from "antd";
 import React from "react";
 import "./style.scss";
 import { FiMoreVertical } from "react-icons/fi";
 
 function BeneficiaryItem({ nonumber }) {
+  const data = ["Chỉnh sửa", "Xóa"];
   return (
     <div className="beneficiaryList__item">
       <div className="no-box">{nonumber}</div>
@@ -16,6 +17,15 @@ function BeneficiaryItem({ nonumber }) {
       </div>
       <div className="showmore">
         <FiMoreVertical />
+        <div className="showmoreList">
+          <List
+          className="list__ant"
+            size="small"
+            bordered
+            dataSource={data}
+            renderItem={(item) => <List.Item>{item}</List.Item>}
+          />
+        </div>
       </div>
     </div>
   );
