@@ -1,3 +1,53 @@
-.beneficiaryList{
-    padding: 20px 0 0 0;
+.beneficiaryList {
+  padding: 20px 0 0 0;
+  &__group {
+    margin-top: 20px;
+    padding: 0 40px;
+
+    .select-box {
+      margin-left: 20px;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  &__item {
+    display: flex;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 0.5px solid #ffffffb3;
+    .content {
+      text-align: initial;
+      h4 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .cardnumber {
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 25px;
+      }
+      .note {
+        color: #ffffffb3;
+        font-size: 13px;
+      }
+    }
+    .showmore {
+      margin-left: auto;
+    }
+    .no-box {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(120deg, #5fb621, #007c30);
+      border-radius: 50%;
+      margin-right: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 500;
+    }
+  }
 }

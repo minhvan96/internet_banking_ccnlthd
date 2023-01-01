@@ -1,6 +1,65 @@
 .breakcrumb {
   color: #ffffffb3;
-  .ant-breadcrumb-separator, a{
+  .ant-breadcrumb-separator,
+  a {
     color: #ffffffb3;
+  }
+}
+
+.inputSeach {
+  display: flex;
+  align-items: center;
+  background-color: #24373c;
+  padding: 0 20px;
+  height: 40px;
+  border-radius: 10px;
+
+  .icon {
+    font-size: 20px;
+  }
+
+  .input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 15px;
+    &:focus {
+      box-shadow: none;
+    }
+    &::placeholder {
+      color: #ffffffb3;
+    }
+  }
+}
+
+.buttonCustom {
+  height: 100%;
+  width: 100%;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: linear-gradient(120deg, #5fb621, #007c30);
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    color: #fff;
+    background-color: transparent;
+    .icon {
+      margin-right: 10px;
+    }
+    &:hover {
+      color: #fff;
+      border: none;
+    }
+    &:active {
+      color: #fff;
+      border: none;
+      box-shadow: none;
+    }
   }
 }

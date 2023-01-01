@@ -155,7 +155,7 @@ function CustomerLayout({ children }) {
             height: "23px",
             margin: "0",
             padding: 0,
-            position: 'absolute',
+            position: 'fixed',
             width: '100%',
             bottom: 0
           }}
