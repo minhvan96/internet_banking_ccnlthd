@@ -1,5 +1,5 @@
 import {CommandHandler, ICommandHandler, QueryBus} from '@nestjs/cqrs';
-import {CreateDebtManagementCommand} from "./create-debt-management.command";
+import {CreateDebtTransactionCommand} from "./create-debt-transaction.command";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {DebtManagement} from "../../../entities/debt-management.entity";
@@ -10,8 +10,8 @@ import {
 } from "../../bank-internal-account/queries/get-bank-internal-account-by-account-number.query";
 import {BankInternalAccount} from "../../../entities/bank-internal-account.entity";
 
-@CommandHandler(CreateDebtManagementHandler)
-export class CreateDebtManagementHandler implements ICommandHandler<CreateDebtManagementCommand> {
+@CommandHandler(CreateDebtTransactionHandler)
+export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtTransactionCommand> {
 
     constructor(@InjectRepository(DebtManagement)
                 private readonly debtManagementEntityRepository: Repository<DebtManagement>,
@@ -21,7 +21,7 @@ export class CreateDebtManagementHandler implements ICommandHandler<CreateDebtMa
                 ) {
     }
 
-    async execute(command: CreateDebtManagementCommand): Promise<any> {
+    async execute(command: CreateDebtTransactionCommand): Promise<any> {
 
 
         if (command.payload.amount <= 0) {

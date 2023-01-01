@@ -1,5 +1,5 @@
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
-import {GetDebt} from "./get-debt.query";
+import {GetDebtTransactionQuery} from "./get-debt-transactions.query";
 import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
@@ -7,7 +7,7 @@ import {DebtManagement} from "../../../entities/debt-management.entity";
 import {NotFoundException} from "@nestjs/common";
 
 @QueryHandler(GetCustomerQuery)
-export class getDebtHandler implements IQueryHandler<GetDebt> {
+export class getDebtTransactionHandler implements IQueryHandler<GetDebtTransactionQuery> {
     constructor(
         @InjectRepository(DebtManagement)
         private readonly debtManagement: Repository<DebtManagement>,
@@ -15,7 +15,7 @@ export class getDebtHandler implements IQueryHandler<GetDebt> {
     ) {
     }
 
-    async execute(query: GetDebt): Promise<any> {
+    async execute(query: GetDebtTransactionQuery): Promise<any> {
         const customer = await this.queryBus.execute(new GetCustomerQuery(query.payload.userId));
         if (!customer) {
             throw new NotFoundException(`Customer with Id = ${query.payload.userId} is not found`);
@@ -42,11 +42,11 @@ export class getDebtHandler implements IQueryHandler<GetDebt> {
                 },
             }
         }else{
-            if(query.payload.isPaid){
+            if(query.payload.isUnpaid){
                 condition = {
                     where: {
                         debitAccount: customer.accountNumber,
-                        isPaid: query.payload.isPaid,
+                        isPaid: false,
                         idDeleted: false
                     }
                 }
@@ -72,7 +72,7 @@ export class getDebtHandler implements IQueryHandler<GetDebt> {
                 },
             }
         }
-        return await this.debtManagement.findOne({
+        return await this.debtManagement.find({
             where: condition,
             select: select
         });

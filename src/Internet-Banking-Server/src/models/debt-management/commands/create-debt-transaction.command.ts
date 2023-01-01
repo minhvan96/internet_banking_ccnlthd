@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateDebtManagementCommand {
+export class CreateDebtTransactionCommand {
     constructor(public readonly payload: CreateDebtManagementFromCurrentUserRequest) {
     }
 }

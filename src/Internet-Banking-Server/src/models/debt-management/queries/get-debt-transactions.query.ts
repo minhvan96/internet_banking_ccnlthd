@@ -4,7 +4,7 @@ import {ApiProperty} from "@nestjs/swagger";
 import {IsNotEmpty} from "class-validator";
 
 @QueryHandler(GetCustomerQuery)
-export class GetDebt {
+export class GetDebtTransactionQuery {
     constructor(public readonly payload: DebtFilterRequest) {
     }
 }
@@ -14,7 +14,7 @@ export class DebtFilterRequest{
     isCreated: boolean;
 
     @ApiProperty()
-    isPaid: boolean;
+    isUnpaid: boolean;
 
     @IsNotEmpty()
     userId: number;

@@ -1,12 +1,12 @@
 import {Body, Controller, Post, Req} from '@nestjs/common';
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {
-    CreateDebtManagementCommand,
+    CreateDebtTransactionCommand,
     CreateDebtManagementFromCurrentUserRequest,
     CreateDebtManagementRequest
-} from "./commands/create-debt-management.command";
+} from "./commands/create-debt-transaction.command";
 import {Request} from "express";
-import {DebtFilterRequest, GetDebt} from "./queries/get-debt.query";
+import {DebtFilterRequest, GetDebtTransactionQuery} from "./queries/get-debt-transactions.query";
 
 
 @Controller('debt-management')
@@ -27,7 +27,7 @@ export class DebtManagementController {
             request.amount,
             request.description)
 
-        return await this.commandBus.execute(new CreateDebtManagementCommand(dataRequest));
+        return await this.commandBus.execute(new CreateDebtTransactionCommand(dataRequest));
     }
 
     @Post('get-debits')
@@ -37,6 +37,6 @@ export class DebtManagementController {
 
         request.userId = user['sub'];
 
-        return await this.queryBus.execute(new GetDebt(request));
+        return await this.queryBus.execute(new GetDebtTransactionQuery(request));
     }
 }
