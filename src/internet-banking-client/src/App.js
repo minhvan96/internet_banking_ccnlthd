@@ -7,7 +7,8 @@ import PasswordReset from "./components/PasswordReset";
 import HomePage from "./pages/Customer/Home/HomePage";
 import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
-import './app.scss';
+import "./app.scss";
+import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
 
 function App() {
   const { user } = useAuth();
@@ -18,6 +19,14 @@ function App() {
       </Route>
       <Route path="/password-reset" element={<PasswordReset />} />
       <Route path="/password-change" element={<PasswordChange />} />
+      <Route
+        path="/beneficiary"
+        element={
+          <CustomerLayout>
+            <Beneficiary />
+          </CustomerLayout>
+        }
+      />
       <Route
         path="/"
         element={
