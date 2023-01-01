@@ -10,6 +10,7 @@ import { Role } from '../../../entities/identity/role.entity';
 import { CustomerExternalBeneficiary } from '../../../entities/customer-external-beneficiary.entity';
 import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
 import {DebtManagement} from "../../../entities/debt-management.entity";
+import {DebtCustomer} from "../../../entities/debt-customer.entity";
 
 /**
  *  Import and provide base typeorm (postgresql) related class
@@ -37,6 +38,7 @@ import {DebtManagement} from "../../../entities/debt-management.entity";
           CustomerInternalBeneficiary,
           CustomerExternalBeneficiary,
           DebtManagement,
+          DebtCustomer,
         ],
         autoLoadEntities: true,
         synchronize: true,

@@ -2,19 +2,14 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDebtManagementCommand {
-    constructor(public readonly payload: CreateDebtManagementRequest) {
+    constructor(public readonly payload: CreateDebtManagementFromCurrentUserRequest) {
     }
 }
 export class CreateDebtManagementRequest {
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty()
-    debitAccountNumber: string;
 
     @IsString()
-    @IsNotEmpty()
     @ApiProperty()
-    loanAccountNumber: string;
+    loanAccount: string;
 
     @ApiProperty()
     amount: number;
@@ -22,4 +17,32 @@ export class CreateDebtManagementRequest {
     @IsString()
     @ApiProperty()
     description: string;
+
+    constructor(loanAccount: string, amount: number, description: string) {
+        this.loanAccount = loanAccount;
+        this.amount = amount;
+        this.description = description;
+    }
+}
+
+export class CreateDebtManagementFromCurrentUserRequest extends CreateDebtManagementRequest{
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+    fromAccount: string;
+
+    @IsNotEmpty()
+    userId: number;
+
+    constructor(
+        userId: number,
+        toAccount: string,
+        amount: number,
+        description?: string,
+        fromAccount?: string,
+    ) {
+        super(toAccount, amount, description);
+        this.userId = userId;
+        this.fromAccount = fromAccount;
+    }
 }

@@ -1,6 +1,6 @@
-import { EntityBase } from '../common/entity/entity.base';
-import { Column, Entity, ManyToOne } from 'typeorm';
-import { BankInternalAccount } from './bank-internal-account.entity';
+import {EntityBase} from '../common/entity/entity.base';
+import {Column, Entity, ManyToOne} from 'typeorm';
+import {BankInternalAccount} from './bank-internal-account.entity';
 
 @Entity({
   name: 'debit_management',
@@ -26,5 +26,23 @@ export class DebtManagement extends EntityBase {
   @Column({
     name: 'debtCancellationContent'
   })
-  debtCancellationContent: boolean;
+  debtCancellationContent: string
+
+  @Column({
+    name: 'isPaid',
+    default: false
+  })
+  isPaid: boolean;
+
+  constructor(
+      debitAccount: BankInternalAccount,
+      loanAccount: BankInternalAccount,
+      amount: number,
+      description: string) {
+    super();
+    this.debitAccount = debitAccount;
+    this.loanAccount = loanAccount;
+    this.transferAmount = amount;
+    this.description = description;
+  }
 }

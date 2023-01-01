@@ -1,9 +1,10 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetInternalBeneficiaryQuery } from './get-internal-beneficiary.query';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../../../entities/identity/user.entity';
-import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
+import {IQueryHandler, QueryHandler} from '@nestjs/cqrs';
+import {GetInternalBeneficiaryQuery} from './get-internal-beneficiary.query';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {User} from '../../../entities/identity/user.entity';
+import {CustomerInternalBeneficiary} from '../../../entities/customer-internal-beneficiary.entity';
+
 @QueryHandler(GetInternalBeneficiaryQuery)
 export class GetInternalBeneficiaryHandler implements IQueryHandler<GetInternalBeneficiaryQuery>{
   constructor(
