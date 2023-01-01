@@ -14,7 +14,9 @@ import "./style.scss";
 import Avatar from "../../assets/images/carmel.jpg";
 import logo from "../../assets/images/logo.svg";
 import CardLayout from "../../components/card/LayoutCard";
+import { Input, Space } from "antd";
 
+const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
 const items = [
   UserOutlined,
@@ -35,8 +37,10 @@ function CustomerLayout({ children }) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const onSearch = (value) => console.log(value);
   return (
-    <Layout hasSider>
+    <Layout hasSider className="cuslayout">
       <Sider
         style={{
           overflow: "auto",
@@ -50,7 +54,7 @@ function CustomerLayout({ children }) {
         }}
         width="330px"
       >
-        <div className="logo">
+        <div className="cuslayout__logo">
           <img alt="logo" src={logo} />
         </div>
         <CardLayout>
@@ -87,12 +91,6 @@ function CustomerLayout({ children }) {
             </div>
           </div>
         </CardLayout>
-        {/* <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
-        /> */}
       </Sider>
       <Layout
         className="site-layout"
@@ -105,18 +103,30 @@ function CustomerLayout({ children }) {
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+          className="cuslayout__header"
+        >
+          <div className="left">
+            <img alt="logo" src={logo} />
+          </div>
+          <div className="right">
+            {/* <Search
+              placeholder="input search text"
+              onSearch={onSearch}
+              style={{ width: 200, background: "#fff"}}
+            /> */}
+          </div>
+        </Header>
         <Content
           style={{
-            margin: "24px 16px 0",
+            margin: "64px 0 0 0",
             overflow: "initial",
+            background: "#0F2026",
           }}
         >
           <div
             style={{
-              padding: 24,
+              padding: 0,
               textAlign: "center",
-              background: colorBgContainer,
             }}
           >
             <p>long content</p>
