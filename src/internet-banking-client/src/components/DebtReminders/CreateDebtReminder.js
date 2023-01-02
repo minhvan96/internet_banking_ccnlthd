@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import '../../assets/css/create-debt-reminber.scss'
 
 const CreateDebtReminder = () => {
     const [email, setEmail] = useState("");
