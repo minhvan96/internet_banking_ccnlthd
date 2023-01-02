@@ -1,0 +1,75 @@
+.transfer {
+  margin: 0 190px;
+  padding: 30px;
+  &__header {
+    color: #fff;
+    text-align: initial;
+  }
+  &__item {
+    background-color: rgba(44, 64, 68, 0.7);
+    border-radius: 10px;
+    padding: 10px 30px;
+    margin-bottom: 10px;
+    .top {
+      margin: 20px 0;
+    }
+    .bottom {
+      margin-bottom: 20px;
+    }
+    .lablename {
+      color: #ffffffb3;
+      text-align: initial;
+      font-weight: 400;
+      font-size: 15px;
+    }
+    .bottom-right-value {
+      color: #fff;
+      text-align: initial;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    .select-box {
+      .ant-select-selector {
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        .ant-select-selection-item {
+          font-weight: 400;
+          font-size: 16px;
+          color: #72bf00;
+        }
+      }
+    }
+
+    .input {
+      font-weight: 400;
+      font-size: 14px;
+      color: #222;
+      height: 45px;
+    }
+    .input-custom {
+      color: #72bf00 !important;
+    }
+
+    .icon {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 25px;
+      height: 100%;
+      width: 100%;
+    }
+    .transactionfee{
+        text-align: initial;
+        color: #fff;
+    }
+  }
+
+  &__bottom{
+    margin-bottom: 30px;
+  }
+}

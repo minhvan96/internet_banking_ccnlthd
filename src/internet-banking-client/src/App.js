@@ -9,6 +9,7 @@ import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
 import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
+import TransferPage from "./pages/Customer/Transfer/TransferPage";
 
 function App() {
   const { user } = useAuth();
@@ -24,6 +25,22 @@ function App() {
         element={
           <CustomerLayout>
             <Beneficiary />
+          </CustomerLayout>
+        }
+      />
+      <Route
+        path="/internaltransfer"
+        element={
+          <CustomerLayout>
+            <TransferPage />
+          </CustomerLayout>
+        }
+      />
+      <Route
+        path="/quicktransfer"
+        element={
+          <CustomerLayout>
+            <TransferPage isInternalTransfer={true}/>
           </CustomerLayout>
         }
       />

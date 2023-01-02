@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.scss";
-import { Col, Form, Input, InputNumber, Radio, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select } from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
@@ -13,6 +13,9 @@ function BeneficiaryList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+  };
+  const hideModal = () => {
+    setIsModalOpen(false);
   };
   return (
     <div className="beneficiaryList">
@@ -50,7 +53,7 @@ function BeneficiaryList() {
                       style={{ width: "100%", height: "45px" }}
                       text="Hủy"
                       icon={<BsPlusLg />}
-                      onClick={showModal}
+                      onClick={hideModal}
                     />
                   </div>
                   <div className="btn__submit">
@@ -58,7 +61,7 @@ function BeneficiaryList() {
                       style={{ width: "100%", height: "45px" }}
                       text="Thêm mới"
                       icon={<BsPlusLg />}
-                      onClick={showModal}
+                      onClick={hideModal}
                     />
                   </div>
                 </div>
