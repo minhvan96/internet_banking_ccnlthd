@@ -21,7 +21,7 @@ export class UserController {
     private readonly commandBus: CommandBus) {
   }
 
-  @Roles('customer')
+  // @Roles('customer')
   @ApiBearerAuth()
   @Get('/current')
   @UseGuards(AccessTokenGuard)
