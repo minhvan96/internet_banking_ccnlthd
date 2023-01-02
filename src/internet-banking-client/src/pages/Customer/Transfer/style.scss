@@ -63,13 +63,80 @@
       height: 100%;
       width: 100%;
     }
-    .transactionfee{
-        text-align: initial;
+    .transactionfee {
+      text-align: initial;
+      color: #fff;
+    }
+
+    .OTP {
+      &__phonenumber {
+        color: #72bf00;
+        margin: 10px 0;
+      }
+      &__label {
+        color: #ffffffb3;
+      }
+    }
+    .step2 {
+      &__label {
+        color: #ffffffb3;
+      }
+      &__value {
         color: #fff;
+        font-weight: 500;
+        &-highlight {
+          color: rgb(255, 109, 42);
+        }
+      }
+      &-info {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .group {
+      display: flex;
+      justify-content: space-between;
+      &-style {
+        padding: 15px 0;
+        border-bottom: 1px solid #ffffff3b;
+      }
+
+      &:last-child {
+        border: none;
+      }
+    }
+
+    // &-step2--info{
+    //   display: flex;
+    //   justify-content: space-between;
+    // }
+  }
+
+  &-success {
+    .icon {
+      margin-top: 20px;
+      font-size: 50px;
+      color: #72bf00;
+    }
+    .message {
+      color: #fff;
+      padding: 5px 0;
+    }
+    .money {
+      color: #72bf00;
+      font-weight: 500;
+      font-size: 18px;
     }
   }
 
-  &__bottom{
+  &__bottom {
     margin-bottom: 30px;
+    &-flex {
+      display: flex;
+      justify-content: flex-end;
+      .btn-save {
+        margin-right: 10px;
+      }
+    }
   }
 }
