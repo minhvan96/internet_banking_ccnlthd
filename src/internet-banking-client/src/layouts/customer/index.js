@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -15,6 +16,7 @@ import Avatar from "../../assets/images/carmel.jpg";
 import logo from "../../assets/images/logo.svg";
 import CardLayout from "../../components/card/LayoutCard";
 import { Input, Space } from "antd";
+import useAuth from "../../hooks/useAuth";
 
 const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
@@ -39,6 +41,11 @@ function CustomerLayout({ children }) {
   } = theme.useToken();
 
   const onSearch = (value) => console.log(value);
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    logout();
+  };
   return (
     <Layout hasSider className="cuslayout">
       <Sider
@@ -104,18 +111,36 @@ function CustomerLayout({ children }) {
           style={{
             padding: 0,
             background: colorBgContainer,
+            width: '100%',
           }}
           className="cuslayout__header"
         >
-          <div className="left">
+          <div style={{
+            maxWidth: '100%',
+          }}
+            className="left">
             <img alt="logo" src={logo} />
           </div>
-          <div className="right">
+          <div style={{
+            width: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}
+            className="right">
             {/* <Search
               placeholder="input search text"
               onSearch={onSearch}
               style={{ width: 200, background: "#fff"}}
             /> */}
+            <button
+              onClick={handleSignOut}
+              type="button"
+              className="flex items-center justify-center px-4 font-bold text-white bg-gray-600 border border-gray-600 rounded hover:bg-transparent hover:text-gray-600"
+            >
+              <span className="mr-2">Logout</span>
+              {/* <ExportOutlined /> */}
+            </button>
           </div>
         </Header>
         <Content

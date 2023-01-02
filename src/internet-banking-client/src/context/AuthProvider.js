@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from 'sweetalert2';
 import { setAuthHeader, TOKEN_KEY } from "../apis/auth";
 import userApi from "../apis/user";
 const AuthContext = createContext({});
@@ -31,11 +32,13 @@ export const AuthProvider = ({ children }) => {
       setSignInSuccess(true);
       setLoading(false);
     } catch (error) {
-      toast.error(error.message, {
-        theme: "dark",
-      });
-      setError(error);
-      setLoading(false);
+      await Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid username or password!',
+      })
+      await setError(error);
+      await setLoading(false);
     }
   };
 
