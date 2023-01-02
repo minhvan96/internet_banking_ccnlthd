@@ -5,7 +5,7 @@ const ProtectedAuth = ({ allowedRoles, routeProtected = true }) => {
   const { user } = useAuth();
   const location = useLocation();
   
-  console.log(user);
+  console.log("🚀 ~ file: ProtectedAuth.js:6 ~ ProtectedAuth ~ user", user)
   if (!routeProtected) {
     return !user ? (
       <Outlet />
