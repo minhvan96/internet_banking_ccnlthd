@@ -1,14 +1,17 @@
-import {Body, Controller, Post, Req} from '@nestjs/common';
+import {Body, Controller, Param, Post, Req} from '@nestjs/common';
 import {CommandBus, QueryBus} from "@nestjs/cqrs";
 import {
-    CreateDebtTransactionCommand,
     CreateDebtManagementFromCurrentUserRequest,
-    CreateDebtManagementRequest
+    CreateDebtManagementRequest,
+    CreateDebtTransactionCommand
 } from "./commands/create-debt-transaction.command";
 import {Request} from "express";
-import {DebtFilterRequest, GetDebtTransactionQuery} from "./queries/get-debt-transactions.query";
+import {DebtFilterRequest, FilterDebtTransactionQuery} from "./queries/filter-debt-transactions.query";
+import {DeleteDebtTransactionCommand, DeleteDebtTransactionRequest} from "./commands/delete-debt-transaction.command";
+import {ApiTags} from "@nestjs/swagger";
 
 
+@ApiTags('Debt Transaction')
 @Controller('debt-management')
 export class DebtManagementController {
     constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {
@@ -30,13 +33,20 @@ export class DebtManagementController {
         return await this.commandBus.execute(new CreateDebtTransactionCommand(dataRequest));
     }
 
-    @Post('get-debits')
-    async GetDebits(@Req() req: Request,
+    @Post('filter-debt-transaction')
+    async FilterDebitTransactions(@Req() req: Request,
                     @Body() request: DebtFilterRequest){
         const {user} = req;
 
         request.userId = user['sub'];
 
-        return await this.queryBus.execute(new GetDebtTransactionQuery(request));
+        return await this.queryBus.execute(new FilterDebtTransactionQuery(request));
+    }
+
+    @Post("/delete-debt-transaction/:id")
+    async DeleteDebtTransaction(@Param('id') debtTransactionId: number,
+                                @Body() cancelContent: string){
+        let data: DeleteDebtTransactionRequest = new DeleteDebtTransactionRequest(debtTransactionId, cancelContent);
+        return await this.commandBus.execute(new DeleteDebtTransactionCommand(data));
     }
 }

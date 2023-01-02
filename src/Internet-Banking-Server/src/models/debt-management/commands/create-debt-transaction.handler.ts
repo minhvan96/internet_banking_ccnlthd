@@ -2,19 +2,19 @@ import {CommandHandler, ICommandHandler, QueryBus} from '@nestjs/cqrs';
 import {CreateDebtTransactionCommand} from "./create-debt-transaction.command";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {DebtManagement} from "../../../entities/debt-management.entity";
 import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {BadRequestException, NotFoundException} from "@nestjs/common";
 import {
     GetBankInternalAccountByAccountNumberQuery
 } from "../../bank-internal-account/queries/get-bank-internal-account-by-account-number.query";
 import {BankInternalAccount} from "../../../entities/bank-internal-account.entity";
+import {DebtTransaction} from "../../../entities/debt-transaction.entity";
 
-@CommandHandler(CreateDebtTransactionHandler)
+@CommandHandler(CreateDebtTransactionCommand)
 export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtTransactionCommand> {
 
-    constructor(@InjectRepository(DebtManagement)
-                private readonly debtManagementEntityRepository: Repository<DebtManagement>,
+    constructor(@InjectRepository(DebtTransaction)
+                private readonly debtManagementEntityRepository: Repository<DebtTransaction>,
                 private readonly queryBus: QueryBus,
                 @InjectRepository(BankInternalAccount)
                 private readonly bankInternalAccountRepository: Repository<BankInternalAccount>,
@@ -56,7 +56,7 @@ export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtT
         await this.bankInternalAccountRepository.save(transferFromAccount);
         await this.bankInternalAccountRepository.save(transferToAccount);
 
-        let debtTransaction :  DebtManagement = new DebtManagement(
+        let debtTransaction :  DebtTransaction = new DebtTransaction(
             transferFromAccount,
             transferToAccount,
             command.payload.amount,

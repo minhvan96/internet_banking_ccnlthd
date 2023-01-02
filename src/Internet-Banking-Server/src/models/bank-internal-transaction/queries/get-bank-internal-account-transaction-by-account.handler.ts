@@ -35,7 +35,7 @@ export class GetBankInternalAccountTransactionByAccountHandler implements IQuery
         transferFrom: {
           accountNumber: account.accountNumber
         },
-        idDeleted: false
+        isDeleted: false
       },
       relations: {
         transferFrom: true,

@@ -17,7 +17,7 @@ export class GetExternalBeneficiaryHandler implements IQueryHandler<GetExternalB
     const customerBeneficiaries = await this.userRepository.findOne({
       where: {
         id: query.userId,
-        idDeleted: false
+        isDeleted: false
       },
       relations: {
         customerExternalBeneficiaries: {

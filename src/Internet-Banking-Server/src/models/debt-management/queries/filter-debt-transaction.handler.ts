@@ -1,21 +1,21 @@
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
-import {GetDebtTransactionQuery} from "./get-debt-transactions.query";
+import {FilterDebtTransactionQuery} from "./filter-debt-transactions.query";
 import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {DebtManagement} from "../../../entities/debt-management.entity";
 import {NotFoundException} from "@nestjs/common";
+import {DebtTransaction} from "../../../entities/debt-transaction.entity";
 
-@QueryHandler(GetCustomerQuery)
-export class getDebtTransactionHandler implements IQueryHandler<GetDebtTransactionQuery> {
+@QueryHandler(FilterDebtTransactionQuery)
+export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTransactionQuery> {
     constructor(
-        @InjectRepository(DebtManagement)
-        private readonly debtManagement: Repository<DebtManagement>,
+        @InjectRepository(DebtTransaction)
+        private readonly debtTransactionRepository: Repository<DebtTransaction>,
         private readonly queryBus: QueryBus,
     ) {
     }
 
-    async execute(query: GetDebtTransactionQuery): Promise<any> {
+    async execute(query: FilterDebtTransactionQuery): Promise<any> {
         const customer = await this.queryBus.execute(new GetCustomerQuery(query.payload.userId));
         if (!customer) {
             throw new NotFoundException(`Customer with Id = ${query.payload.userId} is not found`);
@@ -72,7 +72,7 @@ export class getDebtTransactionHandler implements IQueryHandler<GetDebtTransacti
                 },
             }
         }
-        return await this.debtManagement.find({
+        return await this.debtTransactionRepository.find({
             where: condition,
             select: select
         });

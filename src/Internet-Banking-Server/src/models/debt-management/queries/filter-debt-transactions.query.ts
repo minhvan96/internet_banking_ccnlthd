@@ -1,10 +1,7 @@
-import {QueryHandler} from "@nestjs/cqrs";
-import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {ApiProperty} from "@nestjs/swagger";
 import {IsNotEmpty} from "class-validator";
 
-@QueryHandler(GetCustomerQuery)
-export class GetDebtTransactionQuery {
+export class FilterDebtTransactionQuery {
     constructor(public readonly payload: DebtFilterRequest) {
     }
 }
@@ -19,4 +16,10 @@ export class DebtFilterRequest{
     @IsNotEmpty()
     userId: number;
 
+
+    constructor(isCreated: boolean, isUnpaid: boolean, userId: number) {
+        this.isCreated = isCreated;
+        this.isUnpaid = isUnpaid;
+        this.userId = userId;
+    }
 }

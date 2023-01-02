@@ -3,9 +3,9 @@ import {Column, Entity, ManyToOne} from 'typeorm';
 import {BankInternalAccount} from './bank-internal-account.entity';
 
 @Entity({
-  name: 'debit_management',
+  name: 'debt_transaction',
 })
-export class DebtManagement extends EntityBase {
+export class DebtTransaction extends EntityBase {
 
   @ManyToOne(() => BankInternalAccount, internalAccount => internalAccount.accountNumber)
   debitAccount: BankInternalAccount;

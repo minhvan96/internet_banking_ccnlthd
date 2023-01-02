@@ -27,5 +27,5 @@ export abstract class EntityBase {
     name: 'is_deleted',
     default: false,
   })
-  idDeleted: boolean;
+  isDeleted: boolean;
 }
