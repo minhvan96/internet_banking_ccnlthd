@@ -21,7 +21,7 @@ export class GetExternalBeneficiaryHandler implements IQueryHandler<GetExternalB
       },
       relations: {
         customerExternalBeneficiaries: {
-          // alias: true,
+          alias: true,
           bankAccount: {
             externalBank: true
           }
