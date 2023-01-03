@@ -19,8 +19,11 @@ export class CustomerInternalBeneficiary extends EntityBase {
   @JoinColumn()
   bankAccount: BankInternalAccount;
 
-  constructor(alias: string, bankAccount: BankInternalAccount) {
-    super();
+  constructor(
+    alias: string,
+    bankAccount: BankInternalAccount,
+    id?: number) {
+    super(id);
     this.alias = alias;
     this.bankAccount = bankAccount;
   }

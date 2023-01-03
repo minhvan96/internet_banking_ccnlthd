@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
-import { pad } from '../../../utilities/string-utilities';
 import { NotFoundException } from '@nestjs/common';
 
 @CommandHandler(AddBankInternalAccountCommand)
@@ -23,7 +22,7 @@ export class AddBankInternalAccountHandler implements ICommandHandler<AddBankInt
     if(!user)
       throw new NotFoundException(`User with Id ${command.userId} is not found`);
 
-    user.bankAccount = new BankInternalAccount(pad(command.userId, 10));
+    user.bankAccount = new BankInternalAccount(user.phoneNumber);
     await this.userRepository.save(user);
 
     return user.bankAccount.accountNumber;

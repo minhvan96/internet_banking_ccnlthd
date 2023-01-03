@@ -30,8 +30,10 @@ export class BankInternalAccount extends EntityBase {
     })
   receives: BankInternalTransaction[];
 
-  constructor(accountNumber: string) {
-    super();
+  constructor(
+    accountNumber: string,
+    id?: number) {
+    super(id);
     this.accountNumber = accountNumber;
   }
 

@@ -1,6 +1,9 @@
 import { User } from 'src/entities/identity/user.entity';
 import { BankInternalAccount } from '../../../../entities/bank-internal-account.entity';
 import { roles } from '../role/role-seeder.data';
+import { faker } from '@faker-js/faker';
+import { pad } from '../../../../utilities/string-utilities';
+import { CustomerInternalBeneficiary } from '../../../../entities/customer-internal-beneficiary.entity';
 
 const testUsers = (): User[] => {
   const adminUser = new User(
@@ -37,6 +40,26 @@ const testUsers = (): User[] => {
   customer2.roles = []
   customer2.roles.push(roles.find(x => x.id === 2));
 
-  return [adminUser, customer1, customer2];
+  const result = new Array<User>;
+  result.push(adminUser, customer1, customer2);
+  for (let i = 0; i < 100; i++) {
+    const randomUser = createRandomUser();
+    if (result.find(x => x.userName === randomUser.userName || x.email === randomUser.email || x.phoneNumber == randomUser.phoneNumber)) continue;
+    randomUser.bankAccount = new BankInternalAccount(randomUser.phoneNumber);
+    result.push(randomUser)
+  }
+
+  return result;
 };
+
+function createRandomUser(): User {
+  return new User(
+    faker.internet.userName(),
+    '123456@Abc',
+    faker.internet.email(),
+    faker.phone.number(),
+    faker.name.firstName(),
+    faker.name.lastName())
+}
+
 export const users: User[] = testUsers();
