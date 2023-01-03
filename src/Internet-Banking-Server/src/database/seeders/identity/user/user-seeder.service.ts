@@ -6,8 +6,9 @@ import { users } from './user-seeder.data';
 
 @Injectable()
 export class UserSeederService {
-  constructor(@InjectRepository(User)
-              private readonly userRepository: Repository<User>) {
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>) {
   }
 
   create(): Array<Promise<User>> {
