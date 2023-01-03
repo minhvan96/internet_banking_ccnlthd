@@ -11,6 +11,11 @@ import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import CreateDebtReminder from "./components/DebtReminders/CreateDebtReminder";
+import {
+  Admin,
+  Customer,
+  Employee
+} from "./constant/roles";
 
 function App() {
   const { user } = useAuth();
@@ -21,41 +26,39 @@ function App() {
       </Route>
       <Route path="/password-reset" element={<PasswordReset />} />
       <Route path="/password-change" element={<PasswordChange />} />
-      <Route
-        path="/beneficiary"
-        element={
-          <CustomerLayout>
-            <Beneficiary />
-          </CustomerLayout>
-        }
-      />
-      <Route
-        path="/internaltransfer"
-        element={
-          <CustomerLayout>
-            <TransferPage />
-          </CustomerLayout>
-        }
-      />
-      <Route
-        path="/quicktransfer"
-        element={
-          <CustomerLayout>
-            <TransferPage isInternalTransfer={true}/>
-          </CustomerLayout>
-        }
-      />
-      <Route
-        path="/"
-        element={
-          <CustomerLayout>
-            <HomePage />
-          </CustomerLayout>
-        }
-      />
 
-      {/* Debt Reminder */}
-      <Route path="/create-debt-reminder" element={<CreateDebtReminder />} />
+      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
+        <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
+          <Route
+            path="/beneficiary"
+            element={
+              <CustomerLayout>
+                <Beneficiary />
+              </CustomerLayout>
+            }
+          />
+          <Route
+            path="/internaltransfer"
+            element={
+              <CustomerLayout>
+                <TransferPage />
+              </CustomerLayout>
+            }
+          />
+          <Route
+            path="/quicktransfer"
+            element={
+              <CustomerLayout>
+                <TransferPage isInternalTransfer={true} />
+              </CustomerLayout>
+            }
+          />
+          
+          {/* Debt Reminder */}
+          <Route path="/create-debt-reminder" element={<CreateDebtReminder />} />
+        </Route>
+      </Route>
+
 
       <Route path="*" element={<Error />} />
     </Routes>
