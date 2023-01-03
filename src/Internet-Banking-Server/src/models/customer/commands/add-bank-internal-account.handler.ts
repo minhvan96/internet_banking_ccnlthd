@@ -1,10 +1,13 @@
-import { ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AddBankInternalAccountCommand } from './add-bank-internal-account.command';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
+import { pad } from '../../../utilities/string-utilities';
+import { NotFoundException } from '@nestjs/common';
 
+@CommandHandler(AddBankInternalAccountCommand)
 export class AddBankInternalAccountHandler implements ICommandHandler<AddBankInternalAccountCommand> {
   constructor(
     @InjectRepository(User)
@@ -12,12 +15,17 @@ export class AddBankInternalAccountHandler implements ICommandHandler<AddBankInt
   ) {
   }
 
-  async execute(command: AddBankInternalAccountCommand): Promise<any> {
+  async execute(command: AddBankInternalAccountCommand): Promise<string> {
     const user = await this.userRepository.findOneBy({
       id: command.userId,
     });
-    const bankAccount = new BankInternalAccount('test');
-    user.bankAccount = bankAccount;
+
+    if(!user)
+      throw new NotFoundException(`User with Id ${command.userId} is not found`);
+
+    user.bankAccount = new BankInternalAccount(pad(command.userId, 10));
     await this.userRepository.save(user);
+
+    return user.bankAccount.accountNumber;
   }
 }

@@ -11,6 +11,7 @@ import { AddRoleHandler } from './commands/add-role.handler';
 import { LoginUserHandler } from './commands/login-user.handler';
 import { RegisterUserHandler } from './commands/register-user.handler';
 import { JwtService } from '@nestjs/jwt';
+import { AddBankInternalAccountHandler } from '../../models/customer/commands/add-bank-internal-account.handler';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), CqrsModule],
@@ -22,7 +23,8 @@ import { JwtService } from '@nestjs/jwt';
     AddRoleHandler,
     LoginUserHandler,
     RegisterUserHandler,
-    UpdateUserRefreshTokenHandler],
+    UpdateUserRefreshTokenHandler,
+    AddBankInternalAccountHandler],
   // exports: [CqrsModule]
 })
 export class UserModule {

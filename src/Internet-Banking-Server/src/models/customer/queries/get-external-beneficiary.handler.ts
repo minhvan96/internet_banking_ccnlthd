@@ -29,9 +29,11 @@ export class GetExternalBeneficiaryHandler implements IQueryHandler<GetExternalB
       }
     });
 
-    return customerBeneficiaries.customerExternalBeneficiaries.map(beneficiary => new ExternalBeneficiaryResponseModel(beneficiary.alias,
-      beneficiary.bankAccount.accountNumber,
-      beneficiary.bankAccount.externalBank.id,
-      beneficiary.bankAccount.externalBank.name));
+    return customerBeneficiaries.customerExternalBeneficiaries.map(beneficiary =>
+      new ExternalBeneficiaryResponseModel(
+        beneficiary.alias,
+        beneficiary.bankAccount.accountNumber,
+        beneficiary.bankAccount.externalBank.id,
+        beneficiary.bankAccount.externalBank.name));
   }
 }

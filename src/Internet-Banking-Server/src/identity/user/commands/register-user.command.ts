@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterUserCommand {
@@ -16,6 +16,18 @@ export class RegisterUserRequest {
   @IsNotEmpty()
   @ApiProperty()
   password: string;
+
+  @IsEmail()
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  email: string;
+
+  @IsPhoneNumber()
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  phoneNumber: string;
 
   @IsString()
   @IsNotEmpty()
