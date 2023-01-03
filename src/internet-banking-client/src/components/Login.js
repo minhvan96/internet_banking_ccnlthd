@@ -77,14 +77,14 @@ function Login() {
                             <div className="w-full md:w-login">
                                 <form onSubmit={handleSubmit} className="px-10 pt-4 pb-4 mb-4">
                                     <p className="my-5 text-3xl font-bold">
-                                        Sign in to your account
+                                        Đăng nhập
                                     </p>
                                     <div className="mb-4">
                                         <label
                                             className="block mb-2 text-sm font-bold text-gray-700"
                                             htmlFor="username"
                                         >
-                                            User name
+                                            Tên tài khoản
                                         </label>
                                         <input
                                             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -98,7 +98,7 @@ function Login() {
                                         />
                                         {inputError.username && (
                                             <p className="text-xs italic text-red-500">
-                                                Please input a valid username
+                                                Vui lòng nhập username
                                             </p>
                                         )}
                                     </div>
@@ -107,7 +107,7 @@ function Login() {
                                             className="block mb-2 text-sm font-bold text-gray-700"
                                             htmlFor="password"
                                         >
-                                            Password
+                                            Mật khẩu
                                         </label>
                                         <div className="flex items-center w-full px-3 py-2 bg-white leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
                                             <input
@@ -128,7 +128,7 @@ function Login() {
                                         </div>
                                         {inputError.email && (
                                             <p className="text-xs italic text-red-500">
-                                                Please input a valid password
+                                                Vui lòng nhập mật khẩu
                                             </p>
                                         )}
                                     </div>
@@ -140,11 +140,11 @@ function Login() {
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <button
-                                            className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                                            className="px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
                                             type="submit"
                                             disabled={loading}
                                         >
-                                            Sign In
+                                            Đăng nhập
                                         </button>
                                         {loading && (
                                             <img
@@ -155,10 +155,10 @@ function Login() {
                                         )}
 
                                         <Link
-                                            className="inline-block text-sm font-bold text-blue-500 align-baseline hover:text-blue-800"
+                                            className="inline-block text-sm font-bold text-green-500 align-baseline hover:text-green-800"
                                             to="/password-reset"
                                         >
-                                            Forgot Password?
+                                            quên mật khẩu?
                                         </Link>
                                     </div>
                                 </form>

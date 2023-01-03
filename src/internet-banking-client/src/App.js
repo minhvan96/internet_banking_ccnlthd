@@ -29,36 +29,36 @@ function App() {
 
       <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
         <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
-          <Route
-            path="/beneficiary"
-            element={
-              <CustomerLayout>
-                <Beneficiary />
-              </CustomerLayout>
-            }
-          />
-          <Route
-            path="/internaltransfer"
-            element={
-              <CustomerLayout>
-                <TransferPage />
-              </CustomerLayout>
-            }
-          />
-          <Route
-            path="/quicktransfer"
-            element={
-              <CustomerLayout>
-                <TransferPage isInternalTransfer={true} />
-              </CustomerLayout>
-            }
-          />
-          
+
           {/* Debt Reminder */}
-          <Route path="/create-debt-reminder" element={<CreateDebtReminder />} />
+          <Route path="create-debt-reminder" element={<CreateDebtReminder />} />
         </Route>
       </Route>
 
+      <Route
+        path="/beneficiary"
+        element={
+          <CustomerLayout>
+            <Beneficiary />
+          </CustomerLayout>
+        }
+      />
+      <Route
+        path="/internaltransfer"
+        element={
+          <CustomerLayout>
+            <TransferPage />
+          </CustomerLayout>
+        }
+      />
+      <Route
+        path="/quicktransfer"
+        element={
+          <CustomerLayout>
+            <TransferPage isInternalTransfer={true} />
+          </CustomerLayout>
+        }
+      />
 
       <Route path="*" element={<Error />} />
     </Routes>
