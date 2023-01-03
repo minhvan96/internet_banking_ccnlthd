@@ -20,7 +20,9 @@ export class GetInternalBeneficiaryHandler implements IQueryHandler<GetInternalB
         id: query.userId
       },
       relations: {
-        customerInternalBeneficiaries: true
+        customerInternalBeneficiaries: {
+          bankAccount: true
+        }
       },
       select: {
         id: false,
