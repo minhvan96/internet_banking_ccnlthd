@@ -4,8 +4,7 @@ import useAuth from "../hooks/useAuth";
 const ProtectedAuth = ({ allowedRoles, routeProtected = true }) => {
   const { user } = useAuth();
   const location = useLocation();
-  
-  console.log("🚀 ~ file: ProtectedAuth.js:6 ~ ProtectedAuth ~ user", user)
+
   if (!routeProtected) {
     return !user ? (
       <Outlet />
@@ -14,9 +13,9 @@ const ProtectedAuth = ({ allowedRoles, routeProtected = true }) => {
     );
   }
 
-  if (allowedRoles.includes(user?.user?.role)) {
+  if (allowedRoles.includes(user?.roles[0].name)) {
     return <Outlet />;
-  } else if (user?.user?.role && !allowedRoles.includes(user?.user?.role)) {
+  } else if (user?.roles[0].name && !allowedRoles.includes(user?.roles[0].name)) {
     return <Navigate to="/" state={{ from: location }} replace />;
   } else {
     return <Navigate to="/login" state={{ from: location }} replace />;
