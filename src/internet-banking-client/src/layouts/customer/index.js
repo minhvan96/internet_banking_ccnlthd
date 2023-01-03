@@ -42,6 +42,7 @@ function CustomerLayout({ children }) {
 
   const onSearch = (value) => console.log(value);
   const { logout, user } = useAuth();
+  console.log(user);
   const navigate = useNavigate();
   const handleSignOut = () => {
     logout();
@@ -71,7 +72,7 @@ function CustomerLayout({ children }) {
             </div>
             <div className="wellcome">Xin chào</div>
             <div className="accname">
-              <h2>NGUYEN HIEU NGHIA</h2>
+              <h2>{user && `${user.firstName} ${user.lastName} `}</h2>
             </div>
           </div>
         </CardLayout>

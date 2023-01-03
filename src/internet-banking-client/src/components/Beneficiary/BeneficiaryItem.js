@@ -1,14 +1,14 @@
-import { Form, Input, List, Modal, Radio } from "antd";
+import { Form, Input, List, Modal, Radio, Select } from "antd";
 import React, { useState } from "react";
 import "./style.scss";
 import { FiMoreVertical } from "react-icons/fi";
 import ModelCustom from "../common/ModalCustom";
 import ButtonCustom from "../common/ButtonCustom";
-import { ExclamationCircleFilled } from '@ant-design/icons';
-
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { confirm } = Modal;
-function BeneficiaryItem({ nonumber }) {
+function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
+  const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -27,19 +27,38 @@ function BeneficiaryItem({ nonumber }) {
       okType: "danger",
       cancelText: "Không",
       onOk() {
-        console.log("OK");
+        setBeneficiaryList((list) => {
+          const index = list.findIndex((x) => x.id === beneficiary.id);
+          list.splice(index, 1);
+          return list.length ? list : [];
+        });
       },
       onCancel() {
         console.log("Cancel");
       },
     });
   };
+
+  const submitUpdate = () => {
+    const formData = form.getFieldsValue();
+    setBeneficiaryList((list) => {
+      const result = list.map((x) =>
+        x.id === beneficiary.id
+          ? { ...x, accountNumber: formData.accnumer, alias: formData.name }
+          : x
+      );
+      return result;
+    });
+
+    hideModal();
+  };
   return (
     <div className="beneficiaryList__item">
       <div className="no-box">{nonumber}</div>
       <div className="content">
-        <h4> NGUYEN HIEU NGHIA </h4>
+        <h4> {beneficiary.alias} </h4>
         <div className="cardnumber">14410000232388</div>
+        <div className="note">Loại ngân hàng: {beneficiary.type}</div>
         <div className="note">
           Dịch vụ: Chuyển tiền nhanh NAPAS247 qua tài khoản
         </div>
@@ -65,12 +84,49 @@ function BeneficiaryItem({ nonumber }) {
           title="Cập nhật"
         >
           <div className="beneficiaryList__add">
-            <Form layout="vertical" autoComplete="off">
+            <Form
+              form={form}
+              layout="vertical"
+              autoComplete="off"
+              fields={[
+                {
+                  name: ["name"],
+                  value: beneficiary.alias,
+                },
+                {
+                  name: ["accnumber"],
+                  value: beneficiary.accountNumber,
+                },
+                {
+                  name: ["bankType"],
+                  value: beneficiary.type,
+                },
+              ]}
+            >
               <Form.Item name="name" label="Tên gợi nhớ">
                 <Input />
               </Form.Item>
               <Form.Item name="accnumber" label="Số tài khoản">
                 <Input />
+              </Form.Item>
+              <Form.Item name="bankType" label="Loại ngân hàng">
+                <Select
+                  disabled={true}
+                  style={{
+                    width: "200px",
+                  }}
+                  className="select-box"
+                  options={[
+                    {
+                      value: "internal",
+                      label: "Nội bộ",
+                    },
+                    {
+                      value: "external",
+                      label: "Liên ngân hàng",
+                    },
+                  ]}
+                />
               </Form.Item>
             </Form>
 
@@ -87,7 +143,7 @@ function BeneficiaryItem({ nonumber }) {
                 <ButtonCustom
                   style={{ width: "100%", height: "45px" }}
                   text="Cập nhật"
-                  onClick={hideModal}
+                  onClick={submitUpdate}
                 />
               </div>
             </div>

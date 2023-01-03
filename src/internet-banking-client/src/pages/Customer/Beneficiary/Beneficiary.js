@@ -2,6 +2,7 @@ import React from "react";
 import "./style.scss";
 import BreakCrumbCommon from "../../../components/common/BreakCrumb";
 import BeneficiaryList from "../../../components/Beneficiary/BeneficiaryList";
+import { getInternalBeneficiary } from "../../../apis/customerApi";
 
 function Beneficiary() {
   const breakcrumbData = [
@@ -15,6 +16,7 @@ function Beneficiary() {
     },
   ];
   const separator = ">";
+
   return (
     <div className="beneficiary">
       {/* heaer */}

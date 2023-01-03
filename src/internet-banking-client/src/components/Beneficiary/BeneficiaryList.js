@@ -1,22 +1,85 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Col, Form, Input, Row, Select } from "antd";
+import { Col, Form, Input, message, Row, Select } from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
 import BeneficiaryItem from "./BeneficiaryItem";
 import ModelCustom from "../common/ModalCustom";
+import {
+  addInternalBeneficiary,
+  getExternalBeneficiary,
+  getInternalBeneficiary,
+} from "../../apis/beneficiaryApi";
 
 const styleButton = { width: "100%", height: "100%" };
 
 function BeneficiaryList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageApi] = message.useMessage();
+  const [beneficiaryList, setBeneficiaryList] = useState([]);
+  const [form] = Form.useForm();
+
+  const fetch = async () => {
+    const internalbeneficiary = await getInternalBeneficiary();
+    // const externalbeneficiary = await getExternalBeneficiary();
+    let beneficiaryMap;
+    beneficiaryMap = internalbeneficiary.map((x) => {
+      return {
+        id: x?.id,
+        accountNumber: x?.accountNumber,
+        alias: x?.alias,
+        type: "Nội bộ",
+      };
+    });
+    // beneficiaryMap = [
+    //   ...beneficiaryMap,
+    //   ...externalbeneficiary.map((x) => {
+    //     return {
+    //       id: x?.id,
+    //       accountNumber: x?.accountNumber,
+    //       alias: x?.alias,
+    //     };
+    //   }),
+    // ];
+    setBeneficiaryList(beneficiaryMap);
+  };
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const successMessage = (content) => {
+    messageApi.open({
+      type: "success",
+      content,
+    });
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
   const hideModal = () => {
     setIsModalOpen(false);
   };
+
+  const addBeneficiary = () => {
+    const formSubmit = form.getFieldsValue();
+    let result;
+    if (formSubmit.bankType === "internal")
+      result = addInternalBeneficiary(formSubmit.accnumber, formSubmit.name);
+    // console.log(result);
+    form.setFieldValue({});
+    successMessage("Thêm người hưởng thụ thành công!");
+    hideModal();
+  };
+
+  const changeBankType = (value) => {
+    form.setFieldValue({
+      bankType: value,
+    });
+  };
+
   return (
     <div className="beneficiaryList">
       <div className="beneficiaryList__searchgroup">
@@ -37,12 +100,41 @@ function BeneficiaryList() {
               title="Thêm mới"
             >
               <div className="beneficiaryList__add">
-                <Form layout="vertical" autoComplete="off">
+                <Form
+                  form={form}
+                  layout="vertical"
+                  autoComplete="off"
+                  fields={[
+                    {
+                      name: ["bankType"],
+                      value: "Nội bộ",
+                    },
+                  ]}
+                >
                   <Form.Item name="name" label="Tên gợi nhớ">
                     <Input />
                   </Form.Item>
                   <Form.Item name="accnumber" label="Số tài khoản">
                     <Input />
+                  </Form.Item>
+                  <Form.Item name="bankType" label="Loại ngân hàng">
+                    <Select
+                      style={{
+                        width: "200px",
+                      }}
+                      className="select-box"
+                      onChange={changeBankType}
+                      options={[
+                        {
+                          value: "internal",
+                          label: "Nội bộ",
+                        },
+                        {
+                          value: "external",
+                          label: "Liên ngân hàng",
+                        },
+                      ]}
+                    />
                   </Form.Item>
                 </Form>
 
@@ -61,7 +153,7 @@ function BeneficiaryList() {
                       style={{ width: "100%", height: "45px" }}
                       text="Thêm mới"
                       icon={<BsPlusLg />}
-                      onClick={hideModal}
+                      onClick={addBeneficiary}
                     />
                   </div>
                 </div>
@@ -71,8 +163,16 @@ function BeneficiaryList() {
         </Row>
       </div>
       <div className="beneficiaryList__group">
-        <BeneficiaryItem nonumber={1} />
-        <BeneficiaryItem nonumber={2} />
+        {beneficiaryList &&
+          beneficiaryList.length &&
+          beneficiaryList.map((item, index) => (
+            <BeneficiaryItem
+              nonumber={index + 1}
+              key={item.id}
+              beneficiary={item}
+              setBeneficiaryList={setBeneficiaryList}
+            />
+          ))}
         <div className="footer">
           <div className="showCount">
             Hiển thị
