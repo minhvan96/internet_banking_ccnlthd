@@ -89,10 +89,12 @@ export class CustomerController {
     return await this.commandBus.execute(new AddInternalBeneficiaryCommand(userId, request));
   }
 
-  @Post('add-external-beneficiary:/id')
+  @Post('add-external-beneficiary')
   async AddExternalBeneficiary(
-    @Param('id') userId: number,
+    @Req() req: Request,
     @Body() request: AddExternalBeneficiaryRequest) {
+    const {user} = req;
+    const userId: number = user['sub'];
     return await this.commandBus.execute(new AddExternalBeneficiaryCommand(userId, request));
   }
 }

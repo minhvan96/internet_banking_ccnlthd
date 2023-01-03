@@ -20,18 +20,27 @@ export class GetExternalBeneficiaryHandler implements IQueryHandler<GetExternalB
         isDeleted: false
       },
       relations: {
-        customerExternalBeneficiaries: {
+        customerExternalBeneficiaries: true
+      },
+      select:{
+        customerExternalBeneficiaries:{
           alias: true,
           bankAccount: {
-            externalBank: true
+            accountNumber: true,
+            externalBank:{
+              id: true,
+              name: true
+            }
           }
         }
       }
     });
 
-    return customerBeneficiaries.customerExternalBeneficiaries.map(beneficiary => new ExternalBeneficiaryResponseModel(beneficiary.alias,
-      beneficiary.bankAccount.accountNumber,
-      beneficiary.bankAccount.externalBank.id,
-      beneficiary.bankAccount.externalBank.name));
+    return customerBeneficiaries.customerExternalBeneficiaries.map(beneficiary =>
+      new ExternalBeneficiaryResponseModel(
+        beneficiary.alias,
+        beneficiary.bankAccount.accountNumber,
+        beneficiary.bankAccount.externalBank.id,
+        beneficiary.bankAccount.externalBank.name));
   }
 }

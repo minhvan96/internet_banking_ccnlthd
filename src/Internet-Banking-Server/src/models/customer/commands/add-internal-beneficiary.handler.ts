@@ -6,6 +6,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
 import { BankInternalAccount } from '../../../entities/bank-internal-account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { InternalBeneficiaryResponseModel } from '../response-models/internal-beneficiary.response-model';
 
 @CommandHandler(AddInternalBeneficiaryCommand)
 export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInternalBeneficiaryCommand> {
@@ -16,7 +17,7 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
     private readonly bankInternalAccountRepository: Repository<BankInternalAccount>) {
   }
 
-  async execute(command: AddInternalBeneficiaryCommand): Promise<any> {
+  async execute(command: AddInternalBeneficiaryCommand): Promise<InternalBeneficiaryResponseModel> {
     const user = await this.userRepository.findOne({
       where: {
         id: command.userId,
@@ -25,9 +26,9 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
         bankAccount: true,
         customerInternalBeneficiaries: true
       },
-      select:{
+      select: {
         id: true,
-        bankAccount:{
+        bankAccount: {
           accountNumber: true
         }
       }
@@ -35,8 +36,8 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
     if (!user) {
       throw new NotFoundException(`User with id = ${command.userId} not found`);
     }
-    if(command.payload.bankAccountNumber === user.bankAccount.accountNumber){
-      throw new BadRequestException("Cannot add your bank account as a beneficiary");
+    if (command.payload.bankAccountNumber === user.bankAccount.accountNumber) {
+      throw new BadRequestException('Cannot add your bank account as a beneficiary');
     }
 
     const internalBankAccount = await this.bankInternalAccountRepository.findOneBy({
@@ -49,6 +50,6 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
     const newBeneficiary = new CustomerInternalBeneficiary(command.payload.alias, internalBankAccount);
     user.customerInternalBeneficiaries.push(newBeneficiary);
     await this.userRepository.save(user);
+    return new InternalBeneficiaryResponseModel(newBeneficiary.alias, newBeneficiary.bankAccount.accountNumber);
   }
-
 }

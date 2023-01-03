@@ -6,8 +6,9 @@ import { roles } from './role-seeder.data';
 
 @Injectable()
 export class RoleSeederService {
-  constructor(@InjectRepository(Role)
-              private readonly roleRepository: Repository<Role>) {
+  constructor(
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>) {
   }
 
   create(): Array<Promise<Role>> {

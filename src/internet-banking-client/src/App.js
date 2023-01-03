@@ -11,6 +11,11 @@ import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import CreateDebtReminder from "./components/DebtReminders/CreateDebtReminder";
+import {
+  Admin,
+  Customer,
+  Employee
+} from "./constant/roles";
 
 function App() {
   const { user } = useAuth();
@@ -21,6 +26,15 @@ function App() {
       </Route>
       <Route path="/password-reset" element={<PasswordReset />} />
       <Route path="/password-change" element={<PasswordChange />} />
+
+      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
+        <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
+
+          {/* Debt Reminder */}
+          <Route path="create-debt-reminder" element={<CreateDebtReminder />} />
+        </Route>
+      </Route>
+
       <Route
         path="/beneficiary"
         element={
@@ -41,21 +55,10 @@ function App() {
         path="/quicktransfer"
         element={
           <CustomerLayout>
-            <TransferPage isInternalTransfer={true}/>
+            <TransferPage isInternalTransfer={true} />
           </CustomerLayout>
         }
       />
-      <Route
-        path="/"
-        element={
-          <CustomerLayout>
-            <HomePage />
-          </CustomerLayout>
-        }
-      />
-
-      {/* Debt Reminder */}
-      <Route path="/create-debt-reminder" element={<CreateDebtReminder />} />
 
       <Route path="*" element={<Error />} />
     </Routes>
