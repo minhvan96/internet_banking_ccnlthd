@@ -5,6 +5,7 @@ import { Role } from './role.entity';
 import { hash } from 'argon2';
 import { CustomerInternalBeneficiary } from '../customer-internal-beneficiary.entity';
 import { CustomerExternalBeneficiary } from '../customer-external-beneficiary.entity';
+import {DebtCustomer} from "../debt-customer.entity";
 
 @Entity({
   name: 'users',
@@ -60,6 +61,12 @@ export class User extends EntityBase {
       cascade: true,
     })
   customerExternalBeneficiaries: CustomerExternalBeneficiary[];
+
+  @OneToMany(() => DebtCustomer, debtor => debtor.user,
+      {
+        cascade: true,
+      })
+  debtCustomer: DebtCustomer[];
 
   constructor(
     userName: string,

@@ -12,7 +12,7 @@ export class DebtCustomer extends EntityBase {
   })
   alias: string;
 
-  @ManyToOne(() => User, user => user.customerInternalBeneficiaries)
+  @ManyToOne(() => User, user => user.debtCustomer)
   user: User;
 
   @OneToOne(() => BankInternalAccount)

@@ -13,14 +13,15 @@ export class DeleteDebtTransactionHandler implements ICommandHandler<DeleteDebtT
         private readonly queryBus: QueryBus,
     ) {
     }
-    async execute(command: DeleteDebtTransactionCommand): Promise<DebtTransaction> {
+    async execute(command: DeleteDebtTransactionCommand): Promise<boolean> {
         let debTransaction : DebtTransaction = await this.queryBus.execute(
             new GetDebtTransactionByIdQuery(command.payload.debtTransactionId));
 
         debTransaction.debtCancellationContent = command.payload.description;
         debTransaction.isDeleted = true;
 
-        return await this.debtTransactionRepository.save(debTransaction);
+        const result =  await this.debtTransactionRepository.save(debTransaction);
+        return !!result;
     }
 
 }
