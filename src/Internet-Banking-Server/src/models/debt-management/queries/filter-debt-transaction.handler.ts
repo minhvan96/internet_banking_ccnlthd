@@ -25,10 +25,8 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
 
         if(query.payload.isCreated){
             condition= {
-                where: {
-                    loanAccount: customer.accountNumber,
-                    idDeleted: false
-                }
+                loanAccount: { accountNumber: customer.accountNumber},
+                isDeleted: false
             };
             select = {
                 id: true,
@@ -44,19 +42,15 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
         }else{
             if(query.payload.isUnpaid){
                 condition = {
-                    where: {
-                        debitAccount: customer.accountNumber,
-                        isPaid: false,
-                        idDeleted: false
-                    }
+                    debitAccount: {accountNumber: customer.accountNumber},
+                    isPaid: false,
+                    isDeleted: false
                 }
 
             }else{
                 condition = {
-                    where: {
-                        debitAccount: customer.accountNumber,
-                        idDeleted: false
-                    }
+                    debitAccount: {accountNumber: customer.accountNumber},
+                    isDeleted: false
                 };
             }
 

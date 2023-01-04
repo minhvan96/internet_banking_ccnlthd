@@ -24,7 +24,8 @@ export class DebtTransaction extends EntityBase {
   description: string;
 
   @Column({
-    name: 'debtCancellationContent'
+    name: 'debtCancellationContent',
+    nullable: true
   })
   debtCancellationContent: string
 

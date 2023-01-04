@@ -22,3 +22,11 @@ export class debtorRequest{
         this.alias = alias;
     }
 }
+
+export class debtorResponse{
+    constructor(
+        public accountNumber: string,
+        public alias: string
+    ) {
+    }
+}

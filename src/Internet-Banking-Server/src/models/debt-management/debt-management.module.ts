@@ -4,19 +4,27 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {BankInternalAccount} from "../../entities/bank-internal-account.entity";
 import {CqrsModule} from "@nestjs/cqrs";
 import {DebtTransaction} from "../../entities/debt-transaction.entity";
-import {CreateDebtTransactionCommand} from "./commands/create-debt-transaction.command";
-import {DeleteDebtTransactionCommand} from "./commands/delete-debt-transaction.command";
 import {FilterDebtTransactionHandler} from "./queries/filter-debt-transaction.handler";
 import {GetDebtTransactionByIdHandler} from "./queries/get-debt-transaction-by-id.handler";
+import {User} from "../../entities/identity/user.entity";
+import {DebtCustomer} from "../../entities/debt-customer.entity";
+import {CreateDebtTransactionHandler} from "./commands/create-debt-transaction.handler";
+import {CreateDebtorHandler} from "./commands/create-debtor.handler";
+import {UpdateDebtTransactionHandler} from "./commands/update-debt-transaction.handler";
+import {DeleteDebtTransactionHandler} from "./commands/delete-debt-transaction.handler";
+import {GetDebtorHandler} from "./queries/get-debtor.handler";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([DebtTransaction, BankInternalAccount]), CqrsModule],
+    imports: [TypeOrmModule.forFeature([DebtTransaction, BankInternalAccount, User, DebtCustomer]), CqrsModule],
     controllers: [DebtManagementController],
     providers: [
-        CreateDebtTransactionCommand,
-        DeleteDebtTransactionCommand,
+        CreateDebtTransactionHandler,
+        CreateDebtorHandler,
+        DeleteDebtTransactionHandler,
+        UpdateDebtTransactionHandler,
         FilterDebtTransactionHandler,
-        GetDebtTransactionByIdHandler
+        GetDebtTransactionByIdHandler,
+        GetDebtorHandler
     ]
 })
 export class DebtManagementModule {

@@ -1,6 +1,7 @@
-import { BeforeInsert, Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { EntityBase } from '../common/entity/entity.base';
-import { BankInternalTransaction } from './bank-internal-transaction.entity';
+import {BeforeInsert, Column, Entity, OneToMany} from 'typeorm';
+import {EntityBase} from '../common/entity/entity.base';
+import {BankInternalTransaction} from './bank-internal-transaction.entity';
+import {DebtTransaction} from "./debt-transaction.entity";
 
 @Entity({
   name: 'bank_internal_accounts',
@@ -29,6 +30,20 @@ export class BankInternalAccount extends EntityBase {
       cascade: true,
     })
   receives: BankInternalTransaction[];
+
+  @OneToMany(() => DebtTransaction,
+      (transfer) => transfer.debitAccount,
+      {
+        cascade: true,
+      })
+  debts: DebtTransaction[];
+
+  @OneToMany(() => DebtTransaction,
+      (transfer) => transfer.loanAccount,
+      {
+        cascade: true,
+      })
+  loans: DebtTransaction[];
 
   constructor(
     accountNumber: string,

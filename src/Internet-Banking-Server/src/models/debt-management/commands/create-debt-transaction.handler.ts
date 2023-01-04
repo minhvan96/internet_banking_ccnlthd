@@ -1,5 +1,5 @@
 import {CommandHandler, ICommandHandler, QueryBus} from '@nestjs/cqrs';
-import {CreateDebtTransactionCommand} from "./create-debt-transaction.command";
+import {CreateDebtTransactionCommand, CreateDebtTransactionResponse} from "./create-debt-transaction.command";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
@@ -57,13 +57,17 @@ export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtT
         await this.bankInternalAccountRepository.save(transferToAccount);
 
         let debtTransaction :  DebtTransaction = new DebtTransaction(
-            transferFromAccount,
             transferToAccount,
+            transferFromAccount,
             command.payload.amount,
             command.payload.description
         )
 
-        await this.debtManagementEntityRepository.save(debtTransaction)
+        const newDebtTransaction = await this.debtManagementEntityRepository.save(debtTransaction);
+        return new CreateDebtTransactionResponse(newDebtTransaction.id,
+            {id: newDebtTransaction.debitAccount.id, accountNumber: newDebtTransaction.debitAccount.accountNumber},
+            {id: newDebtTransaction.loanAccount.id, accountNumber: newDebtTransaction.loanAccount.accountNumber},
+            newDebtTransaction.transferAmount, newDebtTransaction.description, newDebtTransaction.createdDate)
     }
 
 

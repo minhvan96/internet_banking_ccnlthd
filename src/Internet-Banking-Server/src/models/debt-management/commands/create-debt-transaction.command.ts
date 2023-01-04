@@ -46,3 +46,15 @@ export class CreateDebtManagementFromCurrentUserRequest extends CreateDebtManage
         this.fromAccount = fromAccount;
     }
 }
+
+export class CreateDebtTransactionResponse{
+    constructor(
+        public id: number,
+        public debtAccount: {id: number, accountNumber: string},
+        public loanAccount: {id: number, accountNumber: string},
+        public transferAmount: number,
+        public description: string,
+        public createdDate: Date
+    ) {
+    }
+}

@@ -5,7 +5,7 @@ import {DebtTransaction} from "../../../entities/debt-transaction.entity";
 import {Repository} from "typeorm";
 import {GetDebtTransactionByIdQuery} from "../queries/get-debt-transaction-by-id.query";
 
-@CommandHandler(DeleteDebtTransactionHandler)
+@CommandHandler(DeleteDebtTransactionCommand)
 export class DeleteDebtTransactionHandler implements ICommandHandler<DeleteDebtTransactionCommand>{
     constructor(
         @InjectRepository(DebtTransaction)

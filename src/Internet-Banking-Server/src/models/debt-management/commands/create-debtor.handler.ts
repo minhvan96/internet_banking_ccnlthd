@@ -1,7 +1,6 @@
 import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
-import {CreateDebtorCommand} from "./create-debtor.command";
+import {CreateDebtorCommand, debtorResponse} from "./create-debtor.command";
 import {BadRequestException, NotFoundException} from "@nestjs/common";
-import {CustomerInternalBeneficiary} from "../../../entities/customer-internal-beneficiary.entity";
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../../../entities/identity/user.entity";
 import {Repository} from "typeorm";
@@ -44,16 +43,30 @@ export class CreateDebtorHandler implements ICommandHandler<CreateDebtorCommand>
             throw new BadRequestException("Cannot add your bank account as a debtor");
         }
 
+
         const internalBankAccount = await this.bankInternalAccountRepository.findOneBy({
             accountNumber: command.payload.bankAccountNumber
         })
+
         if (!internalBankAccount) {
             throw new NotFoundException(`Internal Bank Account with account number = ${command.payload.bankAccountNumber} is not found`);
         }
+
+        const debtor = await this.debtCustomerRepository.findOneBy({
+            bankAccount: {
+                accountNumber: command.payload.bankAccountNumber
+            }
+        });
+
+        if(debtor){
+            throw new BadRequestException("this account is exist");
+        }
+
 
         const newDebtor = new DebtCustomer(command.payload.alias, internalBankAccount);
         await this.debtCustomerRepository.save(newDebtor);
         user.debtCustomer.push(newDebtor);
         await this.userRepository.save(user);
+        return new debtorResponse(newDebtor.bankAccount.accountNumber, newDebtor.alias);
     }
 }
