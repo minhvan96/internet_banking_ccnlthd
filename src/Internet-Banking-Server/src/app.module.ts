@@ -18,6 +18,9 @@ import {BankInternalAccountController} from './models/bank-internal-account/bank
 import {SeederModule} from './database/seeders/seeder.module';
 import {DebtManagementModule} from "./models/debt-management/debt-management.module";
 import {DebtManagementController} from "./models/debt-management/debt-management.controller";
+import { join } from 'path';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 
 @Module({
@@ -32,6 +35,28 @@ import {DebtManagementController} from "./models/debt-management/debt-management
     BankInternalTransactionModule,
     CustomerModule,
     DebtManagementModule,
+    MailerModule.forRoot({
+      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
+      // or
+      transport: {
+        service: 'gmail',
+        secure: false,
+        auth: {
+          user: 'van.testmmtnc@gmail.com',
+          pass: 'tjjaxgavscwmxgjc',
+        },
+      },
+      defaults: {
+        from: '"No Reply" <van.testmmtnc@gmail.com>',
+      },
+      // template: {
+      //   dir: join(__dirname, './views/email-templates'),
+      //   adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+      //   options: {
+      //     strict: true,
+      //   },
+      // },
+    }),
   ],
   controllers: [AppController,
     UserController,

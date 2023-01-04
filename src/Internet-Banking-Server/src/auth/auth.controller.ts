@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
@@ -9,6 +9,10 @@ import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
 } from '../identity/user/commands/update-user-refresh-token.command';
+import * as speakeasy from "speakeasy";
+import * as constants from 'constants';
+import { AuthConstants } from '../common/constants/auth-constants';
+import { GetUserByEmailQuery } from '../identity/user/queries/get-user-by-email.query';
 
 @ApiTags('Auth')
 @Controller('auth')

@@ -1,12 +1,12 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { GetUserQuery, GetUserQueryResponse } from './get-user.query';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../../entities/identity/user.entity';
 import { Repository } from 'typeorm';
+import { GetUserByEmailQuery } from './get-user-by-email.query';
 import { NotFoundException } from '@nestjs/common';
 
-@QueryHandler(GetUserQuery)
-export class GetUserHandler implements IQueryHandler<GetUserQuery> {
+@QueryHandler(GetUserByEmailQuery)
+export class GetUserByEmailHandler implements IQueryHandler<GetUserByEmailQuery> {
 
   constructor(
     @InjectRepository(User)
@@ -14,10 +14,10 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
   ) {
   }
 
-  async execute(query: GetUserQuery): Promise<GetUserQueryResponse> {
+  async execute(query: GetUserByEmailQuery): Promise<any> {
     const user = await this.userRepository.findOne({
       where: {
-        id: query.userId
+        email: query.email
       },
       relations: {
         roles: true,
@@ -39,7 +39,7 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
     });
 
     if (!user)
-      throw new NotFoundException(`User with id = ${query.userId} not found`);
+      throw new NotFoundException(`User with email = ${query.email} not found`);
 
     return user;
   }

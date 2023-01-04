@@ -50,6 +50,18 @@ export class User extends EntityBase {
   })
   refreshToken: string;
 
+  @Column({
+    select: false,
+    nullable: true
+  })
+  authConfirmToken: string
+
+  @Column({
+    default: false,
+    nullable: true
+  })
+  isVerified: boolean;
+
   @OneToOne(() => BankInternalAccount,
     {
       cascade: true,
@@ -85,7 +97,8 @@ export class User extends EntityBase {
     email: string,
     phoneNumber: string,
     firstName: string,
-    lastName: string) {
+    lastName: string,
+    authConfirmToken?: string) {
     super();
     this.userName = userName;
     this.password = password;
@@ -93,6 +106,7 @@ export class User extends EntityBase {
     this.phoneNumber = phoneNumber;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.authConfirmToken = authConfirmToken;
   }
 
   @BeforeInsert()

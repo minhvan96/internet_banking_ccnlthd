@@ -12,12 +12,13 @@ import { RegisterUserHandler } from '../identity/user/commands/register-user.han
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { JwtConstants } from '../common/constants/jwt-constants';
+import { AuthConstants } from '../common/constants/auth-constants';
+import { GetUserByEmailHandler } from '../identity/user/queries/get-user-by-email.handler';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: JwtConstants.secret,
+      secret: AuthConstants.jwt_secret,
       signOptions: { expiresIn: '60s' },
     }),
     TypeOrmModule.forFeature([User]),
@@ -32,6 +33,7 @@ import { JwtConstants } from '../common/constants/jwt-constants';
     UpdateUserRefreshTokenHandler,
     LoginUserHandler,
     RegisterUserHandler,
+    GetUserByEmailHandler
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtService],

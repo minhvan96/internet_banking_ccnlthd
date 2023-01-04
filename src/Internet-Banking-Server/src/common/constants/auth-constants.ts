@@ -1,4 +1,5 @@
-export const JwtConstants = {
-  secret:
+export const AuthConstants = {
+  jwt_secret:
     '0z36LXTWT4T9yYUbytpVf68/xejpzHf79mpCRgbPg6IiA64UfKfGjfAPRwijgD+SsZsLuppe32aNlMF2EYe8ovhMJ1uYm8jmOvK6P6yOhU3N65StRfsW2fDTKUo7m28Pf+6H4fmB1DR25j9okn4BdpvfuHWaDcqXwrbKVJGVAE3PowIO7r/aJmlIwpI47aZyar9mSuSHyQct8OYI74RKyzOZ5nk3xTrCmhjGui3ja5XMx2tgQ3+wE3jeVQKlbt/GIbOzd8XEptCSE1SysSAk5Rt5BjEv5s/+L3943XUQxQrbDxkWBClAXf/CdSuePAV80FRFWuhNQC9wHMWfuzY3xQ==',
+  otp_secret: 'HJCCU6Z7NNAS4UCHMJFHOI3YN47UYS2C'
 };

@@ -1,17 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
-import { JwtConstants } from '../common/constants/jwt-constants';
+import { AuthConstants } from '../common/constants/auth-constants';
 import { CommandBus } from '@nestjs/cqrs';
 import { JwtService } from '@nestjs/jwt';
 import { JwtTokenPair } from './dto/jwt-token-pair';
 import { LoginUserCommand, LoginUserRequest } from '../identity/user/commands/login-user.command';
+import { MailerService } from '@nestjs-modules/mailer';
+import { User } from '../entities/identity/user.entity';
 
 @Injectable()
 export class AuthService {
+  private readonly code;
+
   constructor(
     private readonly commandBus: CommandBus,
     private jwtService: JwtService,
+    private mailerService: MailerService,
   ) {
+    this.code = Math.floor(10000 + Math.random() * 90000);
   }
 
   async validateUser(username: string, password: string): Promise<any> {
@@ -35,7 +41,7 @@ export class AuthService {
           roles
         },
         {
-          secret: JwtConstants.secret,
+          secret: AuthConstants.jwt_secret,
           expiresIn: '60m',
         },
       ),
@@ -46,12 +52,38 @@ export class AuthService {
           roles
         },
         {
-          secret: JwtConstants.secret,
+          secret: AuthConstants.jwt_secret,
           expiresIn: '30d',
         },
       ),
     ]);
 
     return new JwtTokenPair(accessToken, refreshToken);
+  }
+
+  async sendConfirmedEmailAsync(user: User) {
+    const {email, userName} = user;
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Welcome to Nice App! Email Confirmed',
+      template: 'confirmed',
+      context: {
+        userName,
+        email,
+      },
+    });
+  }
+
+  async sendConfirmationEmailAsync(user: User) {
+    const {email, userName, authConfirmToken} = await user;
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Welcome to Nice App! Confirm Email',
+      template: 'confirm',
+      context: {
+        userName,
+        code: authConfirmToken,
+      },
+    });
   }
 }

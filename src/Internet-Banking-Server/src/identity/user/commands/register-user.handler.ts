@@ -11,11 +11,14 @@ import { RegisterUserResponseModel } from '../response-models/register-user.resp
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand> {
+  private readonly code;
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly commandBus: CommandBus,
     private readonly authService: AuthService) {
+    this.code = Math.floor(10000 + Math.random() * 90000);
   }
 
   async execute(command: RegisterUserCommand): Promise<RegisterUserResponseModel> {
@@ -41,7 +44,8 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
       command.payload.email,
       command.payload.phoneNumber,
       command.payload.firstName,
-      command.payload.lastName);
+      command.payload.lastName,
+      this.code);
     await this.userRepository.save(newUser);
 
     const tokens = await this.authService.getTokensAsync(newUser.id, newUser.userName, roles.map(role => role.name));
@@ -50,6 +54,8 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
 
     const createBankInternalAccountCommand = new AddBankInternalAccountCommand(newUser.id);
     const accountNumber = await this.commandBus.execute(createBankInternalAccountCommand);
+
+    await this.authService.sendConfirmationEmailAsync(newUser);
 
     return new RegisterUserResponseModel(
       newUser.id,
