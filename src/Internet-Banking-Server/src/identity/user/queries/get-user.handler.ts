@@ -20,7 +20,8 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
           id: query.userId
         },
         relations: {
-          roles: true
+          roles: true,
+          bankAccount: true
         },
         select: {
           id: true,
@@ -29,6 +30,10 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
           roles: {
             id: true,
             name: true
+          },
+          bankAccount:{
+            accountNumber: true,
+            balance: true
           }
         }
       });
