@@ -25,6 +25,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 
 @Module({
   imports: [
+
     SeederModule,
     ConfigModule.forRoot(),
     CqrsModule,
@@ -36,8 +37,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     CustomerModule,
     DebtManagementModule,
     MailerModule.forRoot({
-      // transport: 'smtps://user@example.com:topsecret@smtp.example.com',
-      // or
       transport: {
         service: 'gmail',
         secure: false,
@@ -49,13 +48,13 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
       defaults: {
         from: '"No Reply" <van.testmmtnc@gmail.com>',
       },
-      // template: {
-      //   dir: join(__dirname, './views/email-templates'),
-      //   adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
-      //   options: {
-      //     strict: true,
-      //   },
-      // },
+      template: {
+        dir: join(__dirname, 'views/email-templates'),
+        adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
+        options: {
+          strict: true,
+        },
+      },
     }),
   ],
   controllers: [AppController,

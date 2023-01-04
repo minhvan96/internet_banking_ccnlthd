@@ -65,12 +65,8 @@ export class AuthService {
     const {email, userName} = user;
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Welcome to Nice App! Email Confirmed',
-      template: 'confirmed',
-      context: {
-        userName,
-        email,
-      },
+      subject: 'Welcome to Internet banking online app! Please confirm account',
+      html: `User ${userName} confirmed`
     });
   }
 
@@ -78,12 +74,8 @@ export class AuthService {
     const {email, userName, authConfirmToken} = await user;
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Welcome to Nice App! Confirm Email',
-      template: 'confirm',
-      context: {
-        userName,
-        code: authConfirmToken,
-      },
+      subject: 'Welcome to Internet banking online app! Please confirm account',
+      html: `${userName} - ${authConfirmToken}`
     });
   }
 }

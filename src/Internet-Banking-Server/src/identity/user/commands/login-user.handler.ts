@@ -5,7 +5,7 @@ import { User } from 'src/entities/identity/user.entity';
 import { Repository } from 'typeorm';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtTokenPair } from 'src/auth/dto/jwt-token-pair';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import * as argon2 from 'argon2';
 
 @CommandHandler(LoginUserCommand)
@@ -28,11 +28,14 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
         id: true,
         userName: true,
         password: true,
+        isVerified: true
       }
     });
 
     if (!user)
       throw new BadRequestException('User does not exist');
+    if(user.isVerified === false)
+      throw new UnauthorizedException("Please verify email");
     const passwordMatches = await argon2.verify(user.password, command.payload.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
