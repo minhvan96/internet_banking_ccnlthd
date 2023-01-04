@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { RefreshTokenGuard } from './guards/refreshToken.guard';
@@ -9,10 +9,7 @@ import {
   UpdateUserRefreshTokenCommand,
   UpdateUserRefreshTokenRequest,
 } from '../identity/user/commands/update-user-refresh-token.command';
-import * as speakeasy from "speakeasy";
-import * as constants from 'constants';
-import { AuthConstants } from '../common/constants/auth-constants';
-import { GetUserByEmailQuery } from '../identity/user/queries/get-user-by-email.query';
+import { VerifyUserCommand, VerifyUserRequest } from '../identity/user/commands/verify-user.command';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -33,6 +30,12 @@ export class AuthController {
   @ApiOperation({summary: 'register user endpoint'})
   async register(@Body() request: RegisterUserRequest) {
     return await this.commandBus.execute(new RegisterUserCommand(request));
+  }
+
+  @Post('/verify')
+  @ApiOperation({summary: 'verify user endpoint'})
+  async verify(@Body() request: VerifyUserRequest) {
+    return await this.commandBus.execute(new VerifyUserCommand(request));
   }
 
   @ApiBearerAuth()
