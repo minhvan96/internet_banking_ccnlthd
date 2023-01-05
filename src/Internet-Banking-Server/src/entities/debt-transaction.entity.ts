@@ -30,6 +30,12 @@ export class DebtTransaction extends EntityBase {
   debtCancellationContent: string
 
   @Column({
+    name: 'code',
+    default: null
+  })
+  code: number;
+
+  @Column({
     name: 'isPaid',
     default: false
   })

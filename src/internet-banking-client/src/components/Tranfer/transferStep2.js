@@ -1,29 +1,74 @@
-import {  Input } from "antd";
-import React, { useState } from "react";
+import { Input, message } from "antd";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import ButtonCustom from "../common/ButtonCustom";
+import {
+  bankInternalTransactionTranferbyId,
+  bankInternalTransactionVerify,
+} from "../../apis/transactionTransfer";
 
 const styleButton = { width: "100%", height: "44px" };
-const TransferStep2 = () => {
+const TransferStep2 = ({
+  isInternalTransfer,
+  currentUser,
+  bankTransactionId,
+  nextStep,
+}) => {
+  const [transactionCurrent, setTransactionCurrent] = useState({});
+  const [messageApi] = message.useMessage();
+  const [otp, setOTP] = useState("0");
+  useEffect(() => {
+    const fetch = async () => {
+      const dataAPI = await bankInternalTransactionTranferbyId(
+        bankTransactionId
+      );
+      if (dataAPI) setTransactionCurrent(dataAPI);
+    };
+
+    fetch();
+  }, []);
+
+  const onChangeOTP = (e) => {
+    setOTP(e?.target?.value);
+  };
+  const onSubmit = async () => {
+    if (!otp) {
+      messageApi.error("vui lòng nhập OTP.");
+      return;
+    }
+    var verifyAPI = await bankInternalTransactionVerify(
+      +bankTransactionId,
+      +otp
+    );
+    if (!verifyAPI) {
+      console.log('OTP correctly!');
+      nextStep(3, bankTransactionId);
+    }
+  };
   return (
     <div className="tranferStep2">
       <div className="transfer__item" style={{ marginTop: "30px" }}>
         <div className="OTP__label">
-          Quý khách vui lòng nhập OTP đã được gửi đến số điện thoại
+          Quý khách vui lòng nhập OTP đã được gửi đến email của bạn
         </div>
-        <div className="OTP__phonenumber">0947094472</div>
+        <div className="OTP__phonenumber">
+          {currentUser?.bankAccount?.accountNumber}
+        </div>
         <div className="OTP__num">
           <Input
             className="input input-custom"
             style={{ textAlign: "center" }}
             placeholder="Nhập OTP"
+            onChange={onChangeOTP}
           />
         </div>
       </div>
       <div className="transfer__item transfer__item-step2--info">
         <div className="group">
           <div className="step2__label">Tài khoản nguồn</div>
-          <div className="step2__value">1017332621</div>
+          <div className="step2__value">
+            {currentUser?.bankAccount?.accountNumber}
+          </div>
         </div>
       </div>
 
@@ -58,7 +103,11 @@ const TransferStep2 = () => {
         </div>
       </div>
       <div className="transfer__bottom">
-        <ButtonCustom style={styleButton} text="Hoàn Thành" />
+        <ButtonCustom
+          style={styleButton}
+          text="Hoàn Thành"
+          onClick={onSubmit}
+        />
       </div>
     </div>
   );

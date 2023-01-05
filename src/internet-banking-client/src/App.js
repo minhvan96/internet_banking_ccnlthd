@@ -45,7 +45,7 @@ function App() {
         path="/internaltransfer"
         element={
           <CustomerLayout>
-            <TransferPage />
+            <TransferPage isInternalTransfer={true}/>
           </CustomerLayout>
         }
       />
@@ -53,7 +53,7 @@ function App() {
         path="/quicktransfer"
         element={
           <CustomerLayout>
-            <TransferPage isInternalTransfer={true} />
+            <TransferPage isInternalTransfer={false} />
           </CustomerLayout>
         }
       />

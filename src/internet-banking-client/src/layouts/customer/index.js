@@ -17,6 +17,7 @@ import logo from "../../assets/images/logo.svg";
 import CardLayout from "../../components/card/LayoutCard";
 import { Input, Space } from "antd";
 import useAuth from "../../hooks/useAuth";
+import { convertCurrentcy } from "../../utils/common";
 
 const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
@@ -47,6 +48,7 @@ function CustomerLayout({ children }) {
   const handleSignOut = () => {
     logout();
   };
+  
   return (
     <Layout hasSider className="cuslayout">
       <Sider
@@ -86,14 +88,14 @@ function CustomerLayout({ children }) {
             <div className="card__row">
               <div className="left">
                 <div className="top">Tài khoản thanh toán</div>
-                <div className="bottom">1017332621</div>
+                <div className="bottom">{user.bankAccount.accountNumber}</div>
               </div>
               <div className="right">Chi tiết</div>
             </div>
             <div className="card__row">
               <div className="left">
                 <div className="top">Số dư</div>
-                <div className="bottom">1017332621</div>
+                <div className="bottom">{convertCurrentcy(+user.bankAccount.balance)}</div>
               </div>
               <div className="right">Chi tiết</div>
             </div>

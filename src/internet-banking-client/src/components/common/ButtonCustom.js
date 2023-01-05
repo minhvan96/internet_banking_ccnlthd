@@ -1,9 +1,9 @@
 import { Button } from "antd";
 import React from "react";
 
-const ButtonCustom = ({ style, icon, text, onClick, isLine }) => {
+const ButtonCustom = ({ style, icon, text, onClick, isLine, data}) => {
   const onEvent = () => {
-    onClick();
+    onClick(data);
   };
   return (
     <div

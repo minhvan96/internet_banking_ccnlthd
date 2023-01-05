@@ -24,12 +24,18 @@ export class GetCustomerHandler implements IQueryHandler<GetCustomerQuery> {
       select:{
         id: true,
         userName: true,
+        email: true,
         bankAccount:{
           accountNumber: true,
           balance: true
         }
       }
     })
-    return new CustomerResponseModel(user.id, user.userName, user.bankAccount.accountNumber, user.bankAccount.balance);
+    return new CustomerResponseModel(
+      user.id,
+      user.userName,
+      user.email,
+      user.bankAccount.accountNumber,
+      user.bankAccount.balance);
   }
 }
