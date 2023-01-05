@@ -11,6 +11,10 @@ import { Request } from 'express';
 import {
   GetBankInternalAccountTransactionByUserIdQuery
 } from './queries/get-bank-internal-account-transaction-by-user-id.query';
+import {
+  VerifyBankInternalTransactionCommand,
+  VerifyBankInternalTransactionRequest
+} from "./commands/verify-bank-internal-transaction.command";
 
 @ApiTags('Bank Internal Transaction')
 @Controller('bank-internal-transaction')
@@ -28,12 +32,22 @@ export class BankInternalTransactionController {
     @Body() request: CreateBankInternalTransactionFromCurrentUserRequest) {
     const {user} = req;
     const userId: number = user['sub'];
-    const createTransferRequest = new CreateBankInternalTransactionRequest(userId,
+    const createTransferRequest = new CreateBankInternalTransactionRequest(
+      userId,
       request.toAccount,
       request.transferAmount,
       request.transactionPaymentType,
       request.description);
     return await this.commandBus.execute(new CreateBankInternalTransactionCommand(createTransferRequest));
+  }
+
+  @ApiBearerAuth()
+  @Post('verify')
+  @UseGuards(AccessTokenGuard)
+  async VerifyInternalTransaction(
+    @Body() request: VerifyBankInternalTransactionRequest
+  ){
+    return await this.commandBus.execute(new VerifyBankInternalTransactionCommand(request));
   }
 
   @ApiBearerAuth()

@@ -19,6 +19,7 @@ export class BankInternalTransaction extends EntityBase {
   transferAmount: number;
   @Column({
     name: 'description',
+    nullable: true
   })
   description: string;
 
@@ -26,6 +27,19 @@ export class BankInternalTransaction extends EntityBase {
     name: 'fee'
   })
   fee: number;
+
+  @Column({
+    default: false,
+    nullable: false,
+    name: 'is_verified'
+  })
+  isVerified: boolean;
+
+  @Column({
+    nullable: true,
+    name: 'verify_code'
+  })
+  verifyCode: number
 
   @Column({
     type: 'enum',
@@ -40,6 +54,7 @@ export class BankInternalTransaction extends EntityBase {
     transferAmount: number,
     fee: number,
     transactionPaymentType: BankTransactionPaymentType,
+    verificationCode: number,
     description?: string) {
     super();
     this.transferFrom = transferFrom;
@@ -47,6 +62,7 @@ export class BankInternalTransaction extends EntityBase {
     this.transferAmount = transferAmount;
     this.fee = fee;
     this.transactionPaymentType = transactionPaymentType;
+    this.verifyCode = verificationCode;
     this.description = description;
   }
 }

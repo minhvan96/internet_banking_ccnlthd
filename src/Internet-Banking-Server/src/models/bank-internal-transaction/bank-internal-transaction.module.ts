@@ -15,11 +15,18 @@ import {
   GetBankInternalAccountTransactionByUserIdHandler
 } from './queries/get-bank-internal-account-transaction-by-user-id.handler';
 import { User } from '../../entities/identity/user.entity';
+import { VerifyBankInternalTransactionHandler } from "./commands/verify-bank-internal-transaction.handler";
+import { AuthService } from "../../auth/auth.service";
+import { JwtService } from "@nestjs/jwt";
 
 @Module({
   imports: [TypeOrmModule.forFeature([BankInternalTransaction, BankInternalAccount, User]), CqrsModule],
   controllers: [BankInternalTransactionController],
-  providers: [CreateBankInternalTransactionHandler,
+  providers: [
+    AuthService,
+    JwtService,
+    CreateBankInternalTransactionHandler,
+    VerifyBankInternalTransactionHandler,
     GetBankInternalAccountByIdHandler,
     GetBankInternalAccountTransactionByAccountHandler,
     GetBankInternalAccountTransactionByUserIdHandler],
