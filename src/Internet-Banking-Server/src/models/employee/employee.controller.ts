@@ -21,6 +21,6 @@ export class EmployeeController{
   ){
     const {user} = req;
     const userId: number = user['sub'];
-    return await this.queryBus.execute(new MakeDepositCommand(request));
+    return await this.commandBus.execute(new MakeDepositCommand(request));
   }
 }
