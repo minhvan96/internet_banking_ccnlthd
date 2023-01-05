@@ -11,6 +11,7 @@ import { CustomerExternalBeneficiary } from '../../../entities/customer-external
 import { CustomerInternalBeneficiary } from '../../../entities/customer-internal-beneficiary.entity';
 import {DebtCustomer} from "../../../entities/debt-customer.entity";
 import {DebtTransaction} from "../../../entities/debt-transaction.entity";
+import { DepositRecord } from "../../../entities/deposit-record.entity";
 
 /**
  *  Import and provide base typeorm (postgresql) related class
@@ -39,6 +40,7 @@ import {DebtTransaction} from "../../../entities/debt-transaction.entity";
           CustomerExternalBeneficiary,
           DebtTransaction,
           DebtCustomer,
+          DepositRecord
         ],
         autoLoadEntities: true,
         synchronize: true,
