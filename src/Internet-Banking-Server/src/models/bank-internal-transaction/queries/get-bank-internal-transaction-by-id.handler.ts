@@ -7,6 +7,7 @@ import { BankInternalAccount } from "../../../entities/bank-internal-account.ent
 import { BankInternalTransaction } from "../../../entities/bank-internal-transaction.entity";
 import { User } from "../../../entities/identity/user.entity";
 import { NotFoundException } from "@nestjs/common";
+import { CustomerInternalBeneficiary } from "../../../entities/customer-internal-beneficiary.entity";
 
 @QueryHandler(GetBankInternalTransactionByIdQuery)
 export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetBankInternalTransactionByIdQuery> {
@@ -16,7 +17,9 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
     @InjectRepository(BankInternalAccount)
     private readonly bankInternalAccountRepository: Repository<BankInternalAccount>,
     @InjectRepository(BankInternalTransaction)
-    private readonly bankInternalTransactionRepository: Repository<BankInternalTransaction>
+    private readonly bankInternalTransactionRepository: Repository<BankInternalTransaction>,
+    @InjectRepository(CustomerInternalBeneficiary)
+    private readonly customerInternalBeneficiaryRepository: Repository<CustomerInternalBeneficiary>
   ) {
   }
 
@@ -49,6 +52,21 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
     if(!bankInternalTransaction)
       throw new NotFoundException(`Bank transfer with id = ${query.transferId} for account ${user.bankAccount.accountNumber} not found`);
 
+    const beneficiary = await this.customerInternalBeneficiaryRepository.findOne({
+      where:{
+        user:{
+          id: query.userId
+        },
+        bankAccount:{
+          accountNumber: bankInternalTransaction.transferTo.accountNumber
+        }
+      }
+    })
+    let alias = '';
+    if(beneficiary){
+      alias = beneficiary.alias;
+    }
+
     return new BankInternalTransactionResponseModel(
       bankInternalTransaction.id,
       bankInternalTransaction.transferFrom.accountNumber,
@@ -56,7 +74,8 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
       bankInternalTransaction.transferAmount,
       bankInternalTransaction.description,
       bankInternalTransaction.fee,
-      bankInternalTransaction.transactionPaymentType
+      bankInternalTransaction.transactionPaymentType,
+      alias
     );
   }
 }

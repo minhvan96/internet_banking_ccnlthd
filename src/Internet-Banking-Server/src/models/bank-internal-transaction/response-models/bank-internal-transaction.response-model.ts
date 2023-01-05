@@ -4,6 +4,7 @@ export class BankInternalTransactionResponseModel {
   id: number;
   transferFromAccount: string;
   transferToAccount: string;
+  transferToBeneficiary: string;
   transferAmount: number;
   description: string;
   fee: number
@@ -16,7 +17,8 @@ export class BankInternalTransactionResponseModel {
     transferAmount: number,
     description: string,
     fee: number,
-    paymentType: BankTransactionPaymentType
+    paymentType: BankTransactionPaymentType,
+    alias?: string
   ) {
     this.id = id;
     this.transferFromAccount = transferFromAccount;
@@ -25,5 +27,6 @@ export class BankInternalTransactionResponseModel {
     this.description = description;
     this.fee = fee;
     this.paymentType = paymentType;
+    this.transferToBeneficiary = alias;
   }
 }
