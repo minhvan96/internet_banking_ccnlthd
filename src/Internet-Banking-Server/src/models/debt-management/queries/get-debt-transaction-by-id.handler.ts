@@ -13,8 +13,14 @@ export class GetDebtTransactionByIdHandler implements IQueryHandler<GetDebtTrans
     ) {
     }
     async execute(query: GetDebtTransactionByIdQuery): Promise<DebtTransaction> {
-        return await this.debtTransactionRepository.findOneBy({
+        return await this.debtTransactionRepository.findOne({
+            where: {
             id: query.debtTransactionId
+        },
+            relations:{
+                loanAccount: true,
+                debtAccount: true
+            }
         })
     }
 }

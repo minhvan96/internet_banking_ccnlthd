@@ -48,7 +48,7 @@ export const bankInternalTransactionVerify = async (
 export const bankInternalTransactionTranferbyId = async (id) => {
   try {
     const { data } = await apiInstance.get(
-      `bank-internal-transaction?id=${id}`
+      `bank-internal-transaction/${id}`
     );
     console.log(data);
     return data;

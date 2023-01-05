@@ -8,7 +8,7 @@ import {BankInternalAccount} from './bank-internal-account.entity';
 export class DebtTransaction extends EntityBase {
 
   @ManyToOne(() => BankInternalAccount, internalAccount => internalAccount.accountNumber)
-  debitAccount: BankInternalAccount;
+  debtAccount: BankInternalAccount;
 
   @ManyToOne(() => BankInternalAccount, internalAccount => internalAccount.accountNumber)
   loanAccount: BankInternalAccount
@@ -47,7 +47,7 @@ export class DebtTransaction extends EntityBase {
       amount: number,
       description: string) {
     super();
-    this.debitAccount = debitAccount;
+    this.debtAccount = debitAccount;
     this.loanAccount = loanAccount;
     this.transferAmount = amount;
     this.description = description;
