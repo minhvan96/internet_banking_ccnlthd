@@ -57,6 +57,13 @@ export class User extends EntityBase {
   authConfirmToken: string
 
   @Column({
+    nullable: true,
+    default: null,
+    name: 'forgot_password_code'
+  })
+  forgotPasswordCode: number
+
+  @Column({
     default: false,
     nullable: true
   })
@@ -112,5 +119,8 @@ export class User extends EntityBase {
   @BeforeInsert()
   async hashPassword() {
     this.password = await hash(this.password);
+  }
+  async updatePassword(password: string){
+    this.password = await hash(password);
   }
 }

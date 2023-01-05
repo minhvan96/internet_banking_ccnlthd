@@ -89,4 +89,15 @@ export class AuthService {
       html: `${verification_code}`
     });
   }
+
+  async sendOtpForgotPasswordAsync(
+    email: string,
+    forgotPasswordCode: number
+  ){
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Forgot password code',
+      html: `${forgotPasswordCode}`
+    });
+  }
 }
