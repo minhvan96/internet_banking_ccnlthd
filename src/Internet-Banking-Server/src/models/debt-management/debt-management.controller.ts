@@ -57,9 +57,12 @@ export class DebtManagementController {
     @Post("/delete-debt-transaction/:id")
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
-    async DeleteDebtTransaction(@Param('id') debtTransactionId: number,
+    async DeleteDebtTransaction(@Req() req: Request,
+                                @Param('id') debtTransactionId: number,
                                 @Body() request: DeleteDebtTransactionRequest){
-        request.debtTransactionId = debtTransactionId
+        const {user} = req;
+        request.debtTransactionId = debtTransactionId;
+        request.userId = user['sub'];
         return await this.commandBus.execute(new DeleteDebtTransactionCommand(request));
     }
 
@@ -94,10 +97,11 @@ export class DebtManagementController {
         return await this.commandBus.execute(new UpdateDebtTransactionCommand(request))
     }
 
-    @Get("/notify/:id")
+    @Get("/notify")
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
-    async notify(@Param('transactionId') userId: number){
-        return await this.commandBus.execute(new NotifyDebtTransactionCommand(userId))
+    async notify(@Req() req: Request){
+        const {user} = req
+        return await this.commandBus.execute(new NotifyDebtTransactionCommand(user['sub']))
     }
 }

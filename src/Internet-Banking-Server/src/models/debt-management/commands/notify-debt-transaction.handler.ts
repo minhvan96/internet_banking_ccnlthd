@@ -5,14 +5,17 @@ import {messageContainer, messageObject, NotifyDebtTransactionCommand} from "./n
 export class NotifyDebtTransactionHandler implements  ICommandHandler<NotifyDebtTransactionCommand>{
 
     async execute(command: NotifyDebtTransactionCommand): Promise<messageObject[]> {
-        let messageObject : messageObject[] = {...messageContainer.messages.map(ms => {
+        let messageObject = []
+         await messageContainer.messages.forEach(ms => {
             if(ms.userId === command.userId){
-                return ms;
+                messageObject.push(ms);
             }
-        })}
+        })
 
-        messageContainer.messages = messageContainer.messages.filter(value => !messageObject.includes(value))
+        if(messageObject && messageObject.length > 0){
+            messageContainer.messages = messageContainer.messages.filter(value => !messageObject.includes(value))
 
+        }
         return messageObject;
     }
 }

@@ -9,6 +9,8 @@ import {
     GetBankInternalAccountByAccountNumberQuery
 } from "../../bank-internal-account/queries/get-bank-internal-account-by-account-number.query";
 import {BankInternalAccount} from "../../../entities/bank-internal-account.entity";
+import {GetCustomerByAccountNumberQuery} from "../../customer/queries/get-customer-by-account-number.query";
+import {messageContainer, messageObject} from "./notify-debt-transaction.command";
 
 @CommandHandler(UpdateDebtTransactionCommand)
 export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtTransactionCommand>{
@@ -40,8 +42,8 @@ export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtT
             new GetBankInternalAccountByAccountNumberQuery(accountNumberLoan));
 
         if (transferFromAccount.balance < debtTransaction.transferAmount) {
-                    throw new BadRequestException('Source account does not have enough money to process this transfer');
-                }
+            throw new BadRequestException('Source account does not have enough money to process this transfer');
+        }
 
         transferFromAccount.balance -= debtTransaction.transferAmount;
         transferToAccount.balance += debtTransaction.transferAmount;
@@ -50,6 +52,11 @@ export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtT
 
         debtTransaction.isPaid = true;
         const debtTransactionUpdate = await this.debtTransactionRepository.save(debtTransaction);
+
+        let userId : number = await this.queryBus.execute(new GetCustomerByAccountNumberQuery(accountNumberLoan));
+        messageContainer.messages.push(new messageObject(userId, `Debit reminder with code: ${debtTransactionUpdate.id} paid`))
+
+
         return new UpdateDebtTransactionResponse(debtTransactionUpdate.id, debtTransactionUpdate.debtAccount.balance, debtTransactionUpdate.debtAccount.accountNumber)
     }
 

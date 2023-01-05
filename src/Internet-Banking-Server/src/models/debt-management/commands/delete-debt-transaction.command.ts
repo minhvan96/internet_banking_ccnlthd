@@ -7,6 +7,7 @@ export class DeleteDebtTransactionCommand{
 
 export class DeleteDebtTransactionRequest{
     debtTransactionId: number;
+    userId: number
     @ApiProperty()
     description: string;
 

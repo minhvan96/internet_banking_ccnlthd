@@ -19,6 +19,7 @@ import {
 import { GetCustomerHandler } from './queries/get-customer.handler';
 import { GetInternalBeneficiaryHandler } from './queries/get-internal-beneficiary.handler';
 import { GetExternalBeneficiaryHandler } from './queries/get-external-beneficiary.handler';
+import {GetCustomerByAccountNumberHandler} from "./queries/get-customer-by-account-number.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, BankExternalAccount, BankInternalAccount]), CqrsModule],
@@ -31,6 +32,7 @@ import { GetExternalBeneficiaryHandler } from './queries/get-external-beneficiar
     CreateExternalBankTransferHandler,
     CreateInternalBankTransferHandler,
     GetBankInternalAccountByIdHandler,
+    GetCustomerByAccountNumberHandler,
     GetBankInternalAccountByAccountNumberHandler,
     GetExternalBeneficiaryHandler,
     GetInternalBeneficiaryHandler],

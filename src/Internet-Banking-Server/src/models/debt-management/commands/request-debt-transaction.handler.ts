@@ -33,7 +33,6 @@ export class RequestDebtTransactionHandler implements ICommandHandler<RequestDeb
         });
         const debtTransaction = await this.queryBus.execute(
             new GetDebtTransactionByIdQuery(command.transactionId))
-        // debtTransaction.isPaid = true;
         debtTransaction.code = this.code;
 
         return await this.debtTransactionRepository.save(debtTransaction);
