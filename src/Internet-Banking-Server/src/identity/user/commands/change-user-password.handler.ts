@@ -24,7 +24,7 @@ export class ChangeUserPasswordHandler implements ICommandHandler<ChangeUserPass
       throw new NotFoundException(`User with id = ${command.payload.userId} not found`);
     }
 
-    user.password = command.payload.newPassword;
+    await user.updatePassword(command.payload.newPassword);
     await this.userRepository.save(user);
   }
 }

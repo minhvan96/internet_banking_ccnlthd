@@ -23,9 +23,8 @@ export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtT
 
     async execute(command: CreateDebtTransactionCommand): Promise<any> {
 
-
         if (command.payload.amount <= 0) {
-            throw new BadRequestException('Transfer amount must be greater than 0');
+            throw new BadRequestException('Amount must be greater than 0');
         }
 
         if (command.payload.fromAccount === command.payload.loanAccount) {
@@ -47,14 +46,6 @@ export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtT
             throw new NotFoundException(`Bank Account with account number = ${command.payload.loanAccount} is not found`);
         }
 
-        if (transferFromAccount.balance < command.payload.amount) {
-            throw new BadRequestException('Source account does not have enough money to process this transfer');
-        }
-
-        transferFromAccount.balance -= command.payload.amount;
-        transferToAccount.balance += command.payload.amount;
-        await this.bankInternalAccountRepository.save(transferFromAccount);
-        await this.bankInternalAccountRepository.save(transferToAccount);
 
         let debtTransaction :  DebtTransaction = new DebtTransaction(
             transferToAccount,
@@ -65,7 +56,7 @@ export class CreateDebtTransactionHandler implements ICommandHandler<CreateDebtT
 
         const newDebtTransaction = await this.debtManagementEntityRepository.save(debtTransaction);
         return new CreateDebtTransactionResponse(newDebtTransaction.id,
-            {id: newDebtTransaction.debitAccount.id, accountNumber: newDebtTransaction.debitAccount.accountNumber},
+            {id: newDebtTransaction.debtAccount.id, accountNumber: newDebtTransaction.debtAccount.accountNumber},
             {id: newDebtTransaction.loanAccount.id, accountNumber: newDebtTransaction.loanAccount.accountNumber},
             newDebtTransaction.transferAmount, newDebtTransaction.description, newDebtTransaction.createdDate)
     }
