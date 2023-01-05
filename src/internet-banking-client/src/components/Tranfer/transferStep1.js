@@ -1,27 +1,57 @@
-import { Button, Col, Form, Input, Radio, Row, Select } from "antd";
-import React, { useState } from "react";
+import { Button, Col, Form, Input, message, Radio, Row, Select } from "antd";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { FaUserFriends } from "react-icons/fa";
 import ButtonCustom from "../common/ButtonCustom";
 import userApi from "../../apis/user";
 import ModelCustom from "../common/ModalCustom";
 import BeneficiaryBankingList from "../Beneficiary/BeneficiaryBankingList";
+import { getInternalBeneficiary } from "../../apis/beneficiaryApi";
+import { bankInternalTransactionTranfer } from "../../apis/transactionTransfer";
 
 const styleButton = { width: "100%", height: "44px" };
-const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
+const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
+  console.log(isInternalTransfer);
   const [transactionFee, setTransactionFee] = useState(1); // 0: nguoi chuyen tra - 1: nguoi nhan tra
   const [accountNumberFromList, setAccountNumberFromList] = useState("");
+  const [beneficiaryList, setBeneficiaryList] = useState([]);
+  const [messageApi] = message.useMessage();
+
   const onChangeRadio = (e) => {
     setTransactionFee(e.target.value);
   };
   const [form] = Form.useForm();
 
   const onsubmit = () => {
-    console.log(form.getFieldsValue());
+    const formData = form.getFieldsValue();
+    if (
+      !formData.transactionfee ||
+      !formData.beneficiaryAccountNumber ||
+      !formData.amount ||
+      !formData.content
+    ) {
+      console.log('test');
+      messageApi.open({
+        type: "success",
+        content: "Vui lòng điền tất cả các trường.",
+      });
+      return;
+    }
+    console.log(formData);
+    var submitAPI = bankInternalTransactionTranfer(
+      formData.transactionfee,
+      formData.beneficiaryAccountNumber,
+      formData.amount,
+      formData.content
+    );
+
+    if(!submitAPI){
+      const nextStepNum = 2;
+      nextStep(nextStepNum, submitAPI);
+    }
   };
 
   const showBeneficiaryList = () => {
-    console.log(1);
     showModal();
   };
 
@@ -32,6 +62,27 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
   const hideModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      // call api get beneficiary list
+      if (isInternalTransfer) {
+        const internalbeneficiary = await getInternalBeneficiary();
+        console.log(internalbeneficiary);
+        let beneficiaryMap = internalbeneficiary.map((x) => {
+          return {
+            id: x?.id,
+            accountNumber: x?.accountNumber,
+            alias: x?.alias,
+            type: "Nội bộ",
+          };
+        });
+        setBeneficiaryList(beneficiaryMap);
+      }
+    };
+
+    fetch();
+  }, []);
   return (
     <div className="tranferStep1">
       <Form
@@ -41,7 +92,7 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
         fields={[
           {
             name: ["rootAccountNumber"],
-            value: currentUser?.AccountNumber,
+            value: currentUser?.bankAccount?.accountNumber,
           },
           {
             name: ["transactionFee"],
@@ -54,6 +105,10 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
           {
             name: ["beneficiaryAccountNumber"],
             value: accountNumberFromList,
+          },
+          {
+            name: ["content"],
+            value: `${currentUser?.firstName} ${currentUser?.lastName} chuyen tien`,
           },
         ]}
       >
@@ -71,6 +126,7 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
                 <Input
                   className="input input-custom"
                   placeholder="Tài khoản nguồn"
+                  style={{ fontWeight: 500, letterSpacing: 1, fontSize: 16 }}
                 />
               </Form.Item>
             </Col>
@@ -86,7 +142,7 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
         </div>
 
         <div className="transfer__item">
-          {isInternalTransfer && (
+          {!isInternalTransfer && (
             <Row gutter={[8, 16]} className="top">
               <Col span={8}>
                 <div className="lablename">Ngân hàng thụ hưởng</div>
@@ -166,10 +222,10 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
               <div className="transactionfee">
                 <Form.Item name="transactionfee" style={{ marginBottom: 0 }}>
                   <Radio.Group>
-                    <Radio style={{ color: "#fff" }} value="0">
+                    <Radio style={{ color: "#fff" }} value="sender pay">
                       Người chuyển trả
                     </Radio>
-                    <Radio style={{ color: "#fff" }} value="1">
+                    <Radio style={{ color: "#fff" }} value="receiver pay">
                       Người nhận trả
                     </Radio>
                   </Radio.Group>
@@ -198,7 +254,10 @@ const TransferStep1 = ({ isInternalTransfer, currentUser }) => {
         setIsModalOpen={setIsModalOpen}
         title="Danh sách thụ hưởng"
       >
-        <BeneficiaryBankingList setAccountNumber={setAccountNumberFromList} />
+        <BeneficiaryBankingList
+          setAccountNumber={setAccountNumberFromList}
+          beneficiaryList={beneficiaryList}
+        />
 
         <ButtonCustom text="Chọn" onClick={hideModal} />
         <div className="note" style={{ fontSize: 12, marginTop: 20 }}>

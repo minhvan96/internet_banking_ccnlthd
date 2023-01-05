@@ -10,7 +10,7 @@ import PasswordChange from "./components/PasswordChange";
 import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
-import CreateDebtReminder from "./components/DebtReminders/CreateDebtReminder";
+import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
 import {
   Admin,
   Customer,
@@ -30,8 +30,6 @@ function App() {
       <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
         <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
 
-          {/* Debt Reminder */}
-          <Route path="create-debt-reminder" element={<CreateDebtReminder />} />
         </Route>
       </Route>
 
@@ -47,7 +45,7 @@ function App() {
         path="/internaltransfer"
         element={
           <CustomerLayout>
-            <TransferPage />
+            <TransferPage isInternalTransfer={true}/>
           </CustomerLayout>
         }
       />
@@ -55,10 +53,16 @@ function App() {
         path="/quicktransfer"
         element={
           <CustomerLayout>
-            <TransferPage isInternalTransfer={true} />
+            <TransferPage isInternalTransfer={false} />
           </CustomerLayout>
         }
       />
+
+      {/* Debt Reminder */}
+      <Route path="debt-reminder" element={
+      <CustomerLayout>
+        <DebtReminder />
+      </CustomerLayout>} />
 
       <Route path="*" element={<Error />} />
     </Routes>

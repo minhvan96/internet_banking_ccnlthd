@@ -9,7 +9,8 @@ import useAuth from "../../../hooks/useAuth";
 const styleButton = { width: "100%", height: "44px" };
 const TransferPage = ({ isInternalTransfer }) => {
   const { user } = useAuth();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
+  const [bankTransactionId, setBankTransactionId] = useState(1);
 
   const breakcrumbData = [
     {
@@ -29,6 +30,11 @@ const TransferPage = ({ isInternalTransfer }) => {
     else if ((currentStep = 2)) return <TransferStep2 />;
     else return <TransferStep3 />;
   };
+
+  const nextStep = (stepNum, bankId) => {
+    setBankTransactionId(bankId);
+    setCurrentStep(stepNum);
+  };
   return (
     <div className="transfer">
       {/* heaer */}
@@ -37,9 +43,18 @@ const TransferPage = ({ isInternalTransfer }) => {
       <BreakCrumbCommon data={breakcrumbData} separator={separator} />
 
       {currentStep === 1 ? (
-        <TransferStep1 isInternalTransfer={isInternalTransfer} currentUser={user}/>
+        <TransferStep1
+          isInternalTransfer={isInternalTransfer}
+          currentUser={user}
+          nextStep={nextStep}
+        />
       ) : currentStep === 2 ? (
-        <TransferStep2 />
+        <TransferStep2
+          bankTransactionId={bankTransactionId}
+          currentUser={user}
+          isInternalTransfer={isInternalTransfer}
+          nextStep={nextStep}
+        />
       ) : (
         <TransferStep3 />
       )}

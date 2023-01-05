@@ -11,14 +11,16 @@ import {DeleteDebtTransactionCommand, DeleteDebtTransactionRequest} from "./comm
 import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
 import {CreateDebtorCommand, debtorRequest} from "./commands/create-debtor.command";
 import {GetDebtorQuery} from "./queries/get-debtor.query";
-import {UpdateDebtTransactionCommand} from "./commands/update-debt-transaction.command";
+import {UpdateDebtTransactionCommand, UpdateDebtTransactionRequest} from "./commands/update-debt-transaction.command";
 import {AccessTokenGuard} from "../../auth/guards/access-token.guard";
+import {VerifyDebtTransactionCommand} from "./commands/verify-debt-transaction.command";
 
 
 @ApiTags('Debt Transaction')
 @Controller('/debt-management')
 export class DebtManagementController {
-    constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus) {
+    constructor(private readonly queryBus: QueryBus, private readonly commandBus: CommandBus,
+                ) {
     }
 
     @Post('/debit-transfer')
@@ -76,10 +78,18 @@ export class DebtManagementController {
         return await this.queryBus.execute(new GetDebtorQuery(user['sub']))
     }
 
-    @Post("/debt-payment/:id")
+    @Post("/debt-payment-request/:id")
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
-    async debtPayment(@Param('id') debtTransactionId: number){
-        return await this.commandBus.execute(new UpdateDebtTransactionCommand(debtTransactionId))
+    async debtPaymentReuqest(@Req() req: Request, @Param('id') debtTransactionId: number){
+        const {user} = req
+        return await this.commandBus.execute(new VerifyDebtTransactionCommand(user['sub'], debtTransactionId))
+    }
+
+    @Post("/debt-payment")
+    @ApiBearerAuth()
+    @UseGuards(AccessTokenGuard)
+    async debtPayment(@Body() request: UpdateDebtTransactionRequest){
+        return await this.commandBus.execute(new UpdateDebtTransactionCommand(request))
     }
 }

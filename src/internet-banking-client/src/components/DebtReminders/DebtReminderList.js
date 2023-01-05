@@ -4,45 +4,35 @@ import { Col, Form, Input, message, Row, Select } from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
-import BeneficiaryItem from "./BeneficiaryItem";
+import DebtReminderItem from "./DebtReminderItem";
 import ModelCustom from "../common/ModalCustom";
 import {
-  addInternalBeneficiary,
-  getExternalBeneficiary,
-  getInternalBeneficiary,
-} from "../../apis/beneficiaryApi";
+  addDebt,
+  getDebt,
+} from "../../apis/debt";
 
 const styleButton = { width: "100%", height: "100%" };
 
-function BeneficiaryList() {
+function DebtReminderList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi] = message.useMessage();
-  const [beneficiaryList, setBeneficiaryList] = useState([]);
+  const [Debt, setDebt] = useState([]);
   const [form] = Form.useForm();
 
   const fetch = async () => {
-    const internalbeneficiary = await getInternalBeneficiary();
+    const internalDebt = await getDebt();
     // const externalbeneficiary = await getExternalBeneficiary();
-    let beneficiaryMap;
-    beneficiaryMap = internalbeneficiary.map((x) => {
+    let debtMap;
+    debtMap = internalDebt.map((x) => {
       return {
         id: x?.id,
-        accountNumber: x?.accountNumber,
-        alias: x?.alias,
-        type: "Nội bộ",
+        accnumber: x?.accnumber,
+        amount: x?.amount,
+        description: x?.description,
       };
     });
-    // beneficiaryMap = [
-    //   ...beneficiaryMap,
-    //   ...externalbeneficiary.map((x) => {
-    //     return {
-    //       id: x?.id,
-    //       accountNumber: x?.accountNumber,
-    //       alias: x?.alias,
-    //     };
-    //   }),
-    // ];
-    setBeneficiaryList(beneficiaryMap);
+
+    setDebt(debtMap);
   };
 
   useEffect(() => {
@@ -63,23 +53,14 @@ function BeneficiaryList() {
     setIsModalOpen(false);
   };
 
-  const addBeneficiary = () => {
+  const hanldeAddDebt = () => {
     const formSubmit = form.getFieldsValue();
-    console.log(formSubmit);
     let result;
-    if (formSubmit.bankType === "Nội bộ") {
-      result = addInternalBeneficiary(formSubmit.accnumber, formSubmit.name);
-      setBeneficiaryList([
-        ...beneficiaryList,
-        {
-          accountNumber: result?.accountNumber,
-          alias: result.alias,
-          type: "Nội bộ",
-        },
-      ]);
-    }
+    if (formSubmit.bankType === "internal")
+      result = addDebt(formSubmit.accountNumber, formSubmit.amount, formSubmit.description);
+    // console.log(result);
     form.setFieldValue({});
-    successMessage("Thêm người hưởng thụ thành công!");
+    successMessage("Thêm nợ thành công!");
     hideModal();
   };
 
@@ -90,8 +71,8 @@ function BeneficiaryList() {
   };
 
   return (
-    <div className="beneficiaryList">
-      <div className="beneficiaryList__searchgroup">
+    <div className="DebtReminderList">
+      <div className="DebtReminderList__searchgroup">
         <Row gutter={[8, 16]}>
           <Col span={20}>
             <InputSearch />
@@ -108,44 +89,36 @@ function BeneficiaryList() {
               setIsModalOpen={setIsModalOpen}
               title="Thêm mới"
             >
-              <div className="beneficiaryList__add">
-                <Form
-                  form={form}
-                  layout="vertical"
-                  autoComplete="off"
-                  fields={[
-                    {
-                      name: ["bankType"],
-                      value: "Nội bộ",
-                    },
-                  ]}
-                >
-                  <Form.Item name="name" label="Tên gợi nhớ">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="accnumber" label="Số tài khoản">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="bankType" label="Loại ngân hàng">
-                    <Select
-                      style={{
-                        width: "200px",
-                      }}
-                      className="select-box"
-                      onChange={changeBankType}
-                      options={[
-                        {
-                          value: "internal",
-                          label: "Nội bộ",
-                        },
-                        {
-                          value: "external",
-                          label: "Liên ngân hàng",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                </Form>
+              <div className="DebtReminderList__add">
+              <Form
+              form={form}
+              layout="vertical"
+              autoComplete="off"
+            //   fields={[
+            //     {
+            //       name: ["accnumber"],
+            //       value: debt.accnumber,
+            //     },
+            //     {
+            //       name: ["amount"],
+            //       value: debt.amount,
+            //     },
+            //     {
+            //       name: ["description"],
+            //       value: debt.description,
+            //     },
+            //   ]}
+            >
+              <Form.Item name="accnumber" label="Số tài khoản người dùng">
+                <Input />
+              </Form.Item>
+              <Form.Item name="amount" label="Số tiền cho vay">
+                <Input />
+              </Form.Item>
+              <Form.Item name="description" label="Ghi chú">
+                <Input />
+              </Form.Item>
+            </Form>
 
                 <div className="footer">
                   <div className="btn__cancel">
@@ -162,7 +135,7 @@ function BeneficiaryList() {
                       style={{ width: "100%", height: "45px" }}
                       text="Thêm mới"
                       icon={<BsPlusLg />}
-                      onClick={addBeneficiary}
+                      onClick={hanldeAddDebt}
                     />
                   </div>
                 </div>
@@ -171,15 +144,15 @@ function BeneficiaryList() {
           </Col>
         </Row>
       </div>
-      <div className="beneficiaryList__group">
-        {beneficiaryList &&
-          beneficiaryList.length &&
-          beneficiaryList.map((item, index) => (
-            <BeneficiaryItem
+      <div className="DebtReminderList__group">
+        {Debt &&
+          Debt.length &&
+          Debt.map((item, index) => (
+            <DebtReminderItem
               nonumber={index + 1}
-              key={index}
+              key={item.id}
               beneficiary={item}
-              setBeneficiaryList={setBeneficiaryList}
+              setDebt={setDebt}
             />
           ))}
         <div className="footer">
@@ -213,4 +186,4 @@ function BeneficiaryList() {
     </div>
   );
 }
-export default BeneficiaryList;
+export default DebtReminderList;

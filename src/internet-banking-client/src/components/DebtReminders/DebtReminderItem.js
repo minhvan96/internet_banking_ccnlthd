@@ -7,7 +7,7 @@ import ButtonCustom from "../common/ButtonCustom";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 
 const { confirm } = Modal;
-function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
+function DebtReminderItem({ nonumber, debt, setDebtList }) {
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,8 +27,8 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
       okType: "danger",
       cancelText: "Không",
       onOk() {
-        setBeneficiaryList((list) => {
-          const index = list.findIndex((x) => x.id === beneficiary.id);
+        setDebtList((list) => {
+          const index = list.findIndex((x) => x.id === debt.id);
           list.splice(index, 1);
           return list.length ? list : [];
         });
@@ -41,9 +41,9 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
 
   const submitUpdate = () => {
     const formData = form.getFieldsValue();
-    setBeneficiaryList((list) => {
+    setDebtList((list) => {
       const result = list.map((x) =>
-        x.id === beneficiary.id
+        x.id === debt.id
           ? { ...x, accountNumber: formData.accnumer, alias: formData.name }
           : x
       );
@@ -53,14 +53,14 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
     hideModal();
   };
   return (
-    <div className="beneficiaryList__item">
+    <div className="DebtReminderList__item">
       <div className="no-box">{nonumber}</div>
       <div className="content">
-        <h4> {beneficiary.alias} </h4>
-        <div className="cardnumber"> {beneficiary.accountNumber} </div>
-        <div className="note">Loại ngân hàng: {beneficiary.type} </div>
+        <h4> {debt.accnumer} </h4>
+        <div className="cardnumber">{debt.accnumber}</div>
+        <div className="note">Ghi chú: {debt.description}</div>
         <div className="note">
-          Dịch vụ: Chuyển tiền nhanh NAPAS247 qua tài khoản
+          Dịch vụ: Cho mượn nợ/thanh toán nợ
         </div>
       </div>
       <div className="showmore">
@@ -83,50 +83,34 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
           setIsModalOpen={setIsModalOpen}
           title="Cập nhật"
         >
-          <div className="beneficiaryList__add">
+          <div className="DebtReminderList__add">
             <Form
               form={form}
               layout="vertical"
               autoComplete="off"
               fields={[
                 {
-                  name: ["name"],
-                  value: beneficiary.alias,
-                },
-                {
                   name: ["accnumber"],
-                  value: beneficiary.accountNumber,
+                  value: debt.accnumber,
                 },
                 {
-                  name: ["bankType"],
-                  value: beneficiary.type,
+                  name: ["amount"],
+                  value: debt.amount,
+                },
+                {
+                  name: ["description"],
+                  value: debt.description,
                 },
               ]}
             >
-              <Form.Item name="name" label="Tên gợi nhớ">
+              <Form.Item name="accnumber" label="Số tài khoản người dùng">
                 <Input />
               </Form.Item>
-              <Form.Item name="accnumber" label="Số tài khoản">
+              <Form.Item name="amount" label="Số tiền cho vay">
                 <Input />
               </Form.Item>
-              <Form.Item name="bankType" label="Loại ngân hàng">
-                <Select
-                  disabled={true}
-                  style={{
-                    width: "200px",
-                  }}
-                  className="select-box"
-                  options={[
-                    {
-                      value: "internal",
-                      label: "Nội bộ",
-                    },
-                    {
-                      value: "external",
-                      label: "Liên ngân hàng",
-                    },
-                  ]}
-                />
+              <Form.Item name="description" label="Ghi chú">
+                <Input />
               </Form.Item>
             </Form>
 
@@ -153,4 +137,4 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
     </div>
   );
 }
-export default BeneficiaryItem;
+export default DebtReminderItem;
