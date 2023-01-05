@@ -42,7 +42,9 @@ export class GetBankInternalAccountTransactionByAccountHandler implements IQuery
         transferTo: true
       }
     });
-    return bankInternalTransactions.map(tran => new BankInternalTransactionResponseModel(tran.transferFrom.accountNumber,
+    return bankInternalTransactions.map(tran => new BankInternalTransactionResponseModel(
+      tran.id,
+      tran.transferFrom.accountNumber,
       tran.transferTo.accountNumber,
       tran.transferAmount,
       tran.description,

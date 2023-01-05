@@ -27,6 +27,7 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
         id: true,
         firstName: true,
         lastName: true,
+        email: true,
         roles: {
           id: true,
           name: true
