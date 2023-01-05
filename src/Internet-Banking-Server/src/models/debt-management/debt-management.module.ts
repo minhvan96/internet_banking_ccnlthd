@@ -13,7 +13,7 @@ import {CreateDebtorHandler} from "./commands/create-debtor.handler";
 import {UpdateDebtTransactionHandler} from "./commands/update-debt-transaction.handler";
 import {DeleteDebtTransactionHandler} from "./commands/delete-debt-transaction.handler";
 import {GetDebtorHandler} from "./queries/get-debtor.handler";
-import {VerifyDebtTransactionHandler} from "./commands/verify-debt-transaction.handler";
+import {RequestDebtTransactionHandler} from "./commands/request-debt-transaction.handler";
 
 @Module({
     imports: [TypeOrmModule.forFeature([DebtTransaction, BankInternalAccount, User, DebtCustomer]), CqrsModule],
@@ -23,7 +23,7 @@ import {VerifyDebtTransactionHandler} from "./commands/verify-debt-transaction.h
         CreateDebtorHandler,
         DeleteDebtTransactionHandler,
         UpdateDebtTransactionHandler,
-        VerifyDebtTransactionHandler,
+        RequestDebtTransactionHandler,
         FilterDebtTransactionHandler,
         GetDebtTransactionByIdHandler,
         GetDebtorHandler

@@ -1,5 +1,5 @@
 import {CommandHandler, ICommandHandler, QueryBus} from "@nestjs/cqrs";
-import {VerifyDebtTransactionCommand} from "./verify-debt-transaction.command";
+import {RequestDebtTransactionCommand} from "./request-debt-transaction.command";
 import {InjectRepository} from "@nestjs/typeorm";
 import {DebtTransaction} from "../../../entities/debt-transaction.entity";
 import {Repository} from "typeorm";
@@ -8,8 +8,8 @@ import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {NotFoundException} from "@nestjs/common";
 import {GetDebtTransactionByIdQuery} from "../queries/get-debt-transaction-by-id.query";
 
-@CommandHandler(VerifyDebtTransactionCommand)
-export class VerifyDebtTransactionHandler implements ICommandHandler<VerifyDebtTransactionCommand>{
+@CommandHandler(RequestDebtTransactionCommand)
+export class RequestDebtTransactionHandler implements ICommandHandler<RequestDebtTransactionCommand>{
     private readonly code: number;
     constructor(
         @InjectRepository(DebtTransaction)
@@ -20,7 +20,7 @@ export class VerifyDebtTransactionHandler implements ICommandHandler<VerifyDebtT
         this.code = Math.floor(10000 + Math.random() * 90000);
     }
 
-    async execute(command: VerifyDebtTransactionCommand): Promise<any> {
+    async execute(command: RequestDebtTransactionCommand): Promise<any> {
         const customer = await this.queryBus.execute(new GetCustomerQuery(command.userId));
         if (!customer) {
             throw new NotFoundException(`Customer with Id = ${command.userId} is not found`);
