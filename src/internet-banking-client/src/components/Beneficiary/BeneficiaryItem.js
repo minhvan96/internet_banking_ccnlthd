@@ -57,8 +57,8 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
       <div className="no-box">{nonumber}</div>
       <div className="content">
         <h4> {beneficiary.alias} </h4>
-        <div className="cardnumber">14410000232388</div>
-        <div className="note">Loại ngân hàng: {beneficiary.type}</div>
+        <div className="cardnumber"> {beneficiary.accountNumber} </div>
+        <div className="note">Loại ngân hàng: {beneficiary.type} </div>
         <div className="note">
           Dịch vụ: Chuyển tiền nhanh NAPAS247 qua tài khoản
         </div>

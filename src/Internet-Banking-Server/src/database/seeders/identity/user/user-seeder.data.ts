@@ -2,8 +2,6 @@ import { User } from 'src/entities/identity/user.entity';
 import { BankInternalAccount } from '../../../../entities/bank-internal-account.entity';
 import { roles } from '../role/role-seeder.data';
 import { faker } from '@faker-js/faker';
-import { pad } from '../../../../utilities/string-utilities';
-import { CustomerInternalBeneficiary } from '../../../../entities/customer-internal-beneficiary.entity';
 
 const testUsers = (): User[] => {
   const adminUser = new User(
@@ -25,6 +23,7 @@ const testUsers = (): User[] => {
     'CTM LN');
   customer1.bankAccount = new BankInternalAccount('06546546456');
   customer1.bankAccount.balance = 100000000;
+  customer1.isVerified = true;
   customer1.roles = []
   customer1.roles.push(roles.find(x => x.id === 2));
 
@@ -37,6 +36,7 @@ const testUsers = (): User[] => {
     'CTM LN');
   customer2.bankAccount = new BankInternalAccount('06849789788');
   customer2.bankAccount.balance = 200000000;
+  customer2.isVerified = true;
   customer2.roles = []
   customer2.roles.push(roles.find(x => x.id === 2));
 
@@ -46,6 +46,7 @@ const testUsers = (): User[] => {
     const randomUser = createRandomUser();
     if (result.find(x => x.userName === randomUser.userName || x.email === randomUser.email || x.phoneNumber == randomUser.phoneNumber)) continue;
     randomUser.bankAccount = new BankInternalAccount(randomUser.phoneNumber);
+    randomUser.isVerified = true;
     result.push(randomUser)
   }
 
