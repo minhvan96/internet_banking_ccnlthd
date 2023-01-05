@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import {
@@ -15,6 +15,7 @@ import {
   VerifyBankInternalTransactionCommand,
   VerifyBankInternalTransactionRequest
 } from "./commands/verify-bank-internal-transaction.command";
+import { GetBankInternalTransactionByIdQuery } from "./queries/get-bank-internal-transaction-by-id.query";
 
 @ApiTags('Bank Internal Transaction')
 @Controller('bank-internal-transaction')
@@ -57,5 +58,17 @@ export class BankInternalTransactionController {
     const {user} = req;
     const userId: number = user['sub'];
     return await this.queryBus.execute(new GetBankInternalAccountTransactionByUserIdQuery(userId));
+  }
+
+  @ApiBearerAuth()
+  @Get('/:id')
+  @UseGuards(AccessTokenGuard)
+  async GetBankInternalTransactionById(
+    @Req() req: Request,
+    @Param('id') transferId: number,
+  ){
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.queryBus.execute(new GetBankInternalTransactionByIdQuery(userId, transferId));
   }
 }
