@@ -2,7 +2,6 @@ import apiInstance from "./config";
 
 export const addDebt = async (loanAccount, amount, description) => {
   try {
-    const money = parseInt(amount);
     const { data } = await apiInstance.post(
       "debt-management/debit-transfer",
       {loanAccount, amount, description}
@@ -14,14 +13,14 @@ export const addDebt = async (loanAccount, amount, description) => {
   }
 };
 
-export const getDebt = async () => {
+export const getDebt = async (isCreator, isUnpaid) => {
     try {
-      const { data } = await apiInstance.get(
-        "debt-management/get-debtor"
+      const data = await apiInstance.post(
+        "debt-management/filter-debt-transaction", {isCreator, isUnpaid}
       );
-      console.log(data);
+
       return data;
     } catch (error) {
-      throw new Error("Error creating");
+      throw new Error("Error getting");
     }
 };

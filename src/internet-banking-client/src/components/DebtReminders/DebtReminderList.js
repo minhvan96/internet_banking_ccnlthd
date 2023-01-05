@@ -20,13 +20,14 @@ function DebtReminderList() {
   const [form] = Form.useForm();
 
   const fetch = async () => {
-    const internalDebt = await getDebt();
+    const internalDebt = await getDebt(true, false);
+    console.log("🚀 ~ file: DebtReminderList.js:24 ~ fetch ~ internalDebt", internalDebt.data)
     let debtMap;
-    debtMap = internalDebt.map((x) => {
+    debtMap = internalDebt.data.map((x) => {
       return {
         id: x?.id,
-        accnumber: x?.accnumber,
-        amount: x?.amount,
+        accnumber: 70877,
+        amount: x?.transferAmount,
         description: x?.description,
       };
     });
@@ -149,7 +150,7 @@ function DebtReminderList() {
             <DebtReminderItem
               nonumber={index + 1}
               key={item.id}
-              beneficiary={item}
+              debt={item}
               setDebt={setDebt}
             />
           ))}
