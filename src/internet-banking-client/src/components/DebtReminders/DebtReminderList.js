@@ -20,13 +20,14 @@ function DebtReminderList() {
   const [form] = Form.useForm();
 
   const fetch = async () => {
-    const internalDebt = await getDebt();
+    const internalDebt = await getDebt(true, false);
+    console.log("🚀 ~ file: DebtReminderList.js:24 ~ fetch ~ internalDebt", internalDebt.data)
     let debtMap;
-    debtMap = internalDebt.map((x) => {
+    debtMap = internalDebt.data.map((x) => {
       return {
         id: x?.id,
-        accnumber: x?.accnumber,
-        amount: x?.amount,
+        accnumber: 70877,
+        amount: x?.transferAmount,
         description: x?.description,
       };
     });
@@ -78,14 +79,14 @@ function DebtReminderList() {
           <Col span={4}>
             <ButtonCustom
               style={styleButton}
-              text="Thêm mới"
+              text="Nhắc nợ"
               icon={<BsPlusLg />}
               onClick={showModal}
             />
             <ModelCustom
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
-              title="Thêm mới"
+              title="Tạo nhắc nợ"
             >
               <div className="DebtReminderList__add">
               <Form
@@ -131,7 +132,7 @@ function DebtReminderList() {
                   <div className="btn__submit">
                     <ButtonCustom
                       style={{ width: "100%", height: "45px" }}
-                      text="Thêm mới"
+                      text="Tạo nhắc nợ"
                       icon={<BsPlusLg />}
                       onClick={hanldeAddDebt}
                     />
@@ -149,7 +150,7 @@ function DebtReminderList() {
             <DebtReminderItem
               nonumber={index + 1}
               key={item.id}
-              beneficiary={item}
+              debt={item}
               setDebt={setDebt}
             />
           ))}
