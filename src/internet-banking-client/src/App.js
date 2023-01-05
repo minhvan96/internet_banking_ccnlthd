@@ -45,7 +45,7 @@ function App() {
         path="/internaltransfer"
         element={
           <CustomerLayout>
-            <TransferPage isInternalTransfer={true}/>
+            <TransferPage isInternalTransfer={true} />
           </CustomerLayout>
         }
       />
@@ -60,10 +60,8 @@ function App() {
 
       {/* Debt Reminder */}
       <Route path="debt-reminder" element={
-      <CustomerLayout>
         <DebtReminder />
-      </CustomerLayout>} />
-
+      } />
       <Route path="*" element={<Error />} />
     </Routes>
   );

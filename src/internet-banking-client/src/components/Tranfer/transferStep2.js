@@ -6,6 +6,7 @@ import {
   bankInternalTransactionTranferbyId,
   bankInternalTransactionVerify,
 } from "../../apis/transactionTransfer";
+import { convertCurrentcy } from "../../utils/common";
 
 const styleButton = { width: "100%", height: "44px" };
 const TransferStep2 = ({
@@ -41,7 +42,7 @@ const TransferStep2 = ({
       +otp
     );
     if (!verifyAPI) {
-      console.log('OTP correctly!');
+      console.log("OTP correctly!");
       nextStep(3, bankTransactionId);
     }
   };
@@ -51,9 +52,7 @@ const TransferStep2 = ({
         <div className="OTP__label">
           Quý khách vui lòng nhập OTP đã được gửi đến email của bạn
         </div>
-        <div className="OTP__phonenumber">
-          {currentUser?.bankAccount?.accountNumber}
-        </div>
+        <div className="OTP__phonenumber">{currentUser?.email}</div>
         <div className="OTP__num">
           <Input
             className="input input-custom"
@@ -75,7 +74,9 @@ const TransferStep2 = ({
       <div className="transfer__item transfer__item-step2--info">
         <div className="group group-style">
           <div className="step2__label">Tài khoản thụ hưởng</div>
-          <div className="step2__value">1017332621</div>
+          <div className="step2__value">
+            {transactionCurrent?.transferToAccount}
+          </div>
         </div>
         <div className="group group-style">
           <div className="step2__label">Tên người thụ hưởng</div>
@@ -91,15 +92,21 @@ const TransferStep2 = ({
         </div>
         <div className="group group-style">
           <div className="step2__label">Số tiền</div>
-          <div className="step2__value step2__value-highlight">10,000 VND</div>
+          <div className="step2__value step2__value-highlight">
+            {convertCurrentcy(transactionCurrent?.transferAmount)}
+          </div>
         </div>
         <div className="group group-style">
           <div className="step2__label">Phí giao dịch</div>
-          <div className="step2__value">Người chuyển trả</div>
+          <div className="step2__value">
+            {transactionCurrent?.paymentType === "sender pay"
+              ? "Người chuyển trả"
+              : "Người nhận trả"}
+          </div>
         </div>
         <div className="group group-style">
           <div className="step2__label">Nội dụng</div>
-          <div className="step2__value">NGUYEN HIEU NGHIA chuyen tien </div>
+          <div className="step2__value">{transactionCurrent?.description}</div>
         </div>
       </div>
       <div className="transfer__bottom">

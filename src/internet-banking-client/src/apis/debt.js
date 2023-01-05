@@ -1,10 +1,11 @@
 import apiInstance from "./config";
 
-export const addDebt = async (accountNumber, amount, description) => {
+export const addDebt = async (loanAccount, amount, description) => {
   try {
+    const money = parseInt(amount);
     const { data } = await apiInstance.post(
       "debt-management/debit-transfer",
-      {accountNumber, amount, description}
+      {loanAccount, amount, description}
     );
     console.log(data);
     return data;

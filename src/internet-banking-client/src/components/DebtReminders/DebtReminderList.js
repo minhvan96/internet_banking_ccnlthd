@@ -21,7 +21,6 @@ function DebtReminderList() {
 
   const fetch = async () => {
     const internalDebt = await getDebt();
-    // const externalbeneficiary = await getExternalBeneficiary();
     let debtMap;
     debtMap = internalDebt.map((x) => {
       return {
@@ -53,12 +52,11 @@ function DebtReminderList() {
     setIsModalOpen(false);
   };
 
-  const hanldeAddDebt = () => {
+  const hanldeAddDebt = async () => {
     const formSubmit = form.getFieldsValue();
     let result;
-    if (formSubmit.bankType === "internal")
-      result = addDebt(formSubmit.accountNumber, formSubmit.amount, formSubmit.description);
-    // console.log(result);
+    result = await addDebt(formSubmit.accnumber, formSubmit.amount, formSubmit.description);
+    console.log(result);
     form.setFieldValue({});
     successMessage("Thêm nợ thành công!");
     hideModal();

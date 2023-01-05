@@ -8,6 +8,7 @@ import ModelCustom from "../common/ModalCustom";
 import BeneficiaryBankingList from "../Beneficiary/BeneficiaryBankingList";
 import { getInternalBeneficiary } from "../../apis/beneficiaryApi";
 import { bankInternalTransactionTranfer } from "../../apis/transactionTransfer";
+import { convertCurrentcy } from "../../utils/common";
 
 const styleButton = { width: "100%", height: "44px" };
 const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
@@ -22,7 +23,7 @@ const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
   };
   const [form] = Form.useForm();
 
-  const onsubmit = () => {
+  const onsubmit = async () => {
     const formData = form.getFieldsValue();
     if (
       !formData.transactionfee ||
@@ -30,22 +31,21 @@ const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
       !formData.amount ||
       !formData.content
     ) {
-      console.log('test');
       messageApi.open({
         type: "success",
         content: "Vui lòng điền tất cả các trường.",
       });
       return;
     }
-    console.log(formData);
-    var submitAPI = bankInternalTransactionTranfer(
+    var submitAPI = await bankInternalTransactionTranfer(
       formData.transactionfee,
       formData.beneficiaryAccountNumber,
       formData.amount,
       formData.content
     );
 
-    if(!submitAPI){
+    if (submitAPI) {
+      console.log('submit oke');
       const nextStepNum = 2;
       nextStep(nextStepNum, submitAPI);
     }
@@ -100,7 +100,7 @@ const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
           },
           {
             name: ["amount"],
-            value: 1000000,
+            value: 600000,
           },
           {
             name: ["beneficiaryAccountNumber"],
@@ -136,7 +136,9 @@ const TransferStep1 = ({ isInternalTransfer, currentUser, nextStep }) => {
               <div className="lablename">Số dư khả dụng</div>
             </Col>
             <Col span={16}>
-              <div className="bottom-right-value">1,780,989 VND</div>
+              <div className="bottom-right-value">
+                {convertCurrentcy(currentUser?.bankAccount?.balance)}
+              </div>
             </Col>
           </Row>
         </div>
