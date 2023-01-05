@@ -8,7 +8,7 @@ export class FilterDebtTransactionQuery {
 
 export class DebtFilterRequest{
     @ApiProperty()
-    isCreated: boolean;
+    isCreator: boolean;
 
     @ApiProperty()
     isUnpaid: boolean;
@@ -17,8 +17,8 @@ export class DebtFilterRequest{
     userId: number;
 
 
-    constructor(isCreated: boolean, isUnpaid: boolean, userId: number) {
-        this.isCreated = isCreated;
+    constructor(isCreator: boolean, isUnpaid: boolean, userId: number) {
+        this.isCreator = isCreator;
         this.isUnpaid = isUnpaid;
         this.userId = userId;
     }

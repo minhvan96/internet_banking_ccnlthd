@@ -23,7 +23,7 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
         let condition = {};
         let select = {};
 
-        if(query.payload.isCreated){
+        if(query.payload.isCreator){
             condition= {
                 loanAccount: { accountNumber: customer.accountNumber},
                 isDeleted: false
@@ -35,21 +35,21 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
                 isPaid: true,
                 createdDate: true,
                 updatedDate: true,
-                debitAccount: {
+                debtAccount: {
                     accountNumber: true
                 },
             }
         }else{
             if(query.payload.isUnpaid){
                 condition = {
-                    debitAccount: {accountNumber: customer.accountNumber},
+                    debtAccount: {accountNumber: customer.accountNumber},
                     isPaid: false,
                     isDeleted: false
                 }
 
             }else{
                 condition = {
-                    debitAccount: {accountNumber: customer.accountNumber},
+                    debtAccount: {accountNumber: customer.accountNumber},
                     isDeleted: false
                 };
             }
