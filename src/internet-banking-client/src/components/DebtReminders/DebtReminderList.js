@@ -78,14 +78,14 @@ function DebtReminderList() {
           <Col span={4}>
             <ButtonCustom
               style={styleButton}
-              text="Thêm mới"
+              text="Nhắc nợ"
               icon={<BsPlusLg />}
               onClick={showModal}
             />
             <ModelCustom
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
-              title="Thêm mới"
+              title="Tạo nhắc nợ"
             >
               <div className="DebtReminderList__add">
               <Form
@@ -131,7 +131,7 @@ function DebtReminderList() {
                   <div className="btn__submit">
                     <ButtonCustom
                       style={{ width: "100%", height: "45px" }}
-                      text="Thêm mới"
+                      text="Tạo nhắc nợ"
                       icon={<BsPlusLg />}
                       onClick={hanldeAddDebt}
                     />
