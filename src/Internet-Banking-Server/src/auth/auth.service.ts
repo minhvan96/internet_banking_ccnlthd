@@ -78,4 +78,15 @@ export class AuthService {
       html: `${userName} - ${authConfirmToken}`
     });
   }
+
+  async sendOtpVerifyTransactionAsync(
+    email: string,
+    verification_code: number
+  ){
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Bank transaction verification code',
+      html: `${verification_code}`
+    });
+  }
 }
