@@ -14,6 +14,15 @@ import {
   ChangeCurrentUserPasswordRequest, ChangeUserPasswordCommand,
   ChangeUserPasswordRequest
 } from "../identity/user/commands/change-user-password.command";
+import {
+  ForgotUserPasswordCommand,
+  ForgotUserPasswordRequest
+} from "../identity/user/commands/forgot-user-password.command";
+import { AccessTokenGuard } from "./guards/access-token.guard";
+import {
+  ChangeUserPasswordByCodeCommand,
+  ChangeUserPasswordByCodeRequest
+} from "../identity/user/commands/change-user-password-by-code.command";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -52,8 +61,10 @@ export class AuthController {
     return this.commandBus.execute(new UpdateUserRefreshTokenCommand(userId, new UpdateUserRefreshTokenRequest(refreshToken)));
   }
 
+  @ApiBearerAuth()
   @Post("/change-password")
   @ApiOperation({ summary: "Change user password" })
+  @UseGuards(AccessTokenGuard)
   async changeUserPassword(
     @Req() req: Request,
     @Body() request: ChangeCurrentUserPasswordRequest
@@ -61,5 +72,21 @@ export class AuthController {
     const { user } = req;
     const userId: number = user["sub"];
     return this.commandBus.execute(new ChangeUserPasswordCommand(new ChangeUserPasswordRequest(userId, request.newPassword)));
+  }
+
+  @Post("/forgot-password")
+  @ApiOperation({ summary: "Forgot user password" })
+  async forgotUserPassword(
+    @Body() request: ForgotUserPasswordRequest
+  ) {
+    return this.commandBus.execute(new ForgotUserPasswordCommand(request));
+  }
+
+  @Post("/change-password-by-otp")
+  @ApiOperation({ summary: "Change user password by otp" })
+  async changeUserPasswordByOtp(
+    @Body() request: ChangeUserPasswordByCodeRequest
+  ) {
+    return this.commandBus.execute(new ChangeUserPasswordByCodeCommand(request));
   }
 }

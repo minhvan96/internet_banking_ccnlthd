@@ -32,7 +32,7 @@ export class BankInternalAccount extends EntityBase {
   receives: BankInternalTransaction[];
 
   @OneToMany(() => DebtTransaction,
-      (transfer) => transfer.debitAccount,
+      (transfer) => transfer.debtAccount,
       {
         cascade: true,
       })

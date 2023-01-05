@@ -13,7 +13,7 @@ import {CreateDebtorCommand, debtorRequest} from "./commands/create-debtor.comma
 import {GetDebtorQuery} from "./queries/get-debtor.query";
 import {UpdateDebtTransactionCommand, UpdateDebtTransactionRequest} from "./commands/update-debt-transaction.command";
 import {AccessTokenGuard} from "../../auth/guards/access-token.guard";
-import {VerifyDebtTransactionCommand} from "./commands/verify-debt-transaction.command";
+import {RequestDebtTransactionCommand} from "./commands/request-debt-transaction.command";
 
 
 @ApiTags('Debt Transaction')
@@ -78,12 +78,12 @@ export class DebtManagementController {
         return await this.queryBus.execute(new GetDebtorQuery(user['sub']))
     }
 
-    @Post("/debt-payment-request/:id")
+    @Post("/debt-payment-request/:transactionId")
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
-    async debtPaymentReuqest(@Req() req: Request, @Param('id') debtTransactionId: number){
+    async debtPaymentRequest(@Req() req: Request, @Param('transactionId') debtTransactionId: number){
         const {user} = req
-        return await this.commandBus.execute(new VerifyDebtTransactionCommand(user['sub'], debtTransactionId))
+        return await this.commandBus.execute(new RequestDebtTransactionCommand(user['sub'], debtTransactionId))
     }
 
     @Post("/debt-payment")

@@ -14,6 +14,9 @@ import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AuthConstants } from '../common/constants/auth-constants';
 import { GetUserByEmailHandler } from '../identity/user/queries/get-user-by-email.handler';
+import { ChangeUserPasswordHandler } from "../identity/user/commands/change-user-password.handler";
+import { ChangeUserPasswordByCodeHandler } from "../identity/user/commands/change-user-password-by-code.handler";
+import { ForgotUserPasswordHandler } from "../identity/user/commands/forgot-user-password.handler";
 
 @Module({
   imports: [
@@ -33,7 +36,10 @@ import { GetUserByEmailHandler } from '../identity/user/queries/get-user-by-emai
     UpdateUserRefreshTokenHandler,
     LoginUserHandler,
     RegisterUserHandler,
-    GetUserByEmailHandler
+    GetUserByEmailHandler,
+    ChangeUserPasswordHandler,
+    ChangeUserPasswordByCodeHandler,
+    ForgotUserPasswordHandler
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtService],
