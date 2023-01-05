@@ -14,6 +14,7 @@ import {UpdateDebtTransactionHandler} from "./commands/update-debt-transaction.h
 import {DeleteDebtTransactionHandler} from "./commands/delete-debt-transaction.handler";
 import {GetDebtorHandler} from "./queries/get-debtor.handler";
 import {RequestDebtTransactionHandler} from "./commands/request-debt-transaction.handler";
+import {NotifyDebtTransactionHandler} from "./commands/notify-debt-transaction.handler";
 
 @Module({
     imports: [TypeOrmModule.forFeature([DebtTransaction, BankInternalAccount, User, DebtCustomer]), CqrsModule],
@@ -24,6 +25,7 @@ import {RequestDebtTransactionHandler} from "./commands/request-debt-transaction
         DeleteDebtTransactionHandler,
         UpdateDebtTransactionHandler,
         RequestDebtTransactionHandler,
+        NotifyDebtTransactionHandler,
         FilterDebtTransactionHandler,
         GetDebtTransactionByIdHandler,
         GetDebtorHandler

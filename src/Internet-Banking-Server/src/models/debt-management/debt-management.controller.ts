@@ -14,6 +14,7 @@ import {GetDebtorQuery} from "./queries/get-debtor.query";
 import {UpdateDebtTransactionCommand, UpdateDebtTransactionRequest} from "./commands/update-debt-transaction.command";
 import {AccessTokenGuard} from "../../auth/guards/access-token.guard";
 import {RequestDebtTransactionCommand} from "./commands/request-debt-transaction.command";
+import {NotifyDebtTransactionCommand} from "./commands/notify-debt-transaction.command";
 
 
 @ApiTags('Debt Transaction')
@@ -91,5 +92,12 @@ export class DebtManagementController {
     @UseGuards(AccessTokenGuard)
     async debtPayment(@Body() request: UpdateDebtTransactionRequest){
         return await this.commandBus.execute(new UpdateDebtTransactionCommand(request))
+    }
+
+    @Get("/notify/:id")
+    @ApiBearerAuth()
+    @UseGuards(AccessTokenGuard)
+    async notify(@Param('transactionId') userId: number){
+        return await this.commandBus.execute(new NotifyDebtTransactionCommand(userId))
     }
 }
