@@ -65,10 +65,19 @@ function BeneficiaryList() {
 
   const addBeneficiary = () => {
     const formSubmit = form.getFieldsValue();
+    console.log(formSubmit);
     let result;
-    if (formSubmit.bankType === "internal")
+    if (formSubmit.bankType === "Nội bộ") {
       result = addInternalBeneficiary(formSubmit.accnumber, formSubmit.name);
-    // console.log(result);
+      setBeneficiaryList([
+        ...beneficiaryList,
+        {
+          accountNumber: result?.accountNumber,
+          alias: result.alias,
+          type: "Nội bộ",
+        },
+      ]);
+    }
     form.setFieldValue({});
     successMessage("Thêm người hưởng thụ thành công!");
     hideModal();
@@ -168,7 +177,7 @@ function BeneficiaryList() {
           beneficiaryList.map((item, index) => (
             <BeneficiaryItem
               nonumber={index + 1}
-              key={item.id}
+              key={index}
               beneficiary={item}
               setBeneficiaryList={setBeneficiaryList}
             />
