@@ -83,12 +83,21 @@
 
       .btn__cancel {
         margin-right: 10px;
-        // .buttonCustom {
-        //   background: transparent !important;
-        //   color: #007c30;
-        //   border: #007c30;
-        // }
       }
+    }
+  }
+}
+
+.beneficiaryBanking {
+  &__item {
+    padding: 10px 0;
+    border-top: 1px solid #c8c7c7b3;
+    .alias {
+      font-weight: 500;
+    }
+
+    &:last-child {
+      border-bottom: 0px;
     }
   }
 }
