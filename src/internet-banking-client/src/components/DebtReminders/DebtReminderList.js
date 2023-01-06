@@ -18,10 +18,13 @@ function DebtReminderList() {
   const [messageApi] = message.useMessage();
   const [Debt, setDebt] = useState([]);
   const [form] = Form.useForm();
+  const [selectedDebt, setSelectedDebt] = useState("");
 
-  const fetch = async () => {
-    const internalDebt = await getDebt(true, false);
-    console.log("🚀 ~ file: DebtReminderList.js:24 ~ fetch ~ internalDebt", internalDebt.data)
+  const fetch = async (isCreator, isUnpaid) => {
+    let _isCreator = isCreator == false ? isCreator : true;
+    let _isUnpaid = isUnpaid == false ? isUnpaid : true;
+    const internalDebt = await getDebt(_isCreator, _isUnpaid);
+    
     let debtMap;
     debtMap = internalDebt.data.map((x) => {
       return {
@@ -29,15 +32,12 @@ function DebtReminderList() {
         accnumber: 70877,
         amount: x?.transferAmount,
         description: x?.description,
+        isPaid: x?.isPaid,
       };
     });
 
     setDebt(debtMap);
   };
-
-  useEffect(() => {
-    fetch();
-  }, []);
 
   const successMessage = (content) => {
     messageApi.open({
@@ -63,11 +63,13 @@ function DebtReminderList() {
     hideModal();
   };
 
-  const changeBankType = (value) => {
-    form.setFieldValue({
-      bankType: value,
-    });
-  };
+  useEffect(()=> {
+    if(selectedDebt === 'list-Debt-Remender') {
+      fetch(false, true);
+    } else {
+      fetch(true, true);
+    }
+  }, [selectedDebt])
 
   return (
     <div className="DebtReminderList">
@@ -89,35 +91,35 @@ function DebtReminderList() {
               title="Tạo nhắc nợ"
             >
               <div className="DebtReminderList__add">
-              <Form
-              form={form}
-              layout="vertical"
-              autoComplete="off"
-            //   fields={[
-            //     {
-            //       name: ["accnumber"],
-            //       value: debt.accnumber,
-            //     },
-            //     {
-            //       name: ["amount"],
-            //       value: debt.amount,
-            //     },
-            //     {
-            //       name: ["description"],
-            //       value: debt.description,
-            //     },
-            //   ]}
-            >
-              <Form.Item name="accnumber" label="Số tài khoản người dùng">
-                <Input />
-              </Form.Item>
-              <Form.Item name="amount" label="Số tiền cho vay">
-                <Input />
-              </Form.Item>
-              <Form.Item name="description" label="Ghi chú">
-                <Input />
-              </Form.Item>
-            </Form>
+                <Form
+                  form={form}
+                  layout="vertical"
+                  autoComplete="off"
+                //   fields={[
+                //     {
+                //       name: ["accnumber"],
+                //       value: debt.accnumber,
+                //     },
+                //     {
+                //       name: ["amount"],
+                //       value: debt.amount,
+                //     },
+                //     {
+                //       name: ["description"],
+                //       value: debt.description,
+                //     },
+                //   ]}
+                >
+                  <Form.Item name="accnumber" label="Số tài khoản người dùng">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="amount" label="Số tiền cho vay">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item name="description" label="Ghi chú">
+                    <Input />
+                  </Form.Item>
+                </Form>
 
                 <div className="footer">
                   <div className="btn__cancel">
@@ -142,6 +144,32 @@ function DebtReminderList() {
             </ModelCustom>
           </Col>
         </Row>
+      </div>
+      <div className="selectBox">
+        <div className="showCount">
+            Chọn danh sách
+            <Select
+              defaultValue="list-Debt"
+              style={{
+                marginLeft: '10px',
+                width: 200,
+              }}
+              className="select-box"
+              onChange={value => {
+                setSelectedDebt(value);
+              }}
+              options={[
+                {
+                  value: "list-Debt",
+                  label: "Danh sách nợ",
+                },
+                {
+                  value: "list-Debt-Remender",
+                  label: "Danh sách nhắc nợ",
+                }
+              ]}
+            />
+        </div>
       </div>
       <div className="DebtReminderList__group">
         {Debt &&
