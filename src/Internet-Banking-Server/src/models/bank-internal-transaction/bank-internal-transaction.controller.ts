@@ -16,6 +16,9 @@ import {
   VerifyBankInternalTransactionRequest
 } from "./commands/verify-bank-internal-transaction.command";
 import { GetBankInternalTransactionByIdQuery } from "./queries/get-bank-internal-transaction-by-id.query";
+import {
+  GetBankInternalAccountTransactionToByUserIdQuery
+} from "./queries/get-bank-internal-account-transaction-to-by-user-id.query";
 
 @ApiTags('Bank Internal Transaction')
 @Controller('bank-internal-transaction')
@@ -70,5 +73,14 @@ export class BankInternalTransactionController {
     const {user} = req;
     const userId: number = user['sub'];
     return await this.queryBus.execute(new GetBankInternalTransactionByIdQuery(userId, transferId));
+  }
+
+  @ApiBearerAuth()
+  @Get('transfer/received')
+  @UseGuards(AccessTokenGuard)
+  async GetBankInternalTransactionTo(@Req() req: Request){
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.queryBus.execute(new GetBankInternalAccountTransactionToByUserIdQuery(userId));
   }
 }
