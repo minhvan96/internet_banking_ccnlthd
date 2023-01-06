@@ -57,7 +57,8 @@ const testUsers = (): User[] => {
   for (let i = 0; i < 100; i++) {
     const randomUser = createRandomUser();
     if (result.find(x => x.userName === randomUser.userName || x.email === randomUser.email || x.phoneNumber == randomUser.phoneNumber)) continue;
-    randomUser.bankAccount = new BankInternalAccount(randomUser.phoneNumber);
+    randomUser.bankAccount = new BankInternalAccount(faker.finance.account());
+    faker.finance.account()
     randomUser.isVerified = true;
     result.push(randomUser);
   }
