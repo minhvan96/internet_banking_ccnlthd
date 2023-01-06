@@ -6,6 +6,7 @@ import { hash } from 'argon2';
 import { CustomerInternalBeneficiary } from '../customer-internal-beneficiary.entity';
 import { CustomerExternalBeneficiary } from '../customer-external-beneficiary.entity';
 import { DebtCustomer } from '../debt-customer.entity';
+import { DepositRecord } from "../deposit-record.entity";
 
 @Entity({
   name: 'users',
@@ -75,6 +76,12 @@ export class User extends EntityBase {
     })
   @JoinColumn()
   bankAccount: BankInternalAccount;
+
+  @OneToMany(() => DepositRecord, records => records.employee,
+    {
+      cascade: true,
+    })
+  deposits: DepositRecord[]
 
   @ManyToMany(() => Role)
   @JoinTable()

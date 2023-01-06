@@ -3,19 +3,21 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { BankInternalAccount } from "../../entities/bank-internal-account.entity";
 import { User } from "../../entities/identity/user.entity";
 import { CqrsModule } from "@nestjs/cqrs";
-import { EmployeeController } from "./employee.controller";
+import { DepositController } from "./deposit.controller";
 import { MakeDepositHandler } from "./commands/make-deposit.handler";
 import { DepositRecord } from "../../entities/deposit-record.entity";
+import { GetDepositHandler } from "./queries/get-deposit.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([
     User,
     BankInternalAccount,
     DepositRecord]), CqrsModule],
-  controllers: [EmployeeController],
+  controllers: [DepositController],
   providers: [
+    GetDepositHandler,
     MakeDepositHandler
   ]
 })
-export class EmployeeModule {
+export class DepositModule {
 }

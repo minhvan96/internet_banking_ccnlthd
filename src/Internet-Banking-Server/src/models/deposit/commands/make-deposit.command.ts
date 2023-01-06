@@ -1,7 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class MakeDepositCommand {
-  constructor(public readonly payload: MakeDepositRequest) {
+  constructor(
+    public readonly employeeId: number,
+    public readonly payload: MakeDepositRequest
+  ) {
   }
 }
 

@@ -20,6 +20,12 @@ import { AuthService } from "../../auth/auth.service";
 import { JwtService } from "@nestjs/jwt";
 import { GetBankInternalTransactionByIdHandler } from "./queries/get-bank-internal-transaction-by-id.handler";
 import { CustomerInternalBeneficiary } from "../../entities/customer-internal-beneficiary.entity";
+import {
+  GetBankInternalAccountTransactionToByAccountHandler
+} from "./queries/get-bank-internal-account-transaction-to-by-account.handler";
+import {
+  GetBankInternalAccountTransactionToByUserIdHandler
+} from "./queries/get-bank-internal-account-transaction-to-by-user-id.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -37,6 +43,8 @@ import { CustomerInternalBeneficiary } from "../../entities/customer-internal-be
     GetBankInternalAccountByIdHandler,
     GetBankInternalAccountTransactionByAccountHandler,
     GetBankInternalAccountTransactionByUserIdHandler,
+    GetBankInternalAccountTransactionToByAccountHandler,
+    GetBankInternalAccountTransactionToByUserIdHandler,
     GetBankInternalTransactionByIdHandler]
 })
 export class BankInternalTransactionModule {
