@@ -16,6 +16,7 @@ import {
   Customer,
   Employee
 } from "./constant/roles";
+import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
 
 function App() {
   const { user } = useAuth();
@@ -54,6 +55,14 @@ function App() {
         element={
           <CustomerLayout>
             <TransferPage isInternalTransfer={false} />
+          </CustomerLayout>
+        }
+      />
+      <Route
+        path="/transferhistory"
+        element={
+          <CustomerLayout>
+            <TransferHistoryPage />
           </CustomerLayout>
         }
       />
