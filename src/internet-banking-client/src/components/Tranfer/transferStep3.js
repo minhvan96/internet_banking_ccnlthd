@@ -15,7 +15,6 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionCurrent, setTransactionCurrent] = useState({});
   const [messageApi] = message.useMessage();
-  const [otp, setOTP] = useState("0");
   useEffect(() => {
     const fetch = async () => {
       const dataAPI = await bankInternalTransactionTranferbyId(
@@ -27,17 +26,39 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
     fetch();
   }, []);
 
-  const saveBeneficiary = () => {
+  const saveBeneficiary = async () => {
     if (transactionCurrent) {
-      addInternalBeneficiary(transactionCurrent, "");
+      const result = await addInternalBeneficiary(
+        transactionCurrent,
+        transactionCurrent?.transferToAccount
+      );
+      if (result) {
+        messageApi.open({
+          type: "success",
+          content: "Thêm thành công",
+        });
+        hideModal();
+      } else {
+        messageApi.open({
+          type: "error",
+          content: "Thêm không thành công!",
+        });
+      }
     }
   };
+
+  const handleRedirect = () => {
+    nextStep(1);
+  };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const hideModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div className="tranferStep3">
       <div
@@ -63,7 +84,7 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
         <div className="group group-style">
           <div className="step2__label">Tên người thụ hưởng</div>
           <div className="step2__value step2__value-highlight">
-            DINH THANH PHU
+            {transactionCurrent?.transferToName}
           </div>
         </div>
         <div className="group group-style">
@@ -87,7 +108,11 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
           />
         </div>
         <div className="btn-redirect">
-          <ButtonCustom style={styleButton} text="Thực hiện giao dịch mới" />
+          <ButtonCustom
+            style={styleButton}
+            text="Thực hiện giao dịch mới"
+            onClick={handleRedirect}
+          />
         </div>
       </div>
       <ModelCustom
@@ -97,7 +122,7 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
       >
         <BeneficiaryCreate
           accountNumber={transactionCurrent?.transferToAccount}
-          alias={"nghia"}
+          alias={transactionCurrent?.transferToName}
           isInternal={true}
         >
           <div className="footer">
