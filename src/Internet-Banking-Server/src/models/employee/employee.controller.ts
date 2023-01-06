@@ -5,22 +5,23 @@ import { Request } from "express";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { MakeDepositCommand, MakeDepositRequest } from "./commands/make-deposit.command";
 
-@ApiTags('Employee')
-@Controller('employee')
-export class EmployeeController{
+@ApiTags("Employee")
+@Controller("employee")
+export class EmployeeController {
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus) {
   }
+
   @ApiBearerAuth()
-  @Post('add-deposit')
+  @Post("add-deposit")
   @UseGuards(AccessTokenGuard)
   async GetBankInternalTransaction(
     @Req() req: Request,
     @Body() request: MakeDepositRequest
-  ){
-    const {user} = req;
-    const userId: number = user['sub'];
-    return await this.commandBus.execute(new MakeDepositCommand(request));
+  ) {
+    const { user } = req;
+    const userId: number = user["sub"];
+    return await this.commandBus.execute(new MakeDepositCommand(userId, request));
   }
 }
