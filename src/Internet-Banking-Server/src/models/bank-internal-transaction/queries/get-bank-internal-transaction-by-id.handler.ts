@@ -49,22 +49,35 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
       }
     });
 
-    if(!bankInternalTransaction)
+    if (!bankInternalTransaction)
       throw new NotFoundException(`Bank transfer with id = ${query.transferId} for account ${user.bankAccount.accountNumber} not found`);
 
     const beneficiary = await this.customerInternalBeneficiaryRepository.findOne({
-      where:{
-        user:{
+      where: {
+        user: {
           id: query.userId
         },
-        bankAccount:{
+        bankAccount: {
           accountNumber: bankInternalTransaction.transferTo.accountNumber
         }
       }
-    })
-    let alias = '';
-    if(beneficiary){
+    });
+    let alias = "";
+    if (beneficiary) {
       alias = beneficiary.alias;
+    }
+
+    let transferToUserName = "";
+    const transferToUser = await this.userRepository.findOne({
+      where: {
+        bankAccount: {
+          accountNumber: bankInternalTransaction.transferTo.accountNumber
+        }
+      }
+    });
+
+    if (transferToUser) {
+      transferToUserName = transferToUser.firstName + " " + transferToUser.lastName;
     }
 
     return new BankInternalTransactionResponseModel(
@@ -75,6 +88,7 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
       bankInternalTransaction.description,
       bankInternalTransaction.fee,
       bankInternalTransaction.transactionPaymentType,
+      transferToUserName,
       alias
     );
   }
