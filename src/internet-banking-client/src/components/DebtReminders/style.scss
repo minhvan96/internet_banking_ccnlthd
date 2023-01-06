@@ -1,5 +1,38 @@
 .DebtReminderList {
     padding: 20px 0 0 0;
+    .selectBox {
+      margin: 10px 10px;
+      display: flex;
+      .showmore {
+        position: relative;
+        margin-left: auto;
+        cursor: pointer;
+        .showmoreList {
+          position: absolute;
+          display: none;
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 10px;
+          width: 160px;
+          .list__ant {
+            border: none;
+          }
+          .ant-list-item {
+            cursor: pointer;
+            &:hover {
+              background-color: #f0f0f0b3;
+            }
+          }
+        }
+  
+        &:hover {
+          .showmoreList {
+            display: block;
+          }
+        }
+      }
+    }
+
     &__group {
       margin-top: 20px;
       padding: 0 40px;
@@ -33,6 +66,18 @@
         .note {
           color: #ffffffb3;
           font-size: 13px;
+        }
+      }
+      .status {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & > button {
+          color: #fc3d03;
+        }
+        & p {
+          color: #5fb621;
         }
       }
       .showmore {
