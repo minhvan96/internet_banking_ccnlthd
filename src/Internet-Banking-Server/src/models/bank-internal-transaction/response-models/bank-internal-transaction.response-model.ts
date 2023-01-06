@@ -10,6 +10,7 @@ export class BankInternalTransactionResponseModel {
   description: string;
   fee: number
   paymentType: BankTransactionPaymentType;
+  transferDate: Date
 
   constructor(
     id: number,
@@ -19,6 +20,7 @@ export class BankInternalTransactionResponseModel {
     description: string,
     fee: number,
     paymentType: BankTransactionPaymentType,
+    transferDate: Date,
     transferToName?: string,
     alias?: string
   ) {
@@ -30,6 +32,7 @@ export class BankInternalTransactionResponseModel {
     this.description = description;
     this.fee = fee;
     this.paymentType = paymentType;
+    this.transferDate = transferDate;
     this.transferToBeneficiary = alias;
   }
 }

@@ -49,7 +49,7 @@ export class GetBankInternalAccountTransactionToByAccountHandler implements IQue
       tran.transferAmount,
       tran.description,
       tran.fee,
-      tran.transactionPaymentType));
+      tran.transactionPaymentType,
+      tran.createdDate));
   }
-
 }

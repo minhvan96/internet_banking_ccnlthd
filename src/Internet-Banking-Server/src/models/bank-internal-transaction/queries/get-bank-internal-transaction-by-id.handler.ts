@@ -88,6 +88,7 @@ export class GetBankInternalTransactionByIdHandler implements IQueryHandler<GetB
       bankInternalTransaction.description,
       bankInternalTransaction.fee,
       bankInternalTransaction.transactionPaymentType,
+      bankInternalTransaction.createdDate,
       transferToUserName,
       alias
     );
