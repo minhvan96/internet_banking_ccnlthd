@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   CreateInternalBankTransferCommand,
@@ -23,6 +23,14 @@ import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
 import { GetInternalBeneficiaryQuery } from './queries/get-internal-beneficiary.query';
 import { AddBankInternalAccountCommand } from './commands/add-bank-internal-account.command';
 import { GetExternalBeneficiaryQuery } from './queries/get-external-beneficiary.query';
+import {
+  UpdateInternalBeneficiaryCommand,
+  UpdateInternalBeneficiaryRequest
+} from "./commands/update-internal-beneficiary.command";
+import {
+  DeleteInternalBeneficiaryCommand,
+  DeleteInternalBeneficiaryRequest
+} from "./commands/delete-internal-beneficiary.command";
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -88,7 +96,8 @@ export class CustomerController {
     const userId: number = user['sub'];
     return await this.commandBus.execute(new AddInternalBeneficiaryCommand(userId, request));
   }
-
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
   @Post('add-external-beneficiary')
   async AddExternalBeneficiary(
     @Req() req: Request,
@@ -96,5 +105,26 @@ export class CustomerController {
     const {user} = req;
     const userId: number = user['sub'];
     return await this.commandBus.execute(new AddExternalBeneficiaryCommand(userId, request));
+  }
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Put('update-external-beneficiary')
+  async UpdateExternalBeneficiary(
+    @Req() req: Request,
+    @Body() request: UpdateInternalBeneficiaryRequest) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.commandBus.execute(new UpdateInternalBeneficiaryCommand(userId, request));
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Delete('delete-external-beneficiary')
+  async DeleteExternalBeneficiary(
+    @Req() req: Request,
+    @Body() request: DeleteInternalBeneficiaryRequest) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.commandBus.execute(new DeleteInternalBeneficiaryCommand(userId, request));
   }
 }
