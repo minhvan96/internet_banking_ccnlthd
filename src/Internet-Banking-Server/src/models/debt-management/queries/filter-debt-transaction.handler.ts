@@ -1,5 +1,5 @@
 import {IQueryHandler, QueryBus, QueryHandler} from "@nestjs/cqrs";
-import {FilterDebtTransactionQuery} from "./filter-debt-transactions.query";
+import {DebtFilterResponse, FilterDebtTransactionQuery} from "./filter-debt-transactions.query";
 import {GetCustomerQuery} from "../../customer/queries/get-customer.query";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
@@ -22,12 +22,17 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
         }
         let condition = {};
         let select = {};
-
+        let relation={};
         if(query.payload.isCreator){
             condition= {
                 loanAccount: { accountNumber: customer.accountNumber},
                 isDeleted: false
             };
+
+            relation= {
+                debtAccount: true,
+            }
+
             select = {
                 id: true,
                 transferAmount: true,
@@ -53,7 +58,9 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
                     isDeleted: false
                 };
             }
-
+            relation = {
+                loanAccount: true,
+            }
             select = {
                 id: true,
                 transferAmount: true,
@@ -66,9 +73,14 @@ export class FilterDebtTransactionHandler implements IQueryHandler<FilterDebtTra
                 },
             }
         }
-        return await this.debtTransactionRepository.find({
+        const trans =  await this.debtTransactionRepository.find({
             where: condition,
+            relations: relation,
             select: select
         });
+
+        return trans.map(value => new DebtFilterResponse(value.id,
+            value.debtAccount? value.debtAccount.accountNumber : value.loanAccount.accountNumber,
+            value.transferAmount, value.description, value.createdDate, value.updatedDate, value.isPaid))
     }
 }
