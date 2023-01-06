@@ -23,3 +23,16 @@ export class DebtFilterRequest{
         this.userId = userId;
     }
 }
+
+export class DebtFilterResponse {
+    constructor(
+        public id: number,
+        public accountNumber: string,
+        public transferAmount: number,
+        public description: string,
+        public createdDate: Date,
+        public updatedDate: Date,
+        public isPaid: boolean
+    ) {
+    }
+}
