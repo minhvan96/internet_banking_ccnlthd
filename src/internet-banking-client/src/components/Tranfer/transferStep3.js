@@ -15,7 +15,6 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [transactionCurrent, setTransactionCurrent] = useState({});
   const [messageApi] = message.useMessage();
-  const [otp, setOTP] = useState("0");
   useEffect(() => {
     const fetch = async () => {
       const dataAPI = await bankInternalTransactionTranferbyId(
@@ -27,9 +26,22 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
     fetch();
   }, []);
 
-  const saveBeneficiary = () => {
+  const saveBeneficiary = async () => {
     if (transactionCurrent) {
-      addInternalBeneficiary(transactionCurrent, "");
+      const result = await addInternalBeneficiary(transactionCurrent, transactionCurrent?.transferToAccount);
+      if(result){
+        messageApi.open({
+          "type": "success",
+          content: "Thêm thành công"
+        })
+        hideModal();
+      }
+      else{
+        messageApi.open({
+          "type": "error",
+          content: "Thêm không thành công!"
+        })
+      }
     }
   };
   const showModal = () => {
@@ -97,7 +109,7 @@ const TransferStep3 = ({ isInternalTransfer, bankTransactionId, nextStep }) => {
       >
         <BeneficiaryCreate
           accountNumber={transactionCurrent?.transferToAccount}
-          alias={"nghia"}
+          alias={transactionCurrent?.transferToBeneficiary}
           isInternal={true}
         >
           <div className="footer">
