@@ -81,7 +81,7 @@ const TransferStep2 = ({
         <div className="group group-style">
           <div className="step2__label">Tên người thụ hưởng</div>
           <div className="step2__value step2__value-highlight">
-            DINH THANH PHU
+            {transactionCurrent?.transferToName}
           </div>
         </div>
         <div className="group group-style">
