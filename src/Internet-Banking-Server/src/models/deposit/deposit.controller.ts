@@ -6,8 +6,8 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { MakeDepositCommand, MakeDepositRequest } from "./commands/make-deposit.command";
 import { GetDepositQuery } from "./queries/get-deposit.query";
 
-@ApiTags("Employee")
-@Controller("employee")
+@ApiTags("Deposit")
+@Controller("deposit")
 export class DepositController {
   constructor(
     private readonly queryBus: QueryBus,
