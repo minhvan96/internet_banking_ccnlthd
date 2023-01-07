@@ -9,17 +9,14 @@ import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
 import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
+import CloseAccountPage from "./pages/Customer/CloseAccount/CloseAccountPage";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
-import {
-  Admin,
-  Customer,
-  Employee
-} from "./constant/roles";
+import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
-import AdminPage from "./pages/admin/test";
 import AdminLayout from "./layouts/admin/layout";
-import AdminLogin from "./pages/admin/login/login";
+import AdminLogin from "./pages/Admin/login/login";
+import EmployeeManagermentPage from "./pages/Admin/EmployeeManagerment/EmployeeManagermentPage";
 
 function App() {
   const { user } = useAuth();
@@ -32,10 +29,23 @@ function App() {
       <Route path="/password-change" element={<PasswordChange />} />
       <Route path="/admin-login" element={<AdminLogin />} />
 
-      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
-        <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
-
-        </Route>
+      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />}>
+        <Route
+          path="/"
+          element={
+            <CustomerLayout>
+              <HomePage />
+            </CustomerLayout>
+          }
+        />
+        <Route
+          path="/closeaccount"
+          element={
+            <CustomerLayout>
+              <CloseAccountPage />
+            </CustomerLayout>
+          }
+        />
       </Route>
 
       <Route
@@ -65,26 +75,25 @@ function App() {
       <Route
         path="/transferhistory"
         element={
-          <CustomerLayout>
+          // <CustomerLayout>
             <TransferHistoryPage />
-          </CustomerLayout>
+          // </CustomerLayout>
         }
       />
 
       {/* Debt Reminder */}
-      <Route path="debt-reminder" element={
-        <DebtReminder />
-      } />
+      <Route path="debt-reminder" element={<DebtReminder />} />
 
-    <Route path="admin" element={
-        <AdminLayout>
-            <AdminPage />
-        </AdminLayout>
-    } />
+      <Route
+        path="admin"
+        element={
+          <AdminLayout>
+            <EmployeeManagermentPage />
+          </AdminLayout>
+        }
+      />
 
       <Route path="*" element={<Error />} />
-
-
     </Routes>
   );
 }

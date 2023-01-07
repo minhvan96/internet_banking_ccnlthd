@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -41,10 +41,8 @@ function CustomerLayout({ children }) {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const onSearch = (value) => console.log(value);
   const { logout, user } = useAuth();
   console.log(user);
-  const navigate = useNavigate();
   const handleSignOut = () => {
     logout();
   };
@@ -64,9 +62,11 @@ function CustomerLayout({ children }) {
         }}
         width="330px"
       >
-        <div className="cuslayout__logo">
-          <img alt="logo" src={logo} />
-        </div>
+        <NavLink to="/" style={{ padding: 0 }}>
+          <div className="cuslayout__logo">
+            <img alt="logo" src={logo} />
+          </div>
+        </NavLink>
         <CardLayout>
           <div className="acc__card">
             <div className="avatar">
@@ -133,14 +133,16 @@ function CustomerLayout({ children }) {
           }}
           className="cuslayout__header"
         >
-          <div
-            style={{
-              maxWidth: "100%",
-            }}
-            className="left"
-          >
-            <img alt="logo" src={logo} />
-          </div>
+          <NavLink to="/" style={{ padding: 0 }}>
+            <div
+              style={{
+                maxWidth: "100%",
+              }}
+              className="left"
+            >
+              <img alt="logo" src={logo} />
+            </div>
+          </NavLink>
           <div
             style={{
               width: "50%",
