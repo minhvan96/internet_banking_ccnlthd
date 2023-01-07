@@ -41,7 +41,7 @@ export class MakeDepositHandler implements ICommandHandler<MakeDepositCommand>{
     if(!user)
       throw new NotFoundException(`User with Id ${command.payload.userId} is not found`);
 
-    user.bankAccount.balance += command.payload.depositAmount;
+    user.bankAccount.balance += +command.payload.depositAmount;
     await this.userRepository.save(user);
 
 

@@ -12,3 +12,15 @@ export const registerCustomer = async (body) => {
     throw new Error("add failed");
   }
 };
+
+export const makeDeposit = async (body) => {
+  try {
+    const { data } = await apiInstance.post(
+      "deposit/make-deposit",
+      body
+    );
+    return data;
+  } catch (error) {
+    throw new Error("add failed");
+  }
+};

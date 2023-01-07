@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.scss";
-import { Col, Form, Input, message, Row, Select } from "antd";
+import { Form, Input, message } from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
 import {registerCustomer} from "../../apis/customerApi";
 
-const styleButton = { width: "100%", height: "100%" };
 const CreateCustomer = ({ hideModal, setEmployeeList }) => {
   const [form] = Form.useForm();
-
   const onSubmit = async () => {
     await addCustomer();
     form.resetFields();
