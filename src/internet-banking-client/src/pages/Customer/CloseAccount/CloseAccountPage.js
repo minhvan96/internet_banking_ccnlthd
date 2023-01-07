@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import "./style.scss";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { redirect, useNavigate } from "react-router-dom";
+import { closeAccount } from "../../../apis/auth";
 
 const styleButton = { width: "100%", height: "44px" };
 const styleInput = { height: 43, fontWeight: 500, color: "#72bf00" };
@@ -86,11 +87,18 @@ const CloseAccountPage = () => {
         ),
       });
     }, 1000);
-    setTimeout(() => {
+    setTimeout(async () => {
       clearInterval(timer);
       modal.destroy();
-      logout();
-      navigate("/login");
+
+      // call api disable account
+      const response = await closeAccount();
+      if (response) {
+        logout();
+        navigate("/login");
+      } else {
+        console.log("faile");
+      }
     }, secondsToGo * 1000);
   };
 

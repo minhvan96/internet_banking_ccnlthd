@@ -9,6 +9,7 @@ import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
 import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
+import CloseAccountPage from "./pages/Customer/CloseAccount/CloseAccountPage";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
 import {
@@ -32,10 +33,23 @@ function App() {
       <Route path="/password-change" element={<PasswordChange />} />
       <Route path="/admin-login" element={<AdminLogin />} />
 
-      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
-        <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
-
-        </Route>
+      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />}>
+        <Route
+          path="/"
+          element={
+            <CustomerLayout>
+              <HomePage />
+            </CustomerLayout>
+          }
+        />
+        <Route
+          path="/closeaccount"
+          element={
+            <CustomerLayout>
+              <CloseAccountPage />
+            </CustomerLayout>
+          }
+        />
       </Route>
 
       <Route
