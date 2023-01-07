@@ -4,6 +4,7 @@ import {Form, Input, message} from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import {BsPlusLg} from "react-icons/bs";
 import {makeDeposit} from "../../apis/customerApi";
+import {getAllCustomers} from "../../apis/employeeApi";
 
 const Deposit = ({hideModal, setCustomers, customer}) => {
   const [form] = Form.useForm();
@@ -16,25 +17,12 @@ const Deposit = ({hideModal, setCustomers, customer}) => {
 
   const handleDeposit = async (id) => {
     const formSubmit = form.getFieldsValue();
-    formSubmit.id = id;
+    formSubmit.userId = id;
     console.log(formSubmit);
     const response = await makeDeposit(formSubmit);
-    if (response) {
-      setCustomers((customer) => {
-        const result = customer.map((x) =>
-          +x.id !== id
-            ? x
-            : {
-              email: formSubmit?.email,
-              firstName: formSubmit?.firstName,
-              id: formSubmit?.id,
-              lastName: formSubmit?.lastName,
-              phoneNumber: formSubmit?.phoneNumber,
-              userName: formSubmit?.userName,
-            }
-        );
-        return result;
-      });
+    if (response === "") {
+      const customers = await getAllCustomers();
+      setCustomers(customers);
     }
     successMessage("Nạp tiền thành công!");
     hideModal();
@@ -62,11 +50,8 @@ const Deposit = ({hideModal, setCustomers, customer}) => {
         span: 18,
       }}
     >
-      <Form.Item name="userId" label="Mã nhân viên">
-        <Input placeholder="Họ nhân viên"/>
-      </Form.Item>
       <Form.Item name="depositAmount" label="Số tền nạp">
-        <Input placeholder="Tên nhân viên"/>
+        <Input placeholder="Số tền nạp"/>
       </Form.Item>
     </Form>
 
