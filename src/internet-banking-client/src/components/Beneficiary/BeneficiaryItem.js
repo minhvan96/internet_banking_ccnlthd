@@ -1,16 +1,21 @@
-import { Form, Input, List, Modal, Radio, Select } from "antd";
+import { Form, Input, List, message, Modal, Radio, Select } from "antd";
 import React, { useState } from "react";
 import "./style.scss";
 import { FiMoreVertical } from "react-icons/fi";
 import ModelCustom from "../common/ModalCustom";
 import ButtonCustom from "../common/ButtonCustom";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import {
+  deleteBeneficiary,
+  updateBeneficiary,
+} from "../../apis/beneficiaryApi";
 
 const { confirm } = Modal;
 function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -18,7 +23,7 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
     setIsModalOpen(false);
   };
 
-  const remove = () => {
+  const remove = (accountNumber, alias) => {
     confirm({
       title: "Xác nhận",
       icon: <ExclamationCircleFilled />,
@@ -26,34 +31,52 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
       okText: "Có",
       okType: "danger",
       cancelText: "Không",
-      onOk() {
-        setBeneficiaryList((list) => {
-          const index = list.findIndex((x) => x.id === beneficiary.id);
-          list.splice(index, 1);
-          return list.length ? list : [];
-        });
+      async onOk() {
+        // call api delete
+        const deleteAPI = await deleteBeneficiary(accountNumber, alias);
+        if (deleteAPI) {
+          setBeneficiaryList((list) => {
+            const index = list.findIndex((x) => x.id === beneficiary.id);
+            list.splice(index, 1);
+            return list.length ? list : [];
+          });
+        }
+        messageApi.open({ type: "success", content: "Xóa thành công!" });
       },
       onCancel() {
-        console.log("Cancel");
+        messageApi.open({
+          type: "warning",
+          content: "Có lỗi xảy ra, vui lòng thử lại!",
+        });
       },
     });
   };
 
-  const submitUpdate = () => {
+  const submitUpdate = async () => {
     const formData = form.getFieldsValue();
-    setBeneficiaryList((list) => {
-      const result = list.map((x) =>
-        x.id === beneficiary.id
-          ? { ...x, accountNumber: formData.accnumer, alias: formData.name }
-          : x
-      );
-      return result;
-    });
-
-    hideModal();
+    //update
+    const dataAPI = await updateBeneficiary(formData.accnumber, formData.name);
+    if (dataAPI) {
+      setBeneficiaryList((list) => {
+        const result = list.map((x) =>
+          x.id === beneficiary.id
+            ? { ...x, accountNumber: formData.accnumber, alias: formData.name }
+            : x
+        );
+        return result;
+      });
+      messageApi.open({ type: "success", content: "Cập nhật thành công!" });
+      hideModal();
+    } else {
+      messageApi.open({
+        type: "warning",
+        content: "Cập nhật thất bại, vui lòng thử lại!",
+      });
+    }
   };
   return (
     <div className="beneficiaryList__item">
+      {contextHolder}
       <div className="no-box">{nonumber}</div>
       <div className="content">
         <h4> {beneficiary.alias} </h4>
@@ -72,7 +95,13 @@ function BeneficiaryItem({ nonumber, beneficiary, setBeneficiaryList }) {
             bordered
             dataSource={data}
             renderItem={(item) => (
-              <List.Item onClick={item === "Chỉnh sửa" ? showModal : remove}>
+              <List.Item
+                onClick={
+                  item === "Chỉnh sửa"
+                    ? showModal
+                    : () => remove(beneficiary.accountNumber, beneficiary.alias)
+                }
+              >
                 {item}
               </List.Item>
             )}

@@ -48,7 +48,7 @@ function CustomerLayout({ children }) {
   const handleSignOut = () => {
     logout();
   };
-  
+
   return (
     <Layout hasSider className="cuslayout">
       <Sider
@@ -95,10 +95,25 @@ function CustomerLayout({ children }) {
             <div className="card__row">
               <div className="left">
                 <div className="top">Số dư</div>
-                <div className="bottom">{convertCurrentcy(+user.bankAccount.balance)}</div>
+                <div className="bottom">
+                  {convertCurrentcy(+user.bankAccount.balance)}
+                </div>
               </div>
               <div className="right">Chi tiết</div>
             </div>
+          </div>
+        </CardLayout>
+        <CardLayout>
+          <div className="hotline">
+            <div className="sub">Dịch vụ hỗ trợ 24/7</div>
+            <div className="sdt">1900 441151 99</div>
+          </div>
+        </CardLayout>
+
+        <CardLayout>
+          <div className="reference">
+            <div className="item">Tra soát trực tuyến</div>
+            <div className="item">Tra cứu tỉ giá</div>
           </div>
         </CardLayout>
       </Sider>
@@ -106,31 +121,35 @@ function CustomerLayout({ children }) {
         className="site-layout"
         style={{
           marginLeft: 330,
-          position: 'relative',
-          height: '100vh'
+          position: "relative",
+          height: "100vh",
         }}
       >
         <Header
           style={{
             padding: 0,
             background: colorBgContainer,
-            width: '100%',
+            width: "100%",
           }}
           className="cuslayout__header"
         >
-          <div style={{
-            maxWidth: '100%',
-          }}
-            className="left">
+          <div
+            style={{
+              maxWidth: "100%",
+            }}
+            className="left"
+          >
             <img alt="logo" src={logo} />
           </div>
-          <div style={{
-            width: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-          }}
-            className="right">
+          <div
+            style={{
+              width: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+            className="right"
+          >
             {/* <Search
               placeholder="input search text"
               onSearch={onSearch}
@@ -183,9 +202,9 @@ function CustomerLayout({ children }) {
             height: "23px",
             margin: "0",
             padding: 0,
-            position: 'fixed',
-            width: '100%',
-            bottom: 0
+            position: "fixed",
+            width: "100%",
+            bottom: 0,
           }}
           className=""
         >

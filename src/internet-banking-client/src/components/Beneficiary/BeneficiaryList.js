@@ -16,7 +16,7 @@ const styleButton = { width: "100%", height: "100%" };
 
 function BeneficiaryList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
   const [beneficiaryList, setBeneficiaryList] = useState([]);
   const [form] = Form.useForm();
 
@@ -63,12 +63,15 @@ function BeneficiaryList() {
     setIsModalOpen(false);
   };
 
-  const addBeneficiary = () => {
+  const addBeneficiary = async () => {
     const formSubmit = form.getFieldsValue();
     console.log(formSubmit);
     let result;
     if (formSubmit.bankType === "Nội bộ") {
-      result = addInternalBeneficiary(formSubmit.accnumber, formSubmit.name);
+      result = await addInternalBeneficiary(
+        formSubmit.accnumber,
+        formSubmit.name
+      );
       setBeneficiaryList([
         ...beneficiaryList,
         {
@@ -91,6 +94,7 @@ function BeneficiaryList() {
 
   return (
     <div className="beneficiaryList">
+      {contextHolder}
       <div className="beneficiaryList__searchgroup">
         <Row gutter={[8, 16]}>
           <Col span={20}>
