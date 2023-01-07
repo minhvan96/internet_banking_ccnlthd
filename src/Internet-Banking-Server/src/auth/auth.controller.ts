@@ -23,6 +23,7 @@ import {
   ChangeUserPasswordByCodeCommand,
   ChangeUserPasswordByCodeRequest
 } from "../identity/user/commands/change-user-password-by-code.command";
+import { SoftDeleteUserCommand, SoftDeleteUserRequest } from "../identity/user/commands/soft-delete-user.command";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -88,5 +89,17 @@ export class AuthController {
     @Body() request: ChangeUserPasswordByCodeRequest
   ) {
     return this.commandBus.execute(new ChangeUserPasswordByCodeCommand(request));
+  }
+
+  @Post("/disable-account")
+  @ApiOperation({ summary: "Disable user account" })
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  async disableAccount(
+    @Req() req: Request
+  ) {
+    const { user } = req;
+    const userId: number = user["sub"];
+    return this.commandBus.execute(new SoftDeleteUserCommand(new SoftDeleteUserRequest(userId)));
   }
 }

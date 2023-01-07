@@ -1,0 +1,26 @@
+.closeaccount {
+  margin: 30px 300px;
+  &__header {
+    font-size: 18px;
+    color: #fff;
+    text-align: initial;
+  }
+
+  .group {
+    margin-top: 50px;
+    background-color: rgba(44, 64, 68, 0.7);
+    border-radius: 10px;
+    padding: 10px 0;
+    &__item {
+      padding: 20px 30px;
+      .sub {
+        color: #ffffffb3;
+        text-align: initial;
+        margin-top: 10px;
+      }
+    }
+  }
+  .btn-submit{
+    margin-top: 20px;
+  }
+}

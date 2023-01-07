@@ -9,17 +9,14 @@ import CustomerLayout from "./layouts/customer";
 import PasswordChange from "./components/PasswordChange";
 import "./app.scss";
 import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
+import CloseAccountPage from "./pages/Customer/CloseAccount/CloseAccountPage";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
-import {
-  Admin,
-  Customer,
-  Employee
-} from "./constant/roles";
+import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
-import AdminPage from "./pages/admin/test";
 import AdminLayout from "./layouts/admin/layout";
-import AdminLogin from "./pages/admin/login/login";
+import AdminLogin from "./pages/Admin/login/login";
+import AdminPage from "./pages/Admin/test";
 
 function App() {
   const { user } = useAuth();
@@ -37,6 +34,23 @@ function App() {
         <Route path="admin" element={<AdminPage></AdminPage>} />
       </Route>
 
+      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />}>
+        <Route
+          path="/"
+          element={
+            <CustomerLayout>
+              <HomePage />
+            </CustomerLayout>
+          }
+        />
+        <Route
+          path="/closeaccount"
+          element={
+            <CustomerLayout>
+              <CloseAccountPage />
+            </CustomerLayout>
+          }
+        />
       </Route>
 
       <Route
@@ -73,19 +87,26 @@ function App() {
       />
 
       {/* Debt Reminder */}
-      <Route path="debt-reminder" element={
-        <DebtReminder />
-      } />
+      <Route path="debt-reminder" element={<DebtReminder />} />
 
+<<<<<<< HEAD
       <Route path="admin" element={
         <AdminLayout>
           <AdminPage />
         </AdminLayout>
       } />
+=======
+      <Route
+        path="admin"
+        element={
+          <AdminLayout>
+            <AdminPage />
+          </AdminLayout>
+        }
+      />
+>>>>>>> 4eb8c438fe3c56c18f9c1db405d262c72c13de64
 
       <Route path="*" element={<Error />} />
-
-
     </Routes>
   );
 }
