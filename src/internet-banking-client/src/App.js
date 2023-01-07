@@ -29,11 +29,6 @@ function App() {
       <Route path="/password-change" element={<PasswordChange />} />
       <Route path="/admin-login" element={<AdminLogin />} />
 
-      <Route element={<ProtectedAuth routeProtected={true} />}>
-        <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
-        <Route path="admin" element={<AdminPage></AdminPage>} />
-      </Route>
-
       <Route element={<ProtectedAuth allowedRoles={[...Customer]} />}>
         <Route
           path="/"
@@ -89,13 +84,6 @@ function App() {
       {/* Debt Reminder */}
       <Route path="debt-reminder" element={<DebtReminder />} />
 
-<<<<<<< HEAD
-      <Route path="admin" element={
-        <AdminLayout>
-          <AdminPage />
-        </AdminLayout>
-      } />
-=======
       <Route
         path="admin"
         element={
@@ -104,7 +92,6 @@ function App() {
           </AdminLayout>
         }
       />
->>>>>>> 4eb8c438fe3c56c18f9c1db405d262c72c13de64
 
       <Route path="*" element={<Error />} />
     </Routes>
