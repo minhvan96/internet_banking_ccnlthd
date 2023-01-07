@@ -33,8 +33,7 @@ const CreateEmployee = ({ hideModal, setEmployeeList }) => {
         ];
       });
     }
-    form.setFieldValue({});
-    successMessage("Thêm người hưởng thụ thành công!");
+    successMessage("Thêm nhân viên thành công!");
     hideModal();
   };
   const successMessage = (content) => {
