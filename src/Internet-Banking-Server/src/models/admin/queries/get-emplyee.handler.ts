@@ -16,8 +16,15 @@ export class GetEmplyeeHandler implements IQueryHandler<GetEmployeeQuery>{
         return this.userRepository.find({
             where: {
                 roles: {
-                    name: RoleConstants.Employee
-                }
+                    name: RoleConstants.Employee,
+                },
+                isDeleted: false
+            },
+            select:{
+                id: true,
+                userName : true,
+                firstName: true,
+                lastName: true,
             }
         })
     }
