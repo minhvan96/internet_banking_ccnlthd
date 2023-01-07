@@ -30,7 +30,7 @@ function EmployeeList() {
     fetch();
   }, []);
 
-  console.log(employeeList);
+  console.log('render; ', employeeList);
 
 
 
