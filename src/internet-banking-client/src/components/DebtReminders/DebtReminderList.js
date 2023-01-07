@@ -19,6 +19,7 @@ function DebtReminderList() {
   const [Debt, setDebt] = useState([]);
   const [form] = Form.useForm();
   const [selectedDebt, setSelectedDebt] = useState("");
+  const [isLoading, setLoading] = useState(true)
 
   const fetch = async (isCreator, isUnpaid) => {
     let _isCreator = isCreator == false ? isCreator : true;
@@ -29,7 +30,7 @@ function DebtReminderList() {
     debtMap = internalDebt.data.map((x) => {
       return {
         id: x?.id,
-        accnumber: 70877,
+        accnumber: x?.accountNumber,
         amount: x?.transferAmount,
         description: x?.description,
         isPaid: x?.isPaid,
@@ -65,13 +66,17 @@ function DebtReminderList() {
 
   useEffect(()=> {
     if(selectedDebt === 'list-Debt-Remender') {
-      fetch(false, true);
-    } else {
       fetch(true, true);
+      setLoading(false);
+    } else {
+      fetch(false, true);
+      setLoading(false);
     }
-  }, [selectedDebt])
+  }, [selectedDebt, Debt])
 
   return (
+    !isLoading ? (
+
     <div className="DebtReminderList">
       <div className="DebtReminderList__searchgroup">
         <Row gutter={[8, 16]}>
@@ -179,7 +184,8 @@ function DebtReminderList() {
               nonumber={index + 1}
               key={item.id}
               debt={item}
-              setDebt={setDebt}
+              setDebtList={setDebt}
+              statusList={selectedDebt}
             />
           ))}
         <div className="footer">
@@ -211,6 +217,12 @@ function DebtReminderList() {
         </div>
       </div>
     </div>
+    ) : (
+      <div>
+        <div className="empty"></div>
+        
+        </div>
+    )
   );
 }
 export default DebtReminderList;

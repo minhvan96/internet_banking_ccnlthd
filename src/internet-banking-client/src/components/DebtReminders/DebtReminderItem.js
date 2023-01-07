@@ -1,47 +1,114 @@
 import { Form, Input, List, Modal, Radio, Select } from "antd";
 import React, { useEffect, useState } from "react";
+import apiInstance from "../../apis/config";
+import {
+  postPaymentDebt,
+  accessPaymentDebt,
+} from "../../apis/debt";
 import "./style.scss";
-import { FiMoreVertical } from "react-icons/fi";
-import ModelCustom from "../common/ModalCustom";
-import ButtonCustom from "../common/ButtonCustom";
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import Swal from 'sweetalert2'
 
 const { confirm } = Modal;
-function DebtReminderItem({ nonumber, debt, setDebtList }) {
-  const [form] = Form.useForm();
-  const data = ["Chỉnh sửa", "Xóa"];
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const hideModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const remove = () => {
-    confirm({
-      title: "Xác nhận",
-      icon: <ExclamationCircleFilled />,
-      content: "Bạn chắc chắn muốn xóa tên hưởng thụ này?",
-      okText: "Có",
-      okType: "danger",
-      cancelText: "Không",
-      onOk() {
-        setDebtList((list) => {
-          const index = list.findIndex((x) => x.id === debt.id);
-          list.splice(index, 1);
-          return list.length ? list : [];
-        });
-      },
-      onCancel() {
-        console.log("Cancel");
-      },
-    });
-  };
+function DebtReminderItem({ nonumber, debt, setDebtList, statusList }) {
 
   useEffect(() => {
     console.log(debt);
   })
+
+  const handlePayment = async (event) => {
+    event.preventDefault();
+
+    const transactionId = event.currentTarget.id;
+    const data = await postPaymentDebt(parseInt(transactionId));
+    console.log(data);
+
+    if (data) {
+      Swal.fire({
+        title: 'Kiểm tra thông tin',
+        text: `Số tài khoản/sđt: ${data.loanAccount.accountNumber} ; Số tiền: ${data.transferAmount}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#5fb621',
+        cancelButtonColor: '#fc3d03',
+        confirmButtonText: 'Trả nợ',
+        cancelButtonText: 'Hủy'
+      }).then((result) => {
+
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Kiểm tra mail và điền mã code',
+            input: 'text',
+            inputAttributes: {
+              autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#5fb621',
+            cancelButtonColor: '#fc3d03',
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy',
+            showLoaderOnConfirm: true,
+            preConfirm: async (codeId) => {
+              // return fetch(`//api.github.com/users/${login}`)
+              //   .then(response => {
+              //     if (!response.ok) {
+              //       throw new Error(response.statusText)
+              //     }
+              //     return response.json()
+              //   })
+              //   .catch(error => {
+              //     Swal.showValidationMessage(
+              //       `Request failed: ${error}`
+              //     )
+              //   })
+              // const code = parseInt(codeId);
+              // console.log(transactionId);
+              // console.log(code);
+              // return apiInstance.post('debt-management/debt-payment', { transactionId, code }).then(response => {
+              //   if (!response.ok) {
+              //     throw new Error(response.statusText)
+              //   }
+              //   return response.json()
+              // })
+              // .catch(error => {
+              //     Swal.showValidationMessage(
+              //       `lỗi không đúng mã code hoặc tài khoản không đủ tiền : Request failed: ${error}`
+              //     )
+              //   })
+              console.log(888888888888888888888);
+              try {
+                const code = parseInt(codeId);
+                const check = await accessPaymentDebt(transactionId, code);
+                if (!check) {
+                  console.log(66666666666666666666666666666666);
+                  Swal.showValidationMessage(
+                    'lỗi không đúng mã code hoặc tài khoản không đủ tiền'
+                  )
+                }
+                return check;
+              } catch (error) {
+                Swal.showValidationMessage(
+                  `Error: ' + error.message`
+                )
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Thanh toán thành công',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
+          })
+        }
+
+      })
+    }
+
+  }
 
   return (
     <div className="DebtReminderList__item">
@@ -56,15 +123,19 @@ function DebtReminderItem({ nonumber, debt, setDebtList }) {
         </div>
       </div>
       <div className="status">
-        { debt.isPaid === false &&
-          <button>
+        {debt.isPaid === false && (statusList === '' || statusList === 'list-Debt') &&
+          <button id={debt.id} onClick={handlePayment}>
             Thanh toán
           </button>
         }
-        { debt.isPaid === true &&
-          <p>Đã thanh toán</p>
+        {debt.isPaid === true &&
+          <p id={debt.id} >Đã thanh toán</p>
         }
-
+        {debt.isPaid === false && statusList === 'list-Debt-Remender' &&
+          <button id={debt.id}>
+            Chưa thanh toán
+          </button>
+        }
       </div>
 
     </div>

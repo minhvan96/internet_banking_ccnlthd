@@ -24,3 +24,27 @@ export const getDebt = async (isCreator, isUnpaid) => {
       throw new Error("Error getting");
     }
 };
+
+export const postPaymentDebt = async (transactionId) => {
+  try {
+    const { data } = await apiInstance.get(
+      `debt-management/debt-payment-request/${transactionId}`
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error("Error getting");
+  }
+};
+
+export const accessPaymentDebt = async (transactionId, code) => {
+  try {
+    const { data } = await apiInstance.post(
+      'debt-management/debt-payment', {transactionId, code}
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error("Error payment");
+  }
+};
