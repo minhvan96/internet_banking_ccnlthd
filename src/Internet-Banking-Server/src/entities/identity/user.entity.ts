@@ -109,9 +109,9 @@ export class User extends EntityBase {
     userName: string,
     password: string,
     email: string,
-    phoneNumber: string,
     firstName: string,
     lastName: string,
+    phoneNumber?: string,
     authConfirmToken?: string) {
     super();
     this.userName = userName;
@@ -122,6 +122,8 @@ export class User extends EntityBase {
     this.lastName = lastName;
     this.authConfirmToken = authConfirmToken;
   }
+
+
 
   @BeforeInsert()
   async hashPassword() {

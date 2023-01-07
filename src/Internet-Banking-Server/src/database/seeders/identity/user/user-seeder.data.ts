@@ -43,9 +43,9 @@ const testUsers = (): User[] => {
     "customer02",
     "123456@Abc",
     "customer2@bank.com",
-    "02562468546",
     "CTM FN",
-    "CTM LN");
+    "CTM LN",
+    "02562468546");
   customer2.bankAccount = new BankInternalAccount("06849789788");
   customer2.bankAccount.balance = 200000000;
   customer2.isVerified = true;
@@ -71,9 +71,9 @@ function createRandomUser(): User {
     faker.internet.userName(),
     "123456@Abc",
     faker.internet.email(),
-    faker.phone.number(),
     faker.name.firstName(),
-    faker.name.lastName());
+    faker.name.lastName(),
+    faker.phone.number());
 }
 
 export const users: User[] = testUsers();
