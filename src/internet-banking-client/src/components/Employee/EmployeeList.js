@@ -7,6 +7,7 @@ import { BsPlusLg } from "react-icons/bs";
 import ModelCustom from "../common/ModalCustom";
 import EmployeeItem from "./EmployeeItem";
 import CreateEmployee from "./CreateEmployee";
+import { getAllEmployee } from "../../apis/administratorApi";
 // import {
 //   addInternalemployee,
 //   getExternalemployee,
@@ -21,41 +22,17 @@ function EmployeeList() {
   const [employeeList, setEmployeeList] = useState([]);
   const [form] = Form.useForm();
 
-  // const fetch = async () => {
-  //   const internalemployee = await getInternalemployee();
-  //   // const externalemployee = await getExternalemployee();
-  //   let employeeMap;
-  //   employeeMap = internalemployee.map((x) => {
-  //     return {
-  //       id: x?.id,
-  //       accountNumber: x?.accountNumber,
-  //       alias: x?.alias,
-  //       type: "Nội bộ",
-  //     };
-  //   });
-  //   // employeeMap = [
-  //   //   ...employeeMap,
-  //   //   ...externalemployee.map((x) => {
-  //   //     return {
-  //   //       id: x?.id,
-  //   //       accountNumber: x?.accountNumber,
-  //   //       alias: x?.alias,
-  //   //     };
-  //   //   }),
-  //   // ];
-  //   setEmployeeList(employeeMap);
-  // };
+  useEffect(() => {
+    const fetch = async () => {
+      const internalemployee = await getAllEmployee();
+      setEmployeeList(internalemployee);
+    };
+    fetch();
+  }, []);
 
-  // useEffect(() => {
-  //   fetch();
-  // }, []);
+  console.log(employeeList);
 
-  const successMessage = (content) => {
-    messageApi.open({
-      type: "success",
-      content,
-    });
-  };
+
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -63,26 +40,7 @@ function EmployeeList() {
   const hideModal = () => {
     setIsModalOpen(false);
   };
-
-  const addemployee = async () => {
-    const formSubmit = form.getFieldsValue();
-    console.log(formSubmit);
-    let result;
-    if (formSubmit.bankType === "Nội bộ") {
-      // setEmployeeList([
-      //   ...employeeList,
-      //   {
-      //     accountNumber: result?.accountNumber,
-      //     alias: result.alias,
-      //     type: "Nội bộ",
-      //   },
-      // ]);
-    }
-    form.setFieldValue({});
-    successMessage("Thêm người hưởng thụ thành công!");
-    hideModal();
-  };
-
+  
   return (
     <div className="employeeList">
       {contextHolder}
@@ -103,13 +61,13 @@ function EmployeeList() {
               setIsModalOpen={setIsModalOpen}
               title="Thêm mới"
             >
-              <CreateEmployee hideModal={hideModal} />
+              <CreateEmployee hideModal={hideModal} setEmployeeList={setEmployeeList}/>
             </ModelCustom>
           </Col>
         </Row>
       </div>
       <div className="employeeList__group">
-        {/* {employeeList &&
+        {employeeList &&
           employeeList.length &&
           employeeList.map((item, index) => (
             <EmployeeItem
@@ -118,20 +76,7 @@ function EmployeeList() {
               employee={item}
               setEmployeeList={setEmployeeList}
             />
-          ))} */}
-
-        <EmployeeItem
-          nonumber={1}
-          key={1}
-          employee={employeeList}
-          setemployeeList={setEmployeeList}
-        />
-        <EmployeeItem
-          nonumber={1}
-          key={1}
-          employee={null}
-          setemployeeList={setEmployeeList}
-        />
+          ))}
         <div className="footer">
           <div className="showCount">
             Hiển thị

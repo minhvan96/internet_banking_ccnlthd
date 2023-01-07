@@ -3,17 +3,51 @@ import "./style.scss";
 import { Col, Form, Input, message, Row, Select } from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
+import { addEmployee } from "../../apis/administratorApi";
 
 const styleButton = { width: "100%", height: "100%" };
-const CreateEmployee = ({ hideModal }) => {
+const CreateEmployee = ({ hideModal, setEmployeeList }) => {
   const [form] = Form.useForm();
 
   const onSubmit = () => {
-    
-    // hideModal();
+    addemployee();
+    form.resetFields();
+    hideModal();
   };
+
+  const addemployee = async () => {
+    const formSubmit = form.getFieldsValue();
+    const response = await addEmployee(formSubmit);
+    if (response) {
+      setEmployeeList((employee) => {
+        return [
+          ...employee,
+          {
+            email: response?.email,
+            firstName: response?.firstName,
+            id: response?.id,
+            lastName: response?.lastName,
+            phoneNumber: response?.phoneNumber,
+            userName: response?.userName,
+          },
+        ];
+      });
+    }
+    form.setFieldValue({});
+    successMessage("Thêm người hưởng thụ thành công!");
+    hideModal();
+  };
+  const successMessage = (content) => {
+    messageApi.open({
+      type: "success",
+      content,
+    });
+  };
+
+  const [messageApi, contextHolder] = message.useMessage();
   return (
     <div className="employeeList__add">
+      {contextHolder}
       <Form
         form={form}
         layout="horizontal"
@@ -40,8 +74,8 @@ const CreateEmployee = ({ hideModal }) => {
         <Form.Item name="username" label="Tên đăng nhập">
           <Input placeholder="Tên đăng nhập" />
         </Form.Item>
-        <Form.Item name="password" label="Mật khẩu">
-          <Input placeholder="Mật khẩu" />
+        <Form.Item name="password" label="Tên mật khẩu">
+          <Input placeholder="Tên mật khẩu" />
         </Form.Item>
       </Form>
 
