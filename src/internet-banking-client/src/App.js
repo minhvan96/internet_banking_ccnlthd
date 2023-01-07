@@ -15,8 +15,7 @@ import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
 import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
 import AdminLayout from "./layouts/admin/layout";
-import AdminLogin from "./pages/Admin/login/login";
-import EmployeeManagermentPage from "./pages/Admin/EmployeeManagerment/EmployeeManagermentPage";
+import EmployeeManagermentPage from "./pages/admin/EmployeeManagerment/EmployeeManagermentPage";
 
 function App() {
   const { user } = useAuth();
@@ -27,7 +26,7 @@ function App() {
       </Route>
       <Route path="/password-reset" element={<PasswordReset />} />
       <Route path="/password-change" element={<PasswordChange />} />
-      <Route path="/admin-login" element={<AdminLogin />} />
+      {/* <Route path="/admin-login" element={<AdminLogin />} /> */}
 
       <Route element={<ProtectedAuth allowedRoles={[...Customer]} />}>
         <Route
