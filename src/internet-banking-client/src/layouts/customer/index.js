@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -64,6 +64,7 @@ function CustomerLayout({ children }) {
         }}
         width="330px"
       >
+      {/* <NavLink to='/' */}
         <div className="cuslayout__logo">
           <img alt="logo" src={logo} />
         </div>

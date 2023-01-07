@@ -26,7 +26,7 @@ function HomePage() {
             <div className="content">Danh bạ</div>
           </div>
         </NavLink>
-        <NavLink to="/beneficiary">
+        <NavLink to="/internaltransfer">
           <div className="swiper__item">
             <div className="icon">
               <MdTransferWithinAStation />
@@ -34,7 +34,7 @@ function HomePage() {
             <div className="content">Chuyển tiền nội bộ</div>
           </div>
         </NavLink>
-        <NavLink to="/beneficiary">
+        <NavLink to="/quicktransfer">
           <div className="swiper__item">
             <div className="icon">
               <MdTransferWithinAStation />
@@ -42,7 +42,7 @@ function HomePage() {
             <div className="content">Chuyển tiền liên ngân hàng</div>
           </div>
         </NavLink>
-        <NavLink to="/beneficiary">
+        <NavLink to="/transferhistory">
           <div className="swiper__item">
             <div className="icon">
               <ImHistory />
@@ -50,7 +50,7 @@ function HomePage() {
             <div className="content">Lịch sử giao dịch</div>
           </div>
         </NavLink>
-        <NavLink to="/beneficiary">
+        <NavLink to="/debt-reminder">
           <div className="swiper__item">
             <div className="icon">
               <MdModelTraining />

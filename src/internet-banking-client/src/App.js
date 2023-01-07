@@ -12,15 +12,11 @@ import Beneficiary from "./pages/Customer/Beneficiary/Beneficiary";
 import CloseAccountPage from "./pages/Customer/CloseAccount/CloseAccountPage";
 import TransferPage from "./pages/Customer/Transfer/TransferPage";
 import DebtReminder from "./pages/Customer/DebtReminder/DebtReminder";
-import {
-  Admin,
-  Customer,
-  Employee
-} from "./constant/roles";
+import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
-import AdminPage from "./pages/admin/test";
 import AdminLayout from "./layouts/admin/layout";
-import AdminLogin from "./pages/admin/login/login";
+import AdminLogin from "./pages/Admin/login/login";
+import AdminPage from "./pages/Admin/test";
 
 function App() {
   const { user } = useAuth();
@@ -86,19 +82,18 @@ function App() {
       />
 
       {/* Debt Reminder */}
-      <Route path="debt-reminder" element={
-        <DebtReminder />
-      } />
+      <Route path="debt-reminder" element={<DebtReminder />} />
 
-    <Route path="admin" element={
-        <AdminLayout>
+      <Route
+        path="admin"
+        element={
+          <AdminLayout>
             <AdminPage />
-        </AdminLayout>
-    } />
+          </AdminLayout>
+        }
+      />
 
       <Route path="*" element={<Error />} />
-
-
     </Routes>
   );
 }
