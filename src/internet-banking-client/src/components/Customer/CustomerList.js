@@ -64,8 +64,7 @@ function CustomerList() {
             <CustomerItem
               nonumber={index + 1}
               key={index}
-              employee={item}
-              setEmployeeList={setCustomers()}
+              customer={item}
             />
           ))}
         <div className="footer">

@@ -6,7 +6,8 @@ import ModelCustom from "../common/ModalCustom";
 
 const {confirm} = Modal;
 
-function CustomerItem({nonumber, employee, setEmployeeList}) {
+function CustomerItem({nonumber, customer}) {
+  console.log(`customer: ${customer}`)
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,10 +25,10 @@ function CustomerItem({nonumber, employee, setEmployeeList}) {
       <div className="no-box">{nonumber}</div>
       <div className="content">
         <h4>
-          {employee?.firstName} {employee?.lastName}
+          {customer?.name}
         </h4>
-        <div className="note">Email: {employee?.email} </div>
-        <div className="note">Số điện thoại: {employee?.phoneNumber}</div>
+        <div className="note">Email: {customer?.email} </div>
+        <div className="note">Số điện thoại: {customer?.phoneNumber}</div>
       </div>
       <div className="showmore">
         <FiMoreVertical/>
