@@ -16,7 +16,7 @@ import {
   AddExternalBeneficiaryCommand,
   AddExternalBeneficiaryRequest
 } from './commands/add-external-beneficiary.command';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetCustomerQuery } from './queries/get-customer.query';
 import { Request } from 'express';
 import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
@@ -42,6 +42,7 @@ export class CustomerController {
     private readonly commandBus: CommandBus) {
   }
 
+  @ApiOperation({ summary: "Get customer by id" })
   @ApiOkResponse({
     description: 'The customer',
     type: CustomerResponseModel
@@ -51,6 +52,8 @@ export class CustomerController {
     @Param('id') userId: number) {
     return await this.queryBus.execute(new GetCustomerQuery(userId));
   }
+
+  @ApiOperation({ summary: "Change list customers" })
   @ApiOkResponse({
     description: 'The customer records',
     type: CustomerResponseModel,
@@ -63,6 +66,7 @@ export class CustomerController {
     return await this.queryBus.execute(new GetCustomersQuery());
   }
 
+  @ApiOperation({ summary: "Change internal beneficiary for current user" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Get('current/internal-beneficiary')
@@ -73,6 +77,7 @@ export class CustomerController {
     return await this.queryBus.execute(new GetInternalBeneficiaryQuery(userId));
   }
 
+  @ApiOperation({ summary: "Change external beneficiary for current user" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Get('current/external-beneficiary')
@@ -83,12 +88,14 @@ export class CustomerController {
     return await this.queryBus.execute(new GetExternalBeneficiaryQuery(userId));
   }
 
+  @ApiOperation({ summary: "Add new internal bank account" })
   @Post('add-bank-internal-account/:id')
   async AddBankInternalAccount(
     @Param('id') userId: number) {
     return await this.commandBus.execute(new AddBankInternalAccountCommand(userId));
   }
 
+  @ApiOperation({ summary: "Create new internal bank transfer" })
   @Post('internal-transfer/:id')
   async CreateInternalBankTransfer(
     @Param('id') userId: number,
@@ -96,6 +103,7 @@ export class CustomerController {
     return await this.commandBus.execute(new CreateInternalBankTransferCommand(userId, request));
   }
 
+  @ApiOperation({ summary: "Create new external bank transfer" })
   @Post('external-transfer/:id')
   async CreateExternalBankTransfer(
     @Param('id') userId: number,
@@ -103,6 +111,7 @@ export class CustomerController {
     return await this.commandBus.execute(new CreateExternalBankTransferCommand(userId, request));
   }
 
+  @ApiOperation({ summary: "Add new internal beneficiary for current user" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Post('add-internal-beneficiary')
@@ -113,6 +122,8 @@ export class CustomerController {
     const userId: number = user['sub'];
     return await this.commandBus.execute(new AddInternalBeneficiaryCommand(userId, request));
   }
+
+  @ApiOperation({ summary: "Add new external beneficiary for current user" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Post('add-external-beneficiary')
@@ -123,6 +134,8 @@ export class CustomerController {
     const userId: number = user['sub'];
     return await this.commandBus.execute(new AddExternalBeneficiaryCommand(userId, request));
   }
+
+  @ApiOperation({ summary: "Update internal beneficiary" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Put('update-external-beneficiary')
@@ -134,6 +147,7 @@ export class CustomerController {
     return await this.commandBus.execute(new UpdateInternalBeneficiaryCommand(userId, request));
   }
 
+  @ApiOperation({ summary: "Delete internal beneficiary" })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Delete('delete-external-beneficiary')
