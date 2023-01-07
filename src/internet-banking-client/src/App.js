@@ -16,7 +16,6 @@ import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
 import AdminLayout from "./layouts/admin/layout";
 import AdminLogin from "./pages/Admin/login/login";
-import AdminPage from "./pages/Admin/test";
 import EmployeeManagermentPage from "./pages/Admin/EmployeeManagerment/EmployeeManagermentPage";
 
 function App() {
