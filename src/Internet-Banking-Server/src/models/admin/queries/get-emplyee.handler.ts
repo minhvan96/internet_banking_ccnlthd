@@ -25,7 +25,8 @@ export class GetEmplyeeHandler implements IQueryHandler<GetEmployeeQuery>{
                 userName : true,
                 firstName: true,
                 lastName: true,
-                phoneNumber: true
+                phoneNumber: true,
+                email: true
             }
         })
     }
