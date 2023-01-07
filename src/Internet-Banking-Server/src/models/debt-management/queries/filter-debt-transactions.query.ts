@@ -25,14 +25,28 @@ export class DebtFilterRequest{
 }
 
 export class DebtFilterResponse {
-    constructor(
-        public id: number,
-        public accountNumber: string,
-        public transferAmount: number,
-        public description: string,
-        public createdDate: Date,
-        public updatedDate: Date,
-        public isPaid: boolean
-    ) {
+    @ApiProperty({description: "id for debt transaction"})
+    public id: number;
+    @ApiProperty({description: "account number"})
+    public accountNumber: string;
+    @ApiProperty({description: "transfer Amount"})
+    public transferAmount: number;
+    @ApiProperty({description: "content transaction"})
+    public description: string;
+    @ApiProperty({description: "creation date"})
+    public createdDate: Date;
+    @ApiProperty({description: "update date"})
+    public updatedDate: Date;
+    @ApiProperty({description: "Has the debt been paid?"})
+    public isPaid: boolean
+
+    constructor(id: number, accountNumber: string, transferAmount: number, description: string, createdDate: Date, updatedDate: Date, isPaid: boolean) {
+        this.id = id;
+        this.accountNumber = accountNumber;
+        this.transferAmount = transferAmount;
+        this.description = description;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.isPaid = isPaid;
     }
 }

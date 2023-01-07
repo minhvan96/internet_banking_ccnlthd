@@ -8,7 +8,7 @@ import {
 import {Request} from "express";
 import {DebtFilterRequest, FilterDebtTransactionQuery} from "./queries/filter-debt-transactions.query";
 import {DeleteDebtTransactionCommand, DeleteDebtTransactionRequest} from "./commands/delete-debt-transaction.command";
-import {ApiBearerAuth, ApiTags} from "@nestjs/swagger";
+import {ApiBearerAuth, ApiOperation, ApiTags} from "@nestjs/swagger";
 import {CreateDebtorCommand, debtorRequest} from "./commands/create-debtor.command";
 import {GetDebtorQuery} from "./queries/get-debtor.query";
 import {UpdateDebtTransactionCommand, UpdateDebtTransactionRequest} from "./commands/update-debt-transaction.command";
@@ -25,9 +25,10 @@ export class DebtManagementController {
     }
 
     @Post('/debit-transfer')
+    @ApiOperation({ summary: "Api to create debit reminder" })
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
-    async CreateExternalBankTransfer(@Req() req: Request,
+    async CreateDebtTransaction(@Req() req: Request,
                                      @Body() request: CreateDebtManagementRequest) {
 
         const {user} = req;
@@ -44,6 +45,7 @@ export class DebtManagementController {
 
     @Post('/filter-debt-transaction')
     @ApiBearerAuth()
+    @ApiOperation({ summary: "Get debt transaction data" })
     @UseGuards(AccessTokenGuard)
     async FilterDebitTransactions(@Req() req: Request,
                     @Body() request: DebtFilterRequest){
@@ -56,6 +58,7 @@ export class DebtManagementController {
 
     @Post("/delete-debt-transaction/:id")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "API to delete debt reminders" })
     @UseGuards(AccessTokenGuard)
     async DeleteDebtTransaction(@Req() req: Request,
                                 @Param('id') debtTransactionId: number,
@@ -68,6 +71,7 @@ export class DebtManagementController {
 
     @Post("/add-debtor")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "Add debtors" })
     @UseGuards(AccessTokenGuard)
     async AddDebtor(@Req() req: Request, @Body() request: debtorRequest){
         const {user} = req;
@@ -76,6 +80,7 @@ export class DebtManagementController {
 
     @Get("/get-debtor")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "Get debtors" })
     @UseGuards(AccessTokenGuard)
     async getDebtor(@Req() req: Request){
         const {user} = req
@@ -84,6 +89,7 @@ export class DebtManagementController {
 
     @Get("/debt-payment-request/:transactionId")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "Debt payment request" })
     @UseGuards(AccessTokenGuard)
     async debtPaymentRequest(@Req() req: Request, @Param('transactionId') debtTransactionId: number){
         const {user} = req
@@ -92,6 +98,7 @@ export class DebtManagementController {
 
     @Post("/debt-payment")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "confirm Debt payment request" })
     @UseGuards(AccessTokenGuard)
     async debtPayment(@Body() request: UpdateDebtTransactionRequest){
         return await this.commandBus.execute(new UpdateDebtTransactionCommand(request))
@@ -99,6 +106,7 @@ export class DebtManagementController {
 
     @Get("/notify")
     @ApiBearerAuth()
+    @ApiOperation({ summary: "Notice to users" })
     @UseGuards(AccessTokenGuard)
     async notify(@Req() req: Request){
         const {user} = req
