@@ -6,14 +6,10 @@ import ModelCustom from "../common/ModalCustom";
 import ButtonCustom from "../common/ButtonCustom";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import UpdateEmployee from "./UpdateEmployee";
-// import {
-//   deleteemployee,
-//   updateemployee,
-// } from "../../apis/employeeApi";
+import { deleteEmployee } from "../../apis/administratorApi";
 
 const { confirm } = Modal;
 function EmployeeItem({ nonumber, employee, setEmployeeList }) {
-  const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
@@ -24,7 +20,7 @@ function EmployeeItem({ nonumber, employee, setEmployeeList }) {
     setIsModalOpen(false);
   };
 
-  const remove = (accountNumber, alias) => {
+  const remove = (id) => {
     confirm({
       title: "Xác nhận",
       icon: <ExclamationCircleFilled />,
@@ -34,15 +30,19 @@ function EmployeeItem({ nonumber, employee, setEmployeeList }) {
       cancelText: "Không",
       async onOk() {
         // call api delete
-        // const deleteAPI = await deleteemployee(accountNumber, alias);
-        // if (deleteAPI) {
-        //   setemployeeList((list) => {
-        //     const index = list.findIndex((x) => x.id === employee.id);
-        //     list.splice(index, 1);
-        //     return list.length ? list : [];
-        //   });
-        // }
-        messageApi.open({ type: "success", content: "Xóa thành công!" });
+        // const response = await deleteEmployee(id);
+        const response = true;
+        if (response) {
+          setEmployeeList((list) => {
+            const index = list.findIndex((x) => x.id === id);
+            const splice1 = list.splice(0, index);
+            const splice2 = list.splice(index + 1, list.length);
+            return [...splice1, ...splice2];
+          });
+          messageApi.open({ type: "success", content: "Xóa thành công!" });
+        } else {
+          messageApi.open({ type: "error", content: "Có lỗi xảy ra!" });
+        }
       },
       onCancel() {
         messageApi.open({
@@ -53,28 +53,6 @@ function EmployeeItem({ nonumber, employee, setEmployeeList }) {
     });
   };
 
-  const submitUpdate = async () => {
-    const formData = form.getFieldsValue();
-    //update
-    // const dataAPI = await updateemployee(formData.accnumber, formData.name);
-    // if (dataAPI) {
-    //   setemployeeList((list) => {
-    //     const result = list.map((x) =>
-    //       x.id === employee.id
-    //         ? { ...x, accountNumber: formData.accnumber, alias: formData.name }
-    //         : x
-    //     );
-    //     return result;
-    //   });
-    //   messageApi.open({ type: "success", content: "Cập nhật thành công!" });
-    //   hideModal();
-    // } else {
-    //   messageApi.open({
-    //     type: "warning",
-    //     content: "Cập nhật thất bại, vui lòng thử lại!",
-    //   });
-    // }
-  };
   return (
     <div className="employeeList__item">
       {contextHolder}
@@ -97,9 +75,7 @@ function EmployeeItem({ nonumber, employee, setEmployeeList }) {
             renderItem={(item) => (
               <List.Item
                 onClick={
-                  item === "Chỉnh sửa"
-                    ? showModal
-                    : () => remove(employee.accountNumber, employee.alias)
+                  item === "Chỉnh sửa" ? showModal : () => remove(employee.id)
                 }
               >
                 {item}
