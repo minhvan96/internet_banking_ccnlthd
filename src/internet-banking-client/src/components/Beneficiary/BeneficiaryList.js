@@ -8,7 +8,6 @@ import BeneficiaryItem from "./BeneficiaryItem";
 import ModelCustom from "../common/ModalCustom";
 import {
   addInternalBeneficiary,
-  getExternalBeneficiary,
   getInternalBeneficiary,
 } from "../../apis/beneficiaryApi";
 
