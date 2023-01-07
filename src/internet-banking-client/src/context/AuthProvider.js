@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, {createContext, useEffect, useMemo, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 import Swal from 'sweetalert2';
-import { setAuthHeader, TOKEN_KEY } from "../apis/auth";
+import {setAuthHeader, TOKEN_KEY} from "../apis/auth";
 import userApi from "../apis/user";
+
 const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     const data = await userApi.getCurrentUser();
+    console.log(data);
     setUser(data);
     setLoadingInitial(false);
   };
