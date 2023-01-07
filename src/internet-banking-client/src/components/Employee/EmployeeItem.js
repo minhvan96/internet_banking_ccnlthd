@@ -12,7 +12,7 @@ import UpdateEmployee from "./UpdateEmployee";
 // } from "../../apis/employeeApi";
 
 const { confirm } = Modal;
-function EmployeeItem({ nonumber, employee, setemployeeList }) {
+function EmployeeItem({ nonumber, employee, setEmployeeList }) {
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,119 +76,15 @@ function EmployeeItem({ nonumber, employee, setemployeeList }) {
     // }
   };
   return (
-    // <div className="employeeList__item">
-    //   {contextHolder}
-    //   <div className="no-box">{nonumber}</div>
-    //   <div className="content">
-    //     <h4> {employee.alias} </h4>
-    //     <div className="cardnumber"> {employee.accountNumber} </div>
-    //     <div className="note">Loại ngân hàng: {employee.type} </div>
-    //     <div className="note">
-    //       Dịch vụ: Chuyển tiền nhanh NAPAS247 qua tài khoản
-    //     </div>
-    //   </div>
-    //   <div className="showmore">
-    //     <FiMoreVertical />
-    //     <div className="showmoreList">
-    //       <List
-    //         className="list__ant"
-    //         size="small"
-    //         bordered
-    //         dataSource={data}
-    //         renderItem={(item) => (
-    //           <List.Item
-    //             onClick={
-    //               item === "Chỉnh sửa"
-    //                 ? showModal
-    //                 : () => remove(employee.accountNumber, employee.alias)
-    //             }
-    //           >
-    //             {item}
-    //           </List.Item>
-    //         )}
-    //       />
-    //     </div>
-    //     <ModelCustom
-    //       isModalOpen={isModalOpen}
-    //       setIsModalOpen={setIsModalOpen}
-    //       title="Cập nhật"
-    //     >
-    //       <div className="employeeList__add">
-    //         <Form
-    //           form={form}
-    //           layout="vertical"
-    //           autoComplete="off"
-    //           fields={[
-    //             {
-    //               name: ["name"],
-    //               value: employee.alias,
-    //             },
-    //             {
-    //               name: ["accnumber"],
-    //               value: employee.accountNumber,
-    //             },
-    //             {
-    //               name: ["bankType"],
-    //               value: employee.type,
-    //             },
-    //           ]}
-    //         >
-    //           <Form.Item name="name" label="Tên gợi nhớ">
-    //             <Input />
-    //           </Form.Item>
-    //           <Form.Item name="accnumber" label="Số tài khoản">
-    //             <Input />
-    //           </Form.Item>
-    //           <Form.Item name="bankType" label="Loại ngân hàng">
-    //             <Select
-    //               disabled={true}
-    //               style={{
-    //                 width: "200px",
-    //               }}
-    //               className="select-box"
-    //               options={[
-    //                 {
-    //                   value: "internal",
-    //                   label: "Nội bộ",
-    //                 },
-    //                 {
-    //                   value: "external",
-    //                   label: "Liên ngân hàng",
-    //                 },
-    //               ]}
-    //             />
-    //           </Form.Item>
-    //         </Form>
-
-    //         <div className="footer">
-    //           <div className="btn__cancel">
-    //             <ButtonCustom
-    //               isLine={true}
-    //               style={{ width: "100%", height: "45px" }}
-    //               text="Hủy"
-    //               onClick={hideModal}
-    //             />
-    //           </div>
-    //           <div className="btn__submit">
-    //             <ButtonCustom
-    //               style={{ width: "100%", height: "45px" }}
-    //               text="Cập nhật"
-    //               onClick={submitUpdate}
-    //             />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </ModelCustom>
-    //   </div>
-    // </div>
-
     <div className="employeeList__item">
       {contextHolder}
       <div className="no-box">{nonumber}</div>
       <div className="content">
-        <h4> NGUYEN HIEU NGHIA </h4>
-        <div className="note">Email: nghiadx2001@gmail.com </div>
-        <div className="note">Số điện thoại: 0947094472</div>
+        <h4>
+          {employee?.firstName} {employee?.lastName}
+        </h4>
+        <div className="note">Email: {employee?.email} </div>
+        <div className="note">Số điện thoại: {employee?.phoneNumber}</div>
       </div>
       <div className="showmore">
         <FiMoreVertical />
@@ -216,7 +112,11 @@ function EmployeeItem({ nonumber, employee, setemployeeList }) {
           setIsModalOpen={setIsModalOpen}
           title="Cập nhật"
         >
-          <UpdateEmployee hideModal={hideModal}/>
+          <UpdateEmployee
+            hideModal={hideModal}
+            setEmployeeList={setEmployeeList}
+            employee={employee}
+          />
         </ModelCustom>
       </div>
     </div>

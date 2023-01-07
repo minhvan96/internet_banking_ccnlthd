@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from "react";
-import "./style.scss";
-import { Col, Form, Input, message, Row, Select } from "antd";
+import React, {useState, useEffect} from "react";
+import "../Employee/style.scss";
+import {Col, Form, Input, message, Row, Select} from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
-import { BsPlusLg } from "react-icons/bs";
+import {BsPlusLg} from "react-icons/bs";
 import ModelCustom from "../common/ModalCustom";
-import EmployeeItem from "./EmployeeItem";
-import CreateEmployee from "./CreateEmployee";
-import { getAllEmployee } from "../../apis/administratorApi";
-// import {
-//   addInternalemployee,
-//   getExternalemployee,
-//   getInternalemployee,
-// } from "../../apis/employeeApi";
+import CustomerItem from "./CustomerItem";
+import CreateCustomer from "./CreateCustomer";
 
-const styleButton = { width: "100%", height: "100%" };
+const styleButton = {width: "100%", height: "100%"};
 
-function EmployeeList() {
+function CustomerList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
-  const [employeeList, setEmployeeList] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    const fetch = async () => {
-      const internalemployee = await getAllEmployee();
-      setEmployeeList(internalemployee);
-    };
-    fetch();
-  }, []);
-
-  console.log(employeeList);
-
-
+  const successMessage = (content) => {
+    messageApi.open({
+      type: "success",
+      content,
+    });
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,20 +29,32 @@ function EmployeeList() {
   const hideModal = () => {
     setIsModalOpen(false);
   };
-  
+
+  const addCustomer = async () => {
+    const formSubmit = form.getFieldsValue();
+    console.log(formSubmit);
+    let result;
+    if (formSubmit.bankType === "Nội bộ") {
+
+    }
+    form.setFieldValue({});
+    successMessage("Thêm khách hàng thành công!");
+    hideModal();
+  };
+
   return (
     <div className="employeeList">
       {contextHolder}
       <div className="employeeList__searchgroup">
         <Row gutter={[8, 16]}>
           <Col span={20}>
-            <InputSearch />
+            <InputSearch/>
           </Col>
           <Col span={4}>
             <ButtonCustom
               style={styleButton}
               text="Thêm mới"
-              icon={<BsPlusLg />}
+              icon={<BsPlusLg/>}
               onClick={showModal}
             />
             <ModelCustom
@@ -61,22 +62,24 @@ function EmployeeList() {
               setIsModalOpen={setIsModalOpen}
               title="Thêm mới"
             >
-              <CreateEmployee hideModal={hideModal} setEmployeeList={setEmployeeList}/>
+              <CreateCustomer hideModal={hideModal}/>
             </ModelCustom>
           </Col>
         </Row>
       </div>
       <div className="employeeList__group">
-        {employeeList &&
-          employeeList.length &&
-          employeeList.map((item, index) => (
-            <EmployeeItem
-              nonumber={index + 1}
-              key={index}
-              employee={item}
-              setEmployeeList={setEmployeeList}
-            />
-          ))}
+        <CustomerItem
+          nonumber={1}
+          key={1}
+          employee={customers}
+          setemployeeList={setCustomers}
+        />
+        <CustomerItem
+          nonumber={1}
+          key={1}
+          employee={null}
+          setemployeeList={setCustomers}
+        />
         <div className="footer">
           <div className="showCount">
             Hiển thị
@@ -108,4 +111,5 @@ function EmployeeList() {
     </div>
   );
 }
-export default EmployeeList;
+
+export default CustomerList;

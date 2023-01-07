@@ -16,6 +16,7 @@ import { Admin, Customer, Employee } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
 import AdminLayout from "./layouts/admin/layout";
 import EmployeeManagermentPage from "./pages/admin/EmployeeManagerment/EmployeeManagermentPage";
+import CustomerManagementPage from "./pages/employee/CustomerManagement/CustomerManagementPage";
 
 function App() {
   const { user } = useAuth();
@@ -88,6 +89,15 @@ function App() {
         element={
           <AdminLayout>
             <EmployeeManagermentPage />
+          </AdminLayout>
+        }
+      />
+
+      <Route
+        path="employee"
+        element={
+          <AdminLayout>
+            <CustomerManagementPage />
           </AdminLayout>
         }
       />
