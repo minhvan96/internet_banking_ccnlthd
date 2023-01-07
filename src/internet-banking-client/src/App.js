@@ -32,10 +32,11 @@ function App() {
       <Route path="/password-change" element={<PasswordChange />} />
       <Route path="/admin-login" element={<AdminLogin />} />
 
-      <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
+      <Route element={<ProtectedAuth routeProtected={true} />}>
         <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
+        <Route path="admin" element={<AdminPage></AdminPage>} />
+      </Route>
 
-        </Route>
       </Route>
 
       <Route
@@ -76,11 +77,11 @@ function App() {
         <DebtReminder />
       } />
 
-    <Route path="admin" element={
+      <Route path="admin" element={
         <AdminLayout>
-            <AdminPage />
+          <AdminPage />
         </AdminLayout>
-    } />
+      } />
 
       <Route path="*" element={<Error />} />
 
