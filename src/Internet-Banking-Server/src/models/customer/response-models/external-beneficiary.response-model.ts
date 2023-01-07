@@ -1,8 +1,14 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class ExternalBeneficiaryResponseModel {
+  @ApiProperty()
   alias: string;
+  @ApiProperty()
   accountNumber: string;
+  @ApiProperty()
   externalBankId: number;
-  externalBankName: string
+  @ApiProperty()
+  externalBankName: string;
 
   constructor(
     alias: string,

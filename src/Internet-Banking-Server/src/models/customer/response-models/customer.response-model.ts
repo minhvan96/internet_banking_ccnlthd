@@ -1,3 +1,5 @@
+import { ApiProperty } from "@nestjs/swagger";
+
 export class CustomerResponseModel {
   constructor(
     id: number,
@@ -12,9 +14,15 @@ export class CustomerResponseModel {
     this.accountNumber = accountNumber;
     this.balance = balance;
   }
+
+  @ApiProperty()
   id: number;
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   accountNumber: string;
+  @ApiProperty()
   balance: number;
 }

@@ -16,7 +16,7 @@ import {
   AddExternalBeneficiaryCommand,
   AddExternalBeneficiaryRequest
 } from './commands/add-external-beneficiary.command';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { GetCustomerQuery } from './queries/get-customer.query';
 import { Request } from 'express';
 import { AccessTokenGuard } from '../../auth/guards/access-token.guard';
@@ -32,6 +32,7 @@ import {
   DeleteInternalBeneficiaryRequest
 } from "./commands/delete-internal-beneficiary.command";
 import { GetCustomersQuery } from "./queries/get-customers.query";
+import { CustomerResponseModel } from "./response-models/customer.response-model";
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -41,12 +42,20 @@ export class CustomerController {
     private readonly commandBus: CommandBus) {
   }
 
+  @ApiOkResponse({
+    description: 'The customer',
+    type: CustomerResponseModel
+  })
   @Get('/:id')
   async GetCustomer(
     @Param('id') userId: number) {
     return await this.queryBus.execute(new GetCustomerQuery(userId));
   }
-
+  @ApiOkResponse({
+    description: 'The customer records',
+    type: CustomerResponseModel,
+    isArray: true
+  })
   @ApiBearerAuth()
   @UseGuards(AccessTokenGuard)
   @Get()

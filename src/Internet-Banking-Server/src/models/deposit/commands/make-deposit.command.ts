@@ -9,10 +9,14 @@ export class MakeDepositCommand {
 }
 
 export class MakeDepositRequest {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'user id'
+  })
   userId: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'total deposit amount (money)'
+  })
   depositAmount: number;
 
   constructor(
