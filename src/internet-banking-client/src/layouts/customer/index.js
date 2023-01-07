@@ -64,10 +64,11 @@ function CustomerLayout({ children }) {
         }}
         width="330px"
       >
-      {/* <NavLink to='/' */}
-        <div className="cuslayout__logo">
-          <img alt="logo" src={logo} />
-        </div>
+        <NavLink to="/" style={{ padding: 0 }}>
+          <div className="cuslayout__logo">
+            <img alt="logo" src={logo} />
+          </div>
+        </NavLink>
         <CardLayout>
           <div className="acc__card">
             <div className="avatar">
@@ -134,14 +135,16 @@ function CustomerLayout({ children }) {
           }}
           className="cuslayout__header"
         >
-          <div
-            style={{
-              maxWidth: "100%",
-            }}
-            className="left"
-          >
-            <img alt="logo" src={logo} />
-          </div>
+          <NavLink to="/" style={{ padding: 0 }}>
+            <div
+              style={{
+                maxWidth: "100%",
+              }}
+              className="left"
+            >
+              <img alt="logo" src={logo} />
+            </div>
+          </NavLink>
           <div
             style={{
               width: "50%",
