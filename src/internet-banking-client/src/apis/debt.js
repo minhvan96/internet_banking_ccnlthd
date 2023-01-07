@@ -48,3 +48,15 @@ export const accessPaymentDebt = async (transactionId, code) => {
     throw new Error("Error payment");
   }
 };
+
+export const getNotify = async () => {
+  try {
+    const { data } = await apiInstance.get(
+      'debt-management/notify'
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error("Error getting");
+  }
+};

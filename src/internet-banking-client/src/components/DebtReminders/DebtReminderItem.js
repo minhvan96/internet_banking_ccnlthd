@@ -20,12 +20,12 @@ function DebtReminderItem({ nonumber, debt, setDebtList, statusList }) {
 
     const transactionId = event.currentTarget.id;
     const data = await postPaymentDebt(parseInt(transactionId));
-    console.log(data);
+    console.log("🚀 ~ file: DebtReminderItem.js:23 ~ handlePayment ~ data", data)
 
     if (data) {
-      Swal.fire({
+      await Swal.fire({
         title: 'Kiểm tra thông tin',
-        text: `Số tài khoản/sđt: ${data.loanAccount.accountNumber} ; Số tiền: ${data.transferAmount}`,
+        text: `Số tài khoản/sđt: ${data.loanAccount.accountNumber } ; Số tiền: ${data.transferAmount}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#5fb621',
@@ -106,7 +106,9 @@ function DebtReminderItem({ nonumber, debt, setDebtList, statusList }) {
 
       })
     }
-
+    else {
+      alert('data empty')
+    }
   }
 
   return (
