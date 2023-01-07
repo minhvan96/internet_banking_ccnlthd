@@ -23,11 +23,11 @@ const ProtectedAuth = ({ routeProtected = true }) => {
   // }
 
   if (user) {
-    if (user.roles[0].name === 'customer') {
+    if (user.roles[0].name === 'Customer') {
       return <Outlet />;
-    } else if (user.roles[0].name === 'customer') {
+    } else if (user.roles[0].name === 'Customer') {
       return <Navigate to="/" state={{ from: location }} replace />;
-    } else if(user.roles[0].name === 'administrator' || user.roles[0].name === 'employee') {
+    } else if(user.roles[0].name === 'Administrator' || user.roles[0].name === 'Employee') {
       return <Navigate to="/admin" state={{ from: location }} replace />;
     } else {
       return <Navigate to="/login" state={{ from: location }} replace />;
