@@ -3,10 +3,11 @@ import React, {useState} from "react";
 import "./style.scss";
 import {FiMoreVertical} from "react-icons/fi";
 import ModelCustom from "../common/ModalCustom";
+import Deposit from "./Deposit";
 
 const {confirm} = Modal;
 
-function CustomerItem({nonumber, customer}) {
+function CustomerItem({nonumber, customer, setCustomers}) {
   console.log(`customer: ${customer}`)
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
@@ -39,7 +40,7 @@ function CustomerItem({nonumber, customer}) {
             bordered
             dataSource={data}
             renderItem={(item) => (
-              <List.Item>
+              <List.Item onClick={showModal}>
                 {item}
               </List.Item>
             )}
@@ -50,6 +51,11 @@ function CustomerItem({nonumber, customer}) {
           setIsModalOpen={setIsModalOpen}
           title="Cập nhật"
         >
+          <Deposit
+            hideModal={hideModal}
+            setEmployeeList={setCustomers}
+            customer={customer}
+          />
         </ModelCustom>
       </div>
     </div>
