@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.scss";
-import { Col, Form, Input, message, Row, Select } from "antd";
+import { Form, Input, message } from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
 import { addEmployee } from "../../apis/administratorApi";

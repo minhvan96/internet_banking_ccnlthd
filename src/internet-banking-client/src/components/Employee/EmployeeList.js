@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-import { Col, Form, Input, message, Row, Select } from "antd";
+import { Col, Form, message, Row, Select } from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
@@ -8,11 +8,6 @@ import ModelCustom from "../common/ModalCustom";
 import EmployeeItem from "./EmployeeItem";
 import CreateEmployee from "./CreateEmployee";
 import { getAllEmployee } from "../../apis/administratorApi";
-// import {
-//   addInternalemployee,
-//   getExternalemployee,
-//   getInternalemployee,
-// } from "../../apis/employeeApi";
 
 const styleButton = { width: "100%", height: "100%" };
 
@@ -30,9 +25,7 @@ function EmployeeList() {
     fetch();
   }, []);
 
-  console.log('render; ', employeeList);
-
-
+  console.log("render; ", employeeList);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -40,7 +33,7 @@ function EmployeeList() {
   const hideModal = () => {
     setIsModalOpen(false);
   };
-  
+
   return (
     <div className="employeeList">
       {contextHolder}
@@ -61,7 +54,10 @@ function EmployeeList() {
               setIsModalOpen={setIsModalOpen}
               title="Thêm mới"
             >
-              <CreateEmployee hideModal={hideModal} setEmployeeList={setEmployeeList}/>
+              <CreateEmployee
+                hideModal={hideModal}
+                setEmployeeList={setEmployeeList}
+              />
             </ModelCustom>
           </Col>
         </Row>
