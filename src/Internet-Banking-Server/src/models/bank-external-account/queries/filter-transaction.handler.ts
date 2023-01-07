@@ -1,5 +1,9 @@
 import {IQueryHandler, QueryHandler} from "@nestjs/cqrs";
-import {FilterTransactionQuery} from "./filter-transaction.query";
+import {
+    FilterExternalTransactionResponse,
+    FilterTransactionQuery,
+    FilterTransactionResponse
+} from "./filter-transaction.query";
 import {InjectRepository} from "@nestjs/typeorm";
 import {BankExternalTransaction} from "../../../entities/bank-external-transaction.entity";
 import {Between, Repository} from "typeorm";
@@ -30,7 +34,8 @@ export class FilterTransactionHandler implements IQueryHandler<FilterTransaction
                     externalBank:{
                         name: query.payload.bank
                     }
-                }
+                },
+                isDeleted: false
             }
 
         }
@@ -40,6 +45,7 @@ export class FilterTransactionHandler implements IQueryHandler<FilterTransaction
                     new Date(query.payload.fromDate),
                     new Date(query.payload.toDate)
                 ),
+                isDeleted: false
             }
         }
         else if(query.payload.bank){
@@ -47,14 +53,41 @@ export class FilterTransactionHandler implements IQueryHandler<FilterTransaction
                     externalBank:{
                         name: query.payload.bank
                     }
-                }}
+                },
+                isDeleted: false
+            }
         }
 
-        return this.bankExternalTransactionRepository.find({
+        const trans : BankExternalTransaction[] =  await this.bankExternalTransactionRepository.find({
             where: condition,
-            select: selection
+            relations:{
+                external: {
+                    externalBank: true
+                },
+            },
+            select: {
+                id: true,
+                external: {
+                    externalBank:{
+                        name: true
+                    },
+                    accountNumber: true
+                },
+                transferAmount: true,
+                createdDate: true,
+                description: true
+            }
         })
 
+        let totalAmount : number = 0;
+        let arrayTransaction: FilterTransactionResponse[] = []
+        trans.forEach(value => {
+            totalAmount += value.transferAmount;
+            arrayTransaction.push(new FilterTransactionResponse(value.id, value.external.externalBank.name,
+                value.external.accountNumber, value.transferAmount, value.description, value.createdDate))
+        })
+
+        return new FilterExternalTransactionResponse(arrayTransaction, totalAmount);
     }
 
 }
