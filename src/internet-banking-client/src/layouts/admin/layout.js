@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -15,6 +15,7 @@ import "./style.scss";
 import logo from "../../assets/images/logo.svg";
 import { Input } from "antd";
 import useAuth from "../../hooks/useAuth";
+import {setAuthHeader, TOKEN_KEY} from "../../apis/auth";
 
 const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
@@ -35,6 +36,7 @@ const items = [
 
 const AdminLayout = ({ children }) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   console.log(pathname);
   const {
     token: { colorBgContainer },
@@ -43,7 +45,9 @@ const AdminLayout = ({ children }) => {
   const { logout, user } = useAuth();
   console.log(user);
   const handleSignOut = () => {
-    logout();
+    localStorage.removeItem(TOKEN_KEY);
+    navigate('/login');
+    window.location.reload();
   };
 
   return (
