@@ -4,12 +4,10 @@ import "./style.scss";
 import {FiMoreVertical} from "react-icons/fi";
 import ModelCustom from "../common/ModalCustom";
 
-import UpdateCustomer from "./UpdateCustomer";
-
-
 const {confirm} = Modal;
 
-function CustomerItem({nonumber, employee, setemployeeList: setCustomers}) {
+function CustomerItem({nonumber, customer}) {
+  console.log(`customer: ${customer}`)
   const [form] = Form.useForm();
   const data = ["Chỉnh sửa", "Xóa"];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,9 +24,11 @@ function CustomerItem({nonumber, employee, setemployeeList: setCustomers}) {
       {contextHolder}
       <div className="no-box">{nonumber}</div>
       <div className="content">
-        <h4> NGUYEN HIEU NGHIA </h4>
-        <div className="note">Email: nghiadx2001@gmail.com</div>
-        <div className="note">Số điện thoại: 0947094472</div>
+        <h4>
+          {customer?.name}
+        </h4>
+        <div className="note">Email: {customer?.email} </div>
+        <div className="note">Số điện thoại: {customer?.phoneNumber}</div>
       </div>
       <div className="showmore">
         <FiMoreVertical/>
@@ -50,7 +50,6 @@ function CustomerItem({nonumber, employee, setemployeeList: setCustomers}) {
           setIsModalOpen={setIsModalOpen}
           title="Cập nhật"
         >
-          <UpdateCustomer hideModal={hideModal}/>
         </ModelCustom>
       </div>
     </div>

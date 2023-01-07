@@ -9,6 +9,7 @@ import ModelCustom from "../common/ModalCustom";
 import {
   addDebt,
   getDebt,
+  getNotify,
 } from "../../apis/debt";
 
 const styleButton = { width: "100%", height: "100%" };
@@ -40,6 +41,11 @@ function DebtReminderList() {
     setDebt(debtMap);
   };
 
+  const fetchNoti = async () => {
+    const dataNoti = await getNotify();
+    console.log("🚀 ~ file: DebtReminderList.js:46 ~ fetchNoti ~ dataNoti", dataNoti)
+  }
+
   const successMessage = (content) => {
     messageApi.open({
       type: "success",
@@ -65,6 +71,7 @@ function DebtReminderList() {
   };
 
   useEffect(()=> {
+    fetchNoti();
     if(selectedDebt === 'list-Debt-Remender') {
       fetch(true, true);
       setLoading(false);

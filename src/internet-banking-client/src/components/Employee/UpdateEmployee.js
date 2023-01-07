@@ -3,37 +3,39 @@ import "./style.scss";
 import { Col, Form, Input, message, Row, Select } from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
-import { addEmployee } from "../../apis/administratorApi";
+import { addEmployee, updateEmployee } from "../../apis/administratorApi";
 
 const UpdateEmployee = ({ hideModal, setEmployeeList, employee }) => {
   const [form] = Form.useForm();
-
-  const onSubmit = () => {
-    handleUpdateEmployee();
+  const onSubmit = (id) => {
+    handleUpdateEmployee(id);
     form.resetFields();
     hideModal();
   };
 
-  const handleUpdateEmployee = async () => {
+  const handleUpdateEmployee = async (id) => {
     const formSubmit = form.getFieldsValue();
-    const response = await addEmployee(formSubmit);
+    formSubmit.id = id;
+    console.log(formSubmit);
+    const response = await updateEmployee(formSubmit);
     if (response) {
       setEmployeeList((employee) => {
-        return [
-          ...employee,
-          {
-            email: response?.email,
-            firstName: response?.firstName,
-            id: response?.id,
-            lastName: response?.lastName,
-            phoneNumber: response?.phoneNumber,
-            userName: response?.userName,
-          },
-        ];
+        const result = employee.map((x) =>
+          +x.id !== id
+            ? x
+            : {
+                email: formSubmit?.email,
+                firstName: formSubmit?.firstName,
+                id: formSubmit?.id,
+                lastName: formSubmit?.lastName,
+                phoneNumber: formSubmit?.phoneNumber,
+                userName: formSubmit?.userName,
+              }
+        );
+        return result;
       });
     }
-    form.setFieldValue({});
-    successMessage("Thêm người hưởng thụ thành công!");
+    successMessage("Cập nhật nhân viên thành công!");
     hideModal();
   };
   const successMessage = (content) => {
@@ -110,7 +112,7 @@ const UpdateEmployee = ({ hideModal, setEmployeeList, employee }) => {
           <ButtonCustom
             style={{ width: "100%", height: "45px" }}
             text="Cập nhật"
-            onClick={onSubmit}
+            onClick={() => onSubmit(employee.id)}
           />
         </div>
       </div>

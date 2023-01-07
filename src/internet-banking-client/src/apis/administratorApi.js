@@ -24,13 +24,24 @@ export const addEmployee = async (body) => {
 };
 
 export const updateEmployee = async (body) => {
-    try {
-      const { data } = await apiInstance.post(
-        "administration/create-or-update-employee",
-        body
-      );
-      return data;
-    } catch (error) {
-      throw new Error("add failed");
-    }
-  };
+  try {
+    const { data } = await apiInstance.post(
+      "administration/create-or-update-employee",
+      body
+    );
+    return data;
+  } catch (error) {
+    throw new Error("add failed");
+  }
+};
+
+export const deleteEmployee = async (id) => {
+  try {
+    const { data } = await apiInstance.post(
+      `administration/delete-employee/${id}`
+    );
+    return data;
+  } catch (error) {
+    throw new Error("add failed");
+  }
+};
