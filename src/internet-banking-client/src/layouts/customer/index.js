@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
@@ -9,6 +9,8 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  NotificationOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import "./style.scss";
@@ -18,6 +20,7 @@ import CardLayout from "../../components/card/LayoutCard";
 import { Input, Space } from "antd";
 import useAuth from "../../hooks/useAuth";
 import { convertCurrentcy } from "../../utils/common";
+import { getNotify } from "../../apis/debt";
 
 const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;
@@ -37,6 +40,7 @@ const items = [
 }));
 
 function CustomerLayout({ children }) {
+  const [notify, setNotify] = useState(0);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -46,6 +50,24 @@ function CustomerLayout({ children }) {
   const handleSignOut = () => {
     logout();
   };
+
+  useEffect(() => {
+    const callNoti = async () => {
+      try {
+        const dataNoti = await getNotify();
+        console.log("🚀 ~ file: index.js:57 ~ dataNoti", dataNoti)
+        setNotify(dataNoti.length);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    }
+ 
+    const timer = setTimeout(async () => {
+      callNoti();
+    }, 1000)
+
+    return () => clearTimeout(timer);
+  }, [notify])
 
   return (
     <Layout hasSider className="cuslayout">
@@ -116,6 +138,16 @@ function CustomerLayout({ children }) {
             <div className="item">Tra cứu tỉ giá</div>
           </div>
         </CardLayout>
+        <CardLayout>
+          <div className="reference_log">
+            <button className="btn_logout" type="button"  onClick={handleSignOut}>logout 
+            <span>
+              <LogoutOutlined/>
+            </span>
+            </button>
+            
+          </div>
+        </CardLayout>
       </Sider>
       <Layout
         className="site-layout"
@@ -152,19 +184,17 @@ function CustomerLayout({ children }) {
             }}
             className="right"
           >
+            <span className="group_noti">
+              <button type="button" className="btn btn-info">
+                <NotificationOutlined />
+              </button>
+              <span className="badge">{notify}</span>
+            </span>
             {/* <Search
               placeholder="input search text"
               onSearch={onSearch}
               style={{ width: 200, background: "#fff"}}
             /> */}
-            <button
-              onClick={handleSignOut}
-              type="button"
-              className="flex items-center justify-center px-4 font-bold text-white bg-gray-600 border border-gray-600 rounded hover:bg-transparent hover:text-gray-600"
-            >
-              <span className="mr-2">Logout</span>
-              {/* <ExportOutlined /> */}
-            </button>
           </div>
         </Header>
         <Content

@@ -46,6 +46,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
     window.location.reload();
+    navigate('/login');
   };
 
   useEffect(() => {
