@@ -25,6 +25,8 @@ import { DepositModule } from "./models/deposit/deposit.module";
 import { DepositController } from "./models/deposit/deposit.controller";
 import {AdministrationModule} from "./models/admin/administration.module";
 import {AdministrationController} from "./models/admin/administration.controller";
+import {BankTransactionController} from "./models/bank-external-account/bank-transaction.controller";
+import {BankTransactionModule} from "./models/bank-external-account/bank-transaction.module";
 
 
 @Module({
@@ -41,6 +43,7 @@ import {AdministrationController} from "./models/admin/administration.controller
     CustomerModule,
     DebtManagementModule,
     DepositModule,
+    BankTransactionModule,
     AdministrationModule,
     MailerModule.forRoot({
       transport: {
@@ -70,7 +73,8 @@ import {AdministrationController} from "./models/admin/administration.controller
     BankInternalTransactionController,
     DepositController,
     DebtManagementController,
-    AdministrationController],
+    AdministrationController,
+    BankTransactionController],
   providers: [AppService,
     UserModule,
     AuthModule,
