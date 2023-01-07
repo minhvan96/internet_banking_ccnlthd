@@ -41,10 +41,8 @@ function CustomerLayout({ children }) {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const onSearch = (value) => console.log(value);
   const { logout, user } = useAuth();
   console.log(user);
-  const navigate = useNavigate();
   const handleSignOut = () => {
     logout();
   };

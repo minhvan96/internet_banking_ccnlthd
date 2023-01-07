@@ -3,6 +3,7 @@ import {EntityBase} from '../common/entity/entity.base';
 import {BankInternalTransaction} from './bank-internal-transaction.entity';
 import {DebtTransaction} from "./debt-transaction.entity";
 import { DepositRecord } from "./deposit-record.entity";
+import { CustomerInternalBeneficiary } from "./customer-internal-beneficiary.entity";
 
 @Entity({
   name: 'bank_internal_accounts',
@@ -52,6 +53,13 @@ export class BankInternalAccount extends EntityBase {
       cascade: true,
     })
   depositRecords: DepositRecord[];
+
+  @OneToMany(() => CustomerInternalBeneficiary,
+    (account) => account.bankAccount,
+    {
+      cascade: true,
+    })
+  beneficiaries: CustomerInternalBeneficiary[];
 
   constructor(
     accountNumber: string,

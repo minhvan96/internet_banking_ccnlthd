@@ -23,6 +23,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { DepositModule } from "./models/deposit/deposit.module";
 import { DepositController } from "./models/deposit/deposit.controller";
+import {AdministrationModule} from "./models/admin/administration.module";
+import {AdministrationController} from "./models/admin/administration.controller";
 
 
 @Module({
@@ -39,6 +41,7 @@ import { DepositController } from "./models/deposit/deposit.controller";
     CustomerModule,
     DebtManagementModule,
     DepositModule,
+    AdministrationModule,
     MailerModule.forRoot({
       transport: {
         service: 'gmail',
@@ -66,7 +69,8 @@ import { DepositController } from "./models/deposit/deposit.controller";
     BankInternalAccountController,
     BankInternalTransactionController,
     DepositController,
-    DebtManagementController],
+    DebtManagementController,
+    AdministrationController],
   providers: [AppService,
     UserModule,
     AuthModule,

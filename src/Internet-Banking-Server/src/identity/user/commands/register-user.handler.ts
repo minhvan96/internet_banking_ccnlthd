@@ -56,9 +56,9 @@ export class RegisterUserHandler implements ICommandHandler<RegisterUserCommand>
     const newUser = new User(command.payload.userName,
       command.payload.password,
       command.payload.email,
-      command.payload.phoneNumber,
       command.payload.firstName,
       command.payload.lastName,
+      command.payload.phoneNumber,
       this.code);
 
     newUser.roles = [];
