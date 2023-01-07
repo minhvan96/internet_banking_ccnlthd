@@ -37,7 +37,7 @@ export class DeleteDebtTransactionHandler implements ICommandHandler<DeleteDebtT
         }
 
         let user : User = await this.queryBus.execute(new GetCustomerByAccountNumberQuery(accountNotification));
-        messageContainer.messages.push(new messageObject(user.id, `Debt reminder with code: ${debTransaction.id} has been deleted`))
+        messageContainer.messages.push(new messageObject(user.id, `Debt reminder with id: ${debTransaction.id} has been deleted`))
 
         return !!result;
     }

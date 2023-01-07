@@ -55,10 +55,10 @@ export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtT
         const debtTransactionUpdate = await this.debtTransactionRepository.save(debtTransaction);
 
         let user: User = await this.queryBus.execute(new GetCustomerByAccountNumberQuery(accountNumberLoan));
-        messageContainer.messages.push(new messageObject(user.id, `Debit reminder with code: ${debtTransactionUpdate.id} paid`))
+        messageContainer.messages.push(new messageObject(user.id, `Debit reminder with id: ${debtTransactionUpdate.id} paid`))
 
 
-        return new UpdateDebtTransactionResponse(debtTransactionUpdate.id, debtTransactionUpdate.debtAccount.balance, debtTransactionUpdate.debtAccount.accountNumber)
+        return new UpdateDebtTransactionResponse(debtTransactionUpdate.id, transferFromAccount.balance, debtTransactionUpdate.debtAccount.accountNumber)
     }
 
 }
