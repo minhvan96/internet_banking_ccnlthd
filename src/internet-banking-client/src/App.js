@@ -17,6 +17,9 @@ import {
   Employee
 } from "./constant/roles";
 import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistoryPage";
+import AdminPage from "./pages/admin/test";
+import AdminLayout from "./layouts/admin/layout";
+import AdminLogin from "./pages/admin/login/login";
 
 function App() {
   const { user } = useAuth();
@@ -27,6 +30,7 @@ function App() {
       </Route>
       <Route path="/password-reset" element={<PasswordReset />} />
       <Route path="/password-change" element={<PasswordChange />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
 
       <Route element={<ProtectedAuth allowedRoles={[...Customer]} />} >
         <Route path="/" element={<CustomerLayout> <HomePage /> </CustomerLayout>}>
@@ -71,7 +75,16 @@ function App() {
       <Route path="debt-reminder" element={
         <DebtReminder />
       } />
+
+    <Route path="admin" element={
+        <AdminLayout>
+            <AdminPage />
+        </AdminLayout>
+    } />
+
       <Route path="*" element={<Error />} />
+
+
     </Routes>
   );
 }

@@ -74,12 +74,11 @@ function DebtReminderItem({ nonumber, debt, setDebtList, statusList }) {
               //       `lỗi không đúng mã code hoặc tài khoản không đủ tiền : Request failed: ${error}`
               //     )
               //   })
-              console.log(888888888888888888888);
               try {
                 const code = parseInt(codeId);
                 const check = await accessPaymentDebt(transactionId, code);
+
                 if (!check) {
-                  console.log(66666666666666666666666666666666);
                   Swal.showValidationMessage(
                     'lỗi không đúng mã code hoặc tài khoản không đủ tiền'
                   )

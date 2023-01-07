@@ -28,7 +28,8 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
         id: true,
         userName: true,
         password: true,
-        isVerified: true
+        isVerified: true,
+        isDeleted: true
       }
     });
 
@@ -36,6 +37,8 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
       throw new BadRequestException('User does not exist');
     if(user.isVerified === false)
       throw new UnauthorizedException("Please verify email");
+    if(user.isDeleted === true)
+      throw new BadRequestException(`User account already disable`);
     const passwordMatches = await argon2.verify(user.password, command.payload.password);
     if (!passwordMatches)
       throw new BadRequestException('Password is incorrect');
