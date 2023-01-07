@@ -10,7 +10,7 @@ export class CreateOrUpdateEmployeeCommand {
 export class CreateEmployeeRequest{
     @ApiProperty({description: 'username of user, only use for create'})
     public username: string;
-    @ApiProperty({description: 'password of user'})
+    @ApiProperty({description: 'password of user, only use for create'})
     public password: string;
     @ApiProperty({description: 'email of user'})
     public email: string;

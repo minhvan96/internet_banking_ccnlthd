@@ -12,6 +12,7 @@ import { CustomerInternalBeneficiary } from '../../../entities/customer-internal
 import {DebtCustomer} from "../../../entities/debt-customer.entity";
 import {DebtTransaction} from "../../../entities/debt-transaction.entity";
 import { DepositRecord } from "../../../entities/deposit-record.entity";
+import {BankExternalTransaction} from "../../../entities/bank-external-transaction.entity";
 
 /**
  *  Import and provide base typeorm (postgresql) related class
@@ -35,7 +36,7 @@ import { DepositRecord } from "../../../entities/deposit-record.entity";
           BankInternalTransaction,
           ExternalBank,
           BankExternalAccount,
-          BankInternalTransaction,
+          BankExternalTransaction,
           CustomerInternalBeneficiary,
           CustomerExternalBeneficiary,
           DebtTransaction,

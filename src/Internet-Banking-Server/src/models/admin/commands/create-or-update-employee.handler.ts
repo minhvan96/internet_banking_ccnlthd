@@ -33,7 +33,6 @@ export class CreateOrUpdateEmployeeHandler implements ICommandHandler<CreateOrUp
                 throw new BadRequestException("User is not exist");
             }
 
-            newUser.password = command.payload.password;
             newUser.firstName = command.payload.firstName;
             newUser.lastName = command.payload.lastName;
             newUser.email = command.payload.email;
