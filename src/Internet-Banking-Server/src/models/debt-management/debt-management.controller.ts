@@ -82,7 +82,7 @@ export class DebtManagementController {
         return await this.queryBus.execute(new GetDebtorQuery(user['sub']))
     }
 
-    @Post("/debt-payment-request/:transactionId")
+    @Get("/debt-payment-request/:transactionId")
     @ApiBearerAuth()
     @UseGuards(AccessTokenGuard)
     async debtPaymentRequest(@Req() req: Request, @Param('transactionId') debtTransactionId: number){
