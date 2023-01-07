@@ -17,6 +17,7 @@ import TransferHistoryPage from "./pages/Customer/TransferHistory/TransferHistor
 import AdminLayout from "./layouts/admin/layout";
 import EmployeeManagermentPage from "./pages/admin/EmployeeManagerment/EmployeeManagermentPage";
 import CustomerManagementPage from "./pages/employee/CustomerManagement/CustomerManagementPage";
+import TransactionExternalHistoryPage from "./pages/Admin/TransactionExternalHistory/TransactionExternalHistoryPage";
 
 function App() {
   const { user } = useAuth();
@@ -89,6 +90,15 @@ function App() {
         element={
           <AdminLayout>
             <EmployeeManagermentPage />
+          </AdminLayout>
+        }
+      />
+
+      <Route
+        path="admin/transaction-external-history"
+        element={
+          <AdminLayout>
+            <TransactionExternalHistoryPage />
           </AdminLayout>
         }
       />

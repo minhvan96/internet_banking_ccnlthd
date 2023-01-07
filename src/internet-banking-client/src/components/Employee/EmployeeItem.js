@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import "./style.scss";
 import { FiMoreVertical } from "react-icons/fi";
 import ModelCustom from "../common/ModalCustom";
-import ButtonCustom from "../common/ButtonCustom";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import UpdateEmployee from "./UpdateEmployee";
 import { deleteEmployee } from "../../apis/administratorApi";
@@ -30,19 +29,13 @@ function EmployeeItem({ nonumber, employee, setEmployeeList }) {
       cancelText: "Không",
       async onOk() {
         // call api delete
-        // const response = await deleteEmployee(id);
-        const response = true;
-        if (response) {
-          setEmployeeList((list) => {
-            const index = list.findIndex((x) => x.id === id);
-            const splice1 = list.splice(0, index);
-            const splice2 = list.splice(index + 1, list.length);
-            return [...splice1, ...splice2];
-          });
-          messageApi.open({ type: "success", content: "Xóa thành công!" });
-        } else {
-          messageApi.open({ type: "error", content: "Có lỗi xảy ra!" });
-        }
+        const response = await deleteEmployee(id);
+        setEmployeeList((list) => {
+          const index = list.findIndex((x) => x.id === id);
+          const splice1 = list.splice(0, index);
+          const splice2 = list.splice(index + 1, list.length);
+          return [...splice1, ...splice2];
+        });
       },
       onCancel() {
         messageApi.open({

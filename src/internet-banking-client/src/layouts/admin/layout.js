@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -37,6 +37,8 @@ const items = [
 }));
 
 const AdminLayout = ({ children }) => {
+  const { pathname } = useLocation();
+  console.log(pathname);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -67,6 +69,34 @@ const AdminLayout = ({ children }) => {
             <img alt="logo" src={logo} />
           </div>
         </NavLink>
+        <div className="menu">
+          {pathname.includes("admin") && (
+            <>
+              <NavLink
+                to="/admin/"
+                style={{ padding: 0 }}
+                className={({ isActive }) => (isActive ? "active" : undefined)}
+              >
+                <div className="menu__item">
+                  <div className="icon"></div>
+                  <div className="content">Quản lý nhân viên</div>
+                </div>
+              </NavLink>
+
+              <NavLink
+                to="/admin/transaction-external-history"
+                style={{ padding: 0 }}
+              >
+                <div className="menu__item">
+                  <div className="icon"></div>
+                  <div className="content">
+                    Lịch sử giao dịch liên ngân hàng
+                  </div>
+                </div>
+              </NavLink>
+            </>
+          )}
+        </div>
       </Sider>
       <Layout
         className="site-layout"
