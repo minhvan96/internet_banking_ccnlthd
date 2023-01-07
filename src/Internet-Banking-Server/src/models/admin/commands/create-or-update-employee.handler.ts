@@ -21,7 +21,7 @@ export class CreateOrUpdateEmployeeHandler implements ICommandHandler<CreateOrUp
         let newUser;
         if(command.payload.id){
             const userExist = await this.checkUserNameOrEmailExist(command.payload.username, command.payload.email)
-            if (userExist.email == command.payload.email) {
+            if (userExist.email == command.payload.email && userExist.id != command.payload.id) {
                 throw new BadRequestException(`Email ${userExist.email} is exist`)
             }
 
