@@ -35,6 +35,7 @@ export class RequestDebtTransactionHandler implements ICommandHandler<RequestDeb
             new GetDebtTransactionByIdQuery(command.transactionId))
         debtTransaction.code = this.code;
 
-        return await this.debtTransactionRepository.save(debtTransaction);
+        await this.debtTransactionRepository.save(debtTransaction);
+        return "Success"
     }
 }
