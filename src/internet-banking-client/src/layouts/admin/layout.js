@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -10,14 +10,11 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { Layout, theme } from "antd";
 import "./style.scss";
-import Avatar from "../../assets/images/carmel.jpg";
 import logo from "../../assets/images/logo.svg";
-import CardLayout from "../../components/card/LayoutCard";
-import { Input, Space } from "antd";
+import { Input } from "antd";
 import useAuth from "../../hooks/useAuth";
-import { convertCurrentcy } from "../../utils/common";
 
 const { Search } = Input;
 const { Header, Content, Footer, Sider } = Layout;

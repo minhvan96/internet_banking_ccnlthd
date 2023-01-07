@@ -45,3 +45,15 @@ export const deleteEmployee = async (id) => {
     throw new Error("add failed");
   }
 };
+
+export const getTransactionHistory = async (body) => {
+  try {
+    const { data } = await apiInstance.post(
+      `bank-transaction-controller/get-transaction`,
+      body
+    );
+    return data;
+  } catch (error) {
+    throw new Error("get failed");
+  }
+};

@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BreakCrumbCommon from "../../../components/common/BreakCrumb";
 import "./style.scss";
-import useAuth from "../../../hooks/useAuth";
-import { Col, DatePicker, Form, Input, Row, Select } from "antd";
-import TransferHistoryList from "../../../components/TransferHistory/TransferHistoryList";
-import {
-  getAllBankTranfer,
-  getAllBankTranferCashIn,
-} from "../../../apis/transactionTransfer";
+import { Col, DatePicker, Form, Input, Row } from "antd";
 import ButtonCustom from "../../../components/common/ButtonCustom";
 import TransactionExternalHistoryList from "../../../components/TransactionExternalHistory/TransactionExternalHistoryList";
+import dateFormat from "dateformat";
+import { getTransactionHistory } from "../../../apis/administratorApi";
+import { convertCurrentcy } from "../../../utils/common";
 
 const styleButton = { width: "100%", height: "44px", marginTop: "30px" };
 const TransactionExternalHistoryPage = () => {
@@ -29,16 +26,19 @@ const TransactionExternalHistoryPage = () => {
   ];
   const separator = ">";
 
-  //   useEffect(() => {
-  //     const fetch = async () => {
-  //       //   const dataAPI = await getAllBankTranfer();
-  //       //   setTransactionHistory(dataAPI);
-  //     };
-  //     fetch();
-  //   }, []);
+  const onSearch = async () => {
+    const formDate = form.getFieldsValue();
+    const startDate = dateFormat(formDate.time[0].toDate(), "isoDateTime");
+    const endDate = dateFormat(formDate.time[1].toDate(), "isoDateTime");
+    const body = {
+      fromDate: startDate,
+      endDate: endDate,
+      bank: formDate.bankName,
+    };
 
-  const onSearch = () => {
-    console.log(form.getFieldsValue());
+    const response = await getTransactionHistory(body);
+    console.log(response);
+    setTransactionHistory(response);
   };
 
   return (
@@ -88,13 +88,24 @@ const TransactionExternalHistoryPage = () => {
         </Form>
       </div>
 
+      {transactionHistory && transactionHistory.totalAmount && (
+        <div className="total">
+          <div className="label">Tổng phí giao dịch: </div>
+          <div className="total-fee">
+            {convertCurrentcy(transactionHistory?.totalAmount)}
+          </div>
+        </div>
+      )}
+
       <div className="transferHistory__group">
         <div className="header">
           <div className="cash-in cashin" style={{ fontWeight: 500 }}>
             Danh sách giao dịch liên ngân hàng
           </div>
         </div>
-        <TransactionExternalHistoryList />
+        <TransactionExternalHistoryList
+          transactionHistory={transactionHistory?.transaction}
+        />
       </div>
     </div>
   );
