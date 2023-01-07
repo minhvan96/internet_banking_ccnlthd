@@ -35,16 +35,19 @@ export class FilterTransactionResponse{
     public amount: number;
     @ApiProperty({description: "content transfer"})
     public description: string;
+    @ApiProperty({description: "transaction type"})
+    transactionType: string
     @ApiProperty({description: "creation date"})
     public creationDate: Date
 
 
-    constructor(id: number, bankName: string, accountNumber: string, amount: number, description: string, creationDate: Date) {
+    constructor(id: number, bankName: string, accountNumber: string, amount: number, description: string, transactionType: string, creationDate: Date) {
         this.id = id;
         this.bankName = bankName;
         this.accountNumber = accountNumber;
         this.amount = amount;
         this.description = description;
+        this.transactionType = transactionType;
         this.creationDate = creationDate;
     }
 }

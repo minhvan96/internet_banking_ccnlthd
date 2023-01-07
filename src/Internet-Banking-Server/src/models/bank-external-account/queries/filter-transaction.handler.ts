@@ -75,7 +75,8 @@ export class FilterTransactionHandler implements IQueryHandler<FilterTransaction
                 },
                 transferAmount: true,
                 createdDate: true,
-                description: true
+                description: true,
+                transactionType: true
             }
         })
 
@@ -84,7 +85,7 @@ export class FilterTransactionHandler implements IQueryHandler<FilterTransaction
         trans.forEach(value => {
             totalAmount += value.transferAmount;
             arrayTransaction.push(new FilterTransactionResponse(value.id, value.external.externalBank.name,
-                value.external.accountNumber, value.transferAmount, value.description, value.createdDate))
+                value.external.accountNumber, value.transferAmount, value.description, value.transactionType,  value.createdDate))
         })
 
         return new FilterExternalTransactionResponse(arrayTransaction, totalAmount);
