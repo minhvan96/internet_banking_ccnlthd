@@ -11,16 +11,11 @@ import Swal from 'sweetalert2'
 const { confirm } = Modal;
 function DebtReminderItem({ nonumber, debt, setDebtList, statusList }) {
 
-  useEffect(() => {
-    console.log(debt);
-  })
-
   const handlePayment = async (event) => {
     event.preventDefault();
 
     const transactionId = event.currentTarget.id;
     const data = await postPaymentDebt(parseInt(transactionId));
-    console.log("🚀 ~ file: DebtReminderItem.js:23 ~ handlePayment ~ data", data)
 
     if (data) {
       await Swal.fire({

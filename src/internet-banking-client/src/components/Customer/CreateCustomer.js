@@ -1,19 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./style.scss";
-import {  Form, Input, message, Row, Select } from "antd";
+import { Form, Input, message } from "antd";
 import ButtonCustom from "../common/ButtonCustom";
 import { BsPlusLg } from "react-icons/bs";
+import {registerCustomer} from "../../apis/customerApi";
 
-const styleButton = { width: "100%", height: "100%" };
-const CreateCustomer = ({ hideModal }) => {
+const CreateCustomer = ({ hideModal, setEmployeeList }) => {
   const [form] = Form.useForm();
-
-  const onSubmit = () => {
-    
-    // hideModal();
+  const onSubmit = async () => {
+    await addCustomer();
+    form.resetFields();
+    hideModal();
   };
+
+  const addCustomer = async () => {
+    const formSubmit = form.getFieldsValue();
+    const response = await registerCustomer(formSubmit);
+    if (response) {
+      setEmployeeList((employee) => {
+        return [
+          ...employee,
+          {
+            email: response?.email,
+            firstName: response?.firstName,
+            id: response?.id,
+            lastName: response?.lastName,
+            phoneNumber: response?.phoneNumber,
+            userName: response?.userName,
+          },
+        ];
+      });
+    }
+    successMessage("Thêm khách hàng mới thành công!");
+    hideModal();
+  };
+  const successMessage = (content) => {
+    messageApi.open({
+      type: "success",
+      content,
+    });
+  };
+
+  const [messageApi, contextHolder] = message.useMessage();
   return (
     <div className="employeeList__add">
+      {contextHolder}
       <Form
         form={form}
         layout="horizontal"
@@ -37,11 +68,11 @@ const CreateCustomer = ({ hideModal }) => {
         <Form.Item name="phoneNumber" label="Số điện thoại">
           <Input placeholder="Số điện thoại" />
         </Form.Item>
-        <Form.Item name="username" label="Tên đăng nhập">
+        <Form.Item name="userName" label="Tên đăng nhập">
           <Input placeholder="Tên đăng nhập" />
         </Form.Item>
-        <Form.Item name="password" label="Mật khẩu">
-          <Input placeholder="Mật khẩu" />
+        <Form.Item name="password" label="Tên mật khẩu">
+          <Input placeholder="Tên mật khẩu" />
         </Form.Item>
       </Form>
 

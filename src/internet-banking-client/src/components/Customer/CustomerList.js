@@ -65,6 +65,7 @@ function CustomerList() {
               nonumber={index + 1}
               key={index}
               customer={item}
+              setCustomers={setCustomers}
             />
           ))}
         <div className="footer">

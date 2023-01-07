@@ -11,6 +11,7 @@ import {
 import {BankInternalAccount} from "../../../entities/bank-internal-account.entity";
 import {GetCustomerByAccountNumberQuery} from "../../customer/queries/get-customer-by-account-number.query";
 import {messageContainer, messageObject} from "./notify-debt-transaction.command";
+import {User} from "../../../entities/identity/user.entity";
 
 @CommandHandler(UpdateDebtTransactionCommand)
 export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtTransactionCommand>{
@@ -53,11 +54,11 @@ export class UpdateDebtTransactionHandler implements ICommandHandler<UpdateDebtT
         debtTransaction.isPaid = true;
         const debtTransactionUpdate = await this.debtTransactionRepository.save(debtTransaction);
 
-        let userId : number = await this.queryBus.execute(new GetCustomerByAccountNumberQuery(accountNumberLoan));
-        messageContainer.messages.push(new messageObject(userId, `Debit reminder with code: ${debtTransactionUpdate.id} paid`))
+        let user: User = await this.queryBus.execute(new GetCustomerByAccountNumberQuery(accountNumberLoan));
+        messageContainer.messages.push(new messageObject(user.id, `Debit reminder with id: ${debtTransactionUpdate.id} paid`))
 
 
-        return new UpdateDebtTransactionResponse(debtTransactionUpdate.id, debtTransactionUpdate.debtAccount.balance, debtTransactionUpdate.debtAccount.accountNumber)
+        return new UpdateDebtTransactionResponse(debtTransactionUpdate.id, transferFromAccount.balance, debtTransactionUpdate.debtAccount.accountNumber)
     }
 
 }
