@@ -3,7 +3,10 @@
   max-width: 740px;
   margin: 0 auto;
   padding: 30px;
-  &__header{
+  &__header {
     text-align: initial;
+    font-size: 25px;
+    margin-bottom: 10px;
+    font-weight: 500;
   }
 }
