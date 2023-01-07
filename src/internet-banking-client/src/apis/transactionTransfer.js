@@ -68,3 +68,15 @@ export const getAllBankTranfer = async () => {
     throw new Error("Invalid username or password");
   }
 };
+
+export const getAllBankTranferCashIn = async () => {
+  try {
+    const { data } = await apiInstance.get(
+      `bank-internal-transaction/transfer/received`
+    );
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw new Error("Invalid username or password");
+  }
+};

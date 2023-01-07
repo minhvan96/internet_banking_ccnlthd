@@ -2,18 +2,20 @@ import { Col, Row } from "antd";
 import React from "react";
 import { convertCurrentcy } from "../../utils/common";
 
-const TransferHistoryList = ({ transferHistoryList }) => {
+const TransferHistoryList = ({ transferHistoryList, isCashIn }) => {
+
   return (
     <div className="transferHistory__list">
-      <div className="header">Toàn bộ</div>
       {transferHistoryList &&
-        transferHistoryList.length &&
+        transferHistoryList.length > 0 &&
         transferHistoryList.map((item, index) => (
           <div className="transferHistory__item" key={index}>
             <Row gutter={[8, 16]} style={{ width: "100%" }}>
               <Col span={14}>
                 <div className="left">
-                  <div className="txt-sub txt-sub-left">04/01/2023</div>
+                  <div className="txt-sub txt-sub-left">
+                    {item?.transferDate.split("T")[0]}
+                  </div>
                   <div className="info-tranfer txt-sub-left">
                     {item?.description}
                   </div>
@@ -24,7 +26,12 @@ const TransferHistoryList = ({ transferHistoryList }) => {
                   <div className="txt-sub txt-sub-right">
                     Mã giao dịch: {item?.id}
                   </div>
-                  <div className="info-tranfer transfer-plus txt-sub-right">
+                  <div
+                    className={`info-tranfer ${
+                      isCashIn ? "transfer-plus" : "transfer-sub"
+                    } txt-sub-right`}
+                  >
+                    {isCashIn ? "+" : "-"}{" "}
                     {convertCurrentcy(item?.transferAmount)}
                   </div>
                 </div>
@@ -32,6 +39,10 @@ const TransferHistoryList = ({ transferHistoryList }) => {
             </Row>
           </div>
         ))}
+
+      {!transferHistoryList || transferHistoryList.length < 1 && (
+        <div className="history-empty">Lịch sử trống</div>
+      )}
     </div>
   );
 };

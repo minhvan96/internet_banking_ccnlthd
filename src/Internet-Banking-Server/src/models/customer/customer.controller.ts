@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   CreateInternalBankTransferCommand,
@@ -27,6 +27,10 @@ import {
   UpdateInternalBeneficiaryCommand,
   UpdateInternalBeneficiaryRequest
 } from "./commands/update-internal-beneficiary.command";
+import {
+  DeleteInternalBeneficiaryCommand,
+  DeleteInternalBeneficiaryRequest
+} from "./commands/delete-internal-beneficiary.command";
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -111,5 +115,16 @@ export class CustomerController {
     const {user} = req;
     const userId: number = user['sub'];
     return await this.commandBus.execute(new UpdateInternalBeneficiaryCommand(userId, request));
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Delete('delete-external-beneficiary')
+  async DeleteExternalBeneficiary(
+    @Req() req: Request,
+    @Body() request: DeleteInternalBeneficiaryRequest) {
+    const {user} = req;
+    const userId: number = user['sub'];
+    return await this.commandBus.execute(new DeleteInternalBeneficiaryCommand(userId, request));
   }
 }
