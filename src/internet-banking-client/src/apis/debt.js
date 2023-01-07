@@ -6,7 +6,7 @@ export const addDebt = async (loanAccount, amount, description) => {
       "debt-management/debit-transfer",
       {loanAccount, amount, description}
     );
-    console.log(data);
+    
     return data;
   } catch (error) {
     throw new Error("Error creating");

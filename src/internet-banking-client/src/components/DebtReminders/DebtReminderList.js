@@ -11,6 +11,8 @@ import {
   getDebt,
   getNotify,
 } from "../../apis/debt";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const styleButton = { width: "100%", height: "100%" };
 
@@ -42,8 +44,17 @@ function DebtReminderList() {
   };
 
   const fetchNoti = async () => {
-    const dataNoti = await getNotify();
-    console.log("🚀 ~ file: DebtReminderList.js:46 ~ fetchNoti ~ dataNoti", dataNoti)
+    try {
+      const dataNoti = await getNotify();
+     
+      if(dataNoti.length !== 0) {
+        alert("Bạn có thông báo nhận tiền");
+      };
+      return dataNoti;
+    } catch (error) {
+      throw new Error('error fetchNoti');
+    }
+
   }
 
   const successMessage = (content) => {
@@ -64,7 +75,7 @@ function DebtReminderList() {
     const formSubmit = form.getFieldsValue();
     let result;
     result = await addDebt(formSubmit.accnumber, formSubmit.amount, formSubmit.description);
-    console.log(result);
+
     form.setFieldValue({});
     successMessage("Thêm nợ thành công!");
     hideModal();
@@ -72,6 +83,13 @@ function DebtReminderList() {
 
   useEffect(()=> {
     fetchNoti();
+    // if(dataNoti.length !== 0) {
+    //   const showToastMessage = () => {
+    //     toast.success('Bạn có thông báo mới !', {
+    //         position: toast.POSITION.TOP_RIGHT
+    //     });
+    // };
+    // }
     if(selectedDebt === 'list-Debt-Remender') {
       fetch(true, true);
       setLoading(false);
