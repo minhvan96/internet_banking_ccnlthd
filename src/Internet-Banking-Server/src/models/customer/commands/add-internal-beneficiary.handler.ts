@@ -13,6 +13,8 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(CustomerInternalBeneficiary)
+    private readonly customerInternalBeneficiaryRepository: Repository<CustomerInternalBeneficiary>,
     @InjectRepository(BankInternalAccount)
     private readonly bankInternalAccountRepository: Repository<BankInternalAccount>) {
   }
@@ -47,9 +49,15 @@ export class AddInternalBeneficiaryHandler implements ICommandHandler<AddInterna
       throw new NotFoundException(`Internal Bank Account with account number = ${command.payload.bankAccountNumber} is not found`);
     }
 
-    const newBeneficiary = new CustomerInternalBeneficiary(command.payload.alias, internalBankAccount);
-    user.customerInternalBeneficiaries.push(newBeneficiary);
-    await this.userRepository.save(user);
+    const newBeneficiary = new CustomerInternalBeneficiary(
+      command.payload.alias,
+      internalBankAccount,
+      user);
+    await this.customerInternalBeneficiaryRepository.save(newBeneficiary);
+    // user.customerInternalBeneficiaries.push(newBeneficiary);
+    // await this.userRepository.save(user);
+
+
     return new InternalBeneficiaryResponseModel(newBeneficiary.alias, newBeneficiary.bankAccount.accountNumber);
   }
 }
