@@ -23,6 +23,7 @@ import { GetCustomerByAccountNumberHandler } from "./queries/get-customer-by-acc
 import { UpdateInternalBeneficiaryHandler } from "./commands/update-internal-beneficiary.handler";
 import { CustomerInternalBeneficiary } from "../../entities/customer-internal-beneficiary.entity";
 import { DeleteInternalBeneficiaryHandler } from "./commands/delete-internal-beneficiary.handler";
+import { GetCustomersHandler } from "./queries/get-customers.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([
@@ -33,6 +34,7 @@ import { DeleteInternalBeneficiaryHandler } from "./commands/delete-internal-ben
   controllers: [CustomerController],
   providers: [
     GetCustomerHandler,
+    GetCustomersHandler,
     AddBankInternalAccountHandler,
     AddInternalBeneficiaryHandler,
     AddExternalBeneficiaryHandler,

@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "../Employee/style.scss";
-import {Col, Form, Input, message, Row, Select} from "antd";
+import {Col, Form, message, Row, Select} from "antd";
 import InputSearch from "../common/InputSearch";
 import ButtonCustom from "../common/ButtonCustom";
 import {BsPlusLg} from "react-icons/bs";
 import ModelCustom from "../common/ModalCustom";
 import CustomerItem from "./CustomerItem";
 import CreateCustomer from "./CreateCustomer";
+import {getAllCustomers} from "../../apis/employeeApi";
 
 const styleButton = {width: "100%", height: "100%"};
 
@@ -16,30 +17,19 @@ function CustomerList() {
   const [customers, setCustomers] = useState([]);
   const [form] = Form.useForm();
 
-  const successMessage = (content) => {
-    messageApi.open({
-      type: "success",
-      content,
-    });
-  };
+  useEffect(() => {
+    const fetch = async () => {
+      const customers = await getAllCustomers();
+      setCustomers(customers);
+    };
+    fetch();
+  }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
   const hideModal = () => {
     setIsModalOpen(false);
-  };
-
-  const addCustomer = async () => {
-    const formSubmit = form.getFieldsValue();
-    console.log(formSubmit);
-    let result;
-    if (formSubmit.bankType === "Nội bộ") {
-
-    }
-    form.setFieldValue({});
-    successMessage("Thêm khách hàng thành công!");
-    hideModal();
   };
 
   return (
@@ -68,18 +58,16 @@ function CustomerList() {
         </Row>
       </div>
       <div className="employeeList__group">
-        <CustomerItem
-          nonumber={1}
-          key={1}
-          employee={customers}
-          setemployeeList={setCustomers}
-        />
-        <CustomerItem
-          nonumber={1}
-          key={1}
-          employee={null}
-          setemployeeList={setCustomers}
-        />
+        {customers &&
+          customers.length &&
+          customers.map((item, index) => (
+            <CustomerItem
+              nonumber={index + 1}
+              key={index}
+              employee={item}
+              setEmployeeList={setCustomers()}
+            />
+          ))}
         <div className="footer">
           <div className="showCount">
             Hiển thị

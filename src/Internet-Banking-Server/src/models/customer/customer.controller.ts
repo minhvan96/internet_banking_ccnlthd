@@ -31,6 +31,7 @@ import {
   DeleteInternalBeneficiaryCommand,
   DeleteInternalBeneficiaryRequest
 } from "./commands/delete-internal-beneficiary.command";
+import { GetCustomersQuery } from "./queries/get-customers.query";
 
 @ApiTags('Customer')
 @Controller('customer')
@@ -44,6 +45,13 @@ export class CustomerController {
   async GetCustomer(
     @Param('id') userId: number) {
     return await this.queryBus.execute(new GetCustomerQuery(userId));
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessTokenGuard)
+  @Get()
+  async GetCustomers() {
+    return await this.queryBus.execute(new GetCustomersQuery());
   }
 
   @ApiBearerAuth()
