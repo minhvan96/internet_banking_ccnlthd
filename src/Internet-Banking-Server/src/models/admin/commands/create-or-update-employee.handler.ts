@@ -6,7 +6,6 @@ import {CreateOrUpdateEmployeeCommand} from "./create-or-update-employee.command
 import {BadRequestException} from "@nestjs/common";
 import {RoleConstants} from "../../../common/constants/role-constants";
 import {Role} from "../../../entities/identity/role.entity";
-import {faker} from "@faker-js/faker";
 
 @CommandHandler(CreateOrUpdateEmployeeCommand)
 export class CreateOrUpdateEmployeeHandler implements ICommandHandler<CreateOrUpdateEmployeeCommand>{
@@ -38,6 +37,7 @@ export class CreateOrUpdateEmployeeHandler implements ICommandHandler<CreateOrUp
             newUser.firstName = command.payload.firstName;
             newUser.lastName = command.payload.lastName;
             newUser.email = command.payload.email;
+            newUser.phoneNumber = command.payload.phoneNumber;
         }else {
 
             const user : User= await this.checkUserNameOrEmailExist(command.payload.username, command.payload.email)
@@ -61,7 +61,7 @@ export class CreateOrUpdateEmployeeHandler implements ICommandHandler<CreateOrUp
                 command.payload.email,
                 command.payload.firstName,
                 command.payload.lastName,
-                faker.phone.number());
+                command.payload.phoneNumber);
             newUser.roles = [];
             newUser.roles.push(customerRole);
             newUser.isVerified = true;

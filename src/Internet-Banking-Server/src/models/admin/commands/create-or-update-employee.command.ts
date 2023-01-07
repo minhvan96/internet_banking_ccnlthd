@@ -18,16 +18,19 @@ export class CreateEmployeeRequest{
     public firstName: string;
     @ApiProperty({description: 'lastname of user'})
     public lastName: string;
+    @ApiProperty({description: "phone number of user"})
+    public phoneNumber: string;
     @ApiProperty({description: 'id of user, only use for update'})
     public id?: number
 
 
-    constructor(username: string, password: string, email: string, firstName: string, lastName: string, id: number) {
+    constructor(username: string, password: string, email: string, firstName: string, lastName: string, phoneNumber: string, id: number) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.id = id;
     }
 }
