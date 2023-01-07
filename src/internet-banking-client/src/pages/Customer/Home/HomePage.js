@@ -7,7 +7,7 @@ import {
   MdOutlineRememberMe,
   MdModelTraining,
 } from "react-icons/md";
-import { FaAmazonPay } from "react-icons/fa";
+import { MdOutlineCloseFullscreen } from "react-icons/md";
 import { ImHistory } from "react-icons/im";
 import { NavLink } from "react-router-dom";
 
@@ -18,62 +18,62 @@ function HomePage() {
         <img src={Banner} alt="bannerimg" />
       </div>
       <div className="swiper__list">
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+        <NavLink to="/beneficiary">
+          <div className="swiper__item">
             <div className="icon">
               <HiUserGroup />
             </div>
-          </NavLink>
-          <div className="content">Danh bạ</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Danh bạ</div>
+          </div>
+        </NavLink>
+        <NavLink to="/internaltransfer">
+          <div className="swiper__item">
             <div className="icon">
               <MdTransferWithinAStation />
             </div>
-          </NavLink>
-          <div className="content">Chuyển tiền nội bộ</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Chuyển tiền nội bộ</div>
+          </div>
+        </NavLink>
+        <NavLink to="/quicktransfer">
+          <div className="swiper__item">
             <div className="icon">
               <MdTransferWithinAStation />
             </div>
-          </NavLink>
-          <div className="content">Chuyển tiền liên ngân hàng</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Chuyển tiền liên ngân hàng</div>
+          </div>
+        </NavLink>
+        <NavLink to="/transferhistory">
+          <div className="swiper__item">
             <div className="icon">
               <ImHistory />
             </div>
-          </NavLink>
-          <div className="content">Lịch sử giao dịch</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Lịch sử giao dịch</div>
+          </div>
+        </NavLink>
+        <NavLink to="/debt-reminder">
+          <div className="swiper__item">
             <div className="icon">
               <MdModelTraining />
             </div>
-          </NavLink>
-          <div className="content">Ghi nhợ</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Ghi nhợ</div>
+          </div>
+        </NavLink>
+        <NavLink to="/beneficiary">
+          <div className="swiper__item">
             <div className="icon">
               <MdOutlineRememberMe />
             </div>
-          </NavLink>
-          <div className="content">Nhặc nợ</div>
-        </div>
-        <div className="swiper__item">
-          <NavLink to="/beneficiary">
+            <div className="content">Nhặc nợ</div>
+          </div>
+        </NavLink>
+        <NavLink to="/closeaccount">
+          <div className="swiper__item">
             <div className="icon">
-              <FaAmazonPay />
+              <MdOutlineCloseFullscreen />
             </div>
-          </NavLink>
-          <div className="content">Thanh toán hóa đơn</div>
-        </div>
+            <div className="content">Đóng tài khoản</div>
+          </div>
+        </NavLink>
       </div>
     </div>
   );

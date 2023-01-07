@@ -14,6 +14,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AddBankInternalAccountHandler } from '../../models/customer/commands/add-bank-internal-account.handler';
 import { VerifyUserHandler } from './commands/verify-user.handler';
 import { Role } from "../../entities/identity/role.entity";
+import { SoftDeleteUserHandler } from "./commands/soft-delete-user.handler";
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Role]), CqrsModule],
@@ -27,7 +28,8 @@ import { Role } from "../../entities/identity/role.entity";
     RegisterUserHandler,
     UpdateUserRefreshTokenHandler,
     AddBankInternalAccountHandler,
-    VerifyUserHandler],
+    VerifyUserHandler,
+    SoftDeleteUserHandler],
 })
 export class UserModule {
 }
